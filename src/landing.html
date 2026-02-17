@@ -3,6 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,260&family=Island+Moments&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="styles/landing.css" />
     <title>Landing Page</title>
   </head>
@@ -15,40 +26,130 @@
       <nav>
         <ul class="nav-links">
           <li><a class="page-link" href="Home.html">Home</a></li>
-          <li><a class="page-link" href="Menu.html">About</a></li>
-          <li><a class="page-link" href="Contact">Contact</a></li>
-          <li><a class="login-link" href="Login.html">Login</a></li>
+          <li><a class="page-link" href="Menu.html">Menú</a></li>
+          <li><a class="page-link" href="Contact">Contacto</a></li>
+          <li><a class="login-link" href="Login.html">Log in</a></li>
         </ul>
       </nav>
     </header>
 
-    <section class="hero-banner">
+    <banner class="hero-banner">
       <img src="resources/IMGS/mainBackgroundImage.jpeg" class="hero-img" />
 
       <div class="hero-content">
-        <h1>Welcome</h1>
-        <p>Your tagline here</p>
+        <h1 class="hero-title">SeaSide</h1>
+        <p class="hero-paragraph">Donde el mar se convierte en experiencia</p>
+        <a class="hero-cta" href="Order.html">Haz tu pedido</a>
       </div>
-    </section>
+    </banner>
 
     <main>
       <section id="About-us">
-        <h1>Sobre Nosotros</h1>
-        <p></p>
+        <h1 class="general-title">Sobre Nosotros</h1>
+        <img
+          src="resources/IMGS/aboutUsRestaurant.jpeg"
+          alt="Sobre Nosotros"
+          class="img-float-right"
+        />
+        <p class="general-paragraph">
+          En Seaside somos un restaurante dedicado a ofrecer comida de mar
+          fresca y de calidad en un ambiente cálido y agradable. Contamos con
+          una única sede, en la que cada día trabajamos para brindar platos
+          preparados con ingredientes seleccionados y recetas que resaltan el
+          sabor natural del mar. Nuestro objetivo es que cada visita sea una
+          experiencia especial, combinando buena comida, atención cercana y un
+          espacio cómodo donde nuestros clientes puedan disfrutar y querer
+          volver.
+        </p>
       </section>
 
       <section id="Menu">
-        <h2>Menu Destacado</h2>
-        <p></p>
+        <h2 class="general-title">Menu Destacado</h2>
+        <section class="gallery">
+          <figure class="gallery-figure">
+            <img
+              src="resources/IMGS/menuHighlight1.jpeg"
+              alt="Highlight1"
+              class="gallery-image"
+            />
+            <figcaption class="gallery-caption">Ceviche SeaSide</figcaption>
+            <p class="caption-paragraph">
+              Pescado fresco marinado en limón con cebolla morada, cilantro y el
+              toque especial de la casa.
+            </p>
+          </figure>
+          <figure class="gallery-figure">
+            <img
+              src="resources/IMGS/menuHighlight2.jpeg"
+              alt="Highlight2"
+              class="gallery-image"
+            />
+            <figcaption class="gallery-caption">
+              Arroz Marinero Especial
+            </figcaption>
+            <p class="caption-paragraph">
+              Arroz preparado con camarones, calamares y especias que resaltan
+              el sabor del mar.
+            </p>
+          </figure>
+          <figure class="gallery-figure">
+            <img
+              src="resources/IMGS/menuHighlight3.jpeg"
+              alt="Highlight3"
+              class="gallery-image"
+            />
+            <figcaption class="gallery-caption">
+              Picada Marina SeaSide
+            </figcaption>
+            <p class="caption-paragraph">
+              Selección de mariscos fritos, ideal para compartir.
+            </p>
+          </figure>
+        </section>
+        <div class="cta-container">
+          <a class="general-cta" Menu.html>Ver Menú</a>
+        </div>
       </section>
 
       <section id="Comments">
-        <h3>Comentarios</h3>
-      </section>
-
-      <section id="Visit-us">
-        <h4>Visitanos</h4>
+        <h3 class="general-title">Comentarios</h3>
+        <p class="general-paragraph">
+          Si nos has visitado y te gustó la experiencia o tienes alguna
+          recomendación que darnos, por favor deja tu comentario:
+        </p>
+        <div class="comments-grid">
+          <div class="comment-box">
+            <p class="comment-text">
+              "La comida es deliciosa y se nota la frescura de los ingredientes"
+            </p>
+            <p class="comment-author">— María Perez.</p>
+          </div>
+          <div class="comment-box">
+            <p class="comment-text">
+              “Excelente atención y un ambiente muy agradable”
+            </p>
+            <p class="comment-author">— Lorena Torres</p>
+          </div>
+          <div class="comment-box">
+            <p class="comment-text">
+              “Un lugar acogedor con sabores auténticos del mar.”
+            </p>
+            <p class="comment-author">— Juan Rodriguez</p>
+          </div>
+        </div>
+        <div class="cta-container">
+          <a class="general-cta">Comentar</a>
+        </div>
       </section>
     </main>
+    <footer>
+      <section id="Visit-us">
+        <h4 class="general-title">Visitanos</h4>
+        <p class="general-paragraph">
+          Ven y vive una experiencia llena de frescura y sabor.
+        </p>
+      </section>
+      © 2026 SeaSide. All rights reserved.
+    </footer>
   </body>
 </html>

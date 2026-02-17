@@ -1,13 +1,73 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #ffffef;
+}
+
+section {
+  margin: 50px;
+  padding-bottom: 50px;
+  border-bottom: 5px solid #ffde63;
+}
+
+section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.general-title {
+  font-family: "Island Moments", cursive;
+  color: #01154a;
+  font-size: 100px;
+  text-align: center;
+  font-weight: 100;
+  margin: 10px;
+}
+
+footer {
+  background: linear-gradient(to bottom, #feffc4, #ffde63);
+  padding: 28px 20px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  color: #01154a;
+}
+
+.general-paragraph {
+  color: #01154a;
+  margin: 0%;
+  font-size: 40px;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+}
+
+.img-float-right {
+  float: right;
+  width: 35%;
+  margin: 0 0 1rem 2rem;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.hero-title {
+  font-family: "Island Moments", cursive;
+  color: #01154a;
+  font-size: 350px;
+  font-weight: lighter;
+  margin: 0%;
+}
+
+.hero-paragraph {
+  color: #01154a;
+  margin: 0%;
+  font-size: 50px;
+  font-family: "Inter", sans-serif;
 }
 
 .navigation-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffde63;
+  background: linear-gradient(to right, #ffde63, #ffbc4c);
   margin: 0;
   padding: 0px 50px 0px 0px;
   height: 130px;
@@ -25,7 +85,10 @@ body {
   display: flex;
   justify-content: space-evenly;
   gap: 10px;
+  font-size: 25px;
+  font-weight: lighter;
   list-style: none;
+  font-family: "Inter", sans-serif;
 }
 
 .navigation-bar .nav-links .page-link {
@@ -39,15 +102,15 @@ body {
 }
 
 .navigation-bar .nav-links li a:hover {
-  background-color: darkblue;
-  color: #ffde63;
+  background-color: #01154a;
+  color: #ffbc4c;
 }
 
 .login-link {
-  background-color: darkblue;
+  background-color: #01154a;
   padding: 15px 25px;
-  border-radius: 5px;
-  color: #ffde63;
+  border-radius: 10px;
+  color: #ffbc4c;
   text-align: center;
   text-decoration: none;
   font-weight: bold;
@@ -89,6 +152,111 @@ main {
   color: white;
 }
 
+.hero-cta {
+  font-family: "Inter", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  background-color: #01154a;
+  color: #ffbc4c;
+  display: inline-block;
+  margin-top: 40px;
+  padding: 40px 40px;
+  text-decoration: none;
+  font-size: 25px;
+  border-radius: 10px;
+  font-weight: 100;
+}
+
+.general-cta {
+  font-family: "Inter", sans-serif;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  background-color: #01154a;
+  color: #ffbc4c;
+  margin-top: 40px;
+  padding: 25px 40px;
+  text-decoration: none;
+  font-size: 25px;
+  border-radius: 20px;
+  font-weight: 100;
+}
+
+.cta-container {
+  text-align: center;
+}
+
 #About-us {
   position: relative;
+}
+
+.gallery {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+}
+
+.gallery-image {
+  width: 420px;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 10px;
+  background-color: #ffffff;
+  padding: 6px;
+  display: block;
+}
+
+.gallery-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gallery-caption {
+  margin-top: 8px;
+  color: #01154a;
+  font-family: "Inter", sans-serif;
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.comments-grid {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.comment-box {
+  background: #799eff;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 360px;
+  box-shadow: 0 6px 18px rgba(1, 21, 74, 0.06);
+  color: #01154a;
+  font-family: "Inter", sans-serif;
+  flex: 1 1 280px;
+}
+
+.comment-text {
+  margin: 0 0 10px 0;
+  font-size: 30px;
+  line-height: 1.4;
+  font-weight: bolder;
+}
+
+.comment-author {
+  margin: 0;
+  text-align: right;
+  font-weight: 600;
+  color: #01304a;
+}
+
+.caption-paragraph {
+  color: #01154a;
+  margin: 5%;
+  font-size: 25px;
+  font-family: "Inter", sans-serif;
+  font-weight: light;
 }
