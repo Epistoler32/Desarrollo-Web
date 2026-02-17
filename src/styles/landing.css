@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.navigation-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffde63;
+  margin: 0;
+  padding: 0;
+  height: 100px;
+  overflow: hidden;
+}
+.navigation-bar .logo {
+  padding: 0;
+  margin: 0;
+}
+.navigation-bar .logo img {
+  height: 200px;
+  width: auto;
+}
+.navigation-bar .nav-links {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 30px;
+  list-style: none;
+}
+
+.navigation-bar .nav-links .page-link {
+  color: darkblue;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-bar .nav-links li a:hover {
+  background-color: darkblue;
+  color: #ffde63;
+}
+
+.login-link {
+  background-color: darkblue;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #ffde63;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+main {
+  margin: 0;
+  padding: 0;
+}
+
+.hero-banner {
+  width: 100%;
+  aspect-ratio: 626/501;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../resources/IMGS/mainBackgroundImage.jpeg");
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+}
+
+#About-us {
+  position: relative;
+}
