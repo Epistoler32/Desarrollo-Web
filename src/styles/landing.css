@@ -9,8 +9,8 @@ body {
   align-items: center;
   background-color: #ffde63;
   margin: 0;
-  padding: 0;
-  height: 100px;
+  padding: 0px 50px 0px 0px;
+  height: 130px;
   overflow: hidden;
 }
 .navigation-bar .logo {
@@ -18,19 +18,19 @@ body {
   margin: 0;
 }
 .navigation-bar .logo img {
-  height: 200px;
+  height: 250px;
   width: auto;
 }
 .navigation-bar .nav-links {
   display: flex;
   justify-content: space-evenly;
-  gap: 30px;
+  gap: 10px;
   list-style: none;
 }
 
 .navigation-bar .nav-links .page-link {
   color: darkblue;
-  padding: 10px 20px;
+  padding: 15px 25px;
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
@@ -45,9 +45,10 @@ body {
 
 .login-link {
   background-color: darkblue;
-  padding: 10px 20px;
+  padding: 15px 25px;
   border-radius: 5px;
   color: #ffde63;
+  text-align: center;
   text-decoration: none;
   font-weight: bold;
   display: block;
@@ -60,20 +61,25 @@ main {
 }
 
 .hero-banner {
-  width: 100%;
-  aspect-ratio: 626/501;
-  margin: 0;
-  padding: 0;
   position: relative;
-  overflow: hidden;
+  width: 100%;
+  min-height: 130vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("../resources/IMGS/mainBackgroundImage.jpeg");
-  background-size: 100% 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
+  overflow: hidden;
+}
+
+.hero-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  min-height: 165%;
+
+  transform: translate(-50%, -50%) rotate(90deg) scaleX(-1);
+  object-fit: cover;
+  opacity: 45%;
 }
 
 .hero-content {
