@@ -1,24 +1,35 @@
 
-const navbar = document.getElementById("navbar");
+const navbar = document.getElementById('navbar');
 
 function updateNavbar() {
   const scrollY = window.scrollY;
-  if (scrollY < 40) {
-    // Completamente transparente - ARRIBA
-    navbar.classList.remove("blurred", "scrolled");
-  } else if (scrollY < 200) {
-    // blur - MEDIO
-    navbar.classList.add("blurred");
-    navbar.classList.remove("scrolled");
-  } else {
-    // sólido con color - ABAJO
-    navbar.classList.remove("blurred");
-    navbar.classList.add("scrolled");
-  }
+  const threshold = 300; // píxeles hasta quedar 100% sólido
+
+  // Progreso de 0 a 1 según cuánto has scrolleado
+  const progress = Math.min(scrollY / threshold, 1);
+
+  // Interpolamos cada valor
+  const bgOpacity  = progress * 1;           // 0 → 1
+  const blurAmount = progress * 12;          // 0px → 12px
+  const shadowAlpha = progress * 0.15;       // 0 → 0.15
+
+  // Color de fondo: de transparente hasta el dorado (#ffde63 → #ffbc4c en gradiente)
+  navbar.style.background = `linear-gradient(
+    to right,
+    rgba(255, 222, 99, ${bgOpacity}),
+    rgba(255, 188, 76, ${bgOpacity})
+  )`;
+  navbar.style.backdropFilter = `blur(${blurAmount}px)`;
+  navbar.style.webkitBackdropFilter = `blur(${blurAmount}px)`;
+  navbar.style.boxShadow = shadowAlpha > 0
+    ? `0 4px 20px rgba(1, 21, 74, ${shadowAlpha})`
+    : 'none';
 }
 
-window.addEventListener("scroll", updateNavbar, { passive: true });
-updateNavbar(); // estado inicial
+window.addEventListener('scroll', updateNavbar, { passive: true });
+updateNavbar();
+
+
 
 // Efecto scroll reveal para galeria y comentarios
 const revealEls = document.querySelectorAll(".gallery-figure, .comment-box");

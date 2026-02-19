@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,260&family=Island+Moments&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,260&family=Island+Moments&family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles/landing.css" />
@@ -29,7 +29,9 @@
     </header>
 
     <banner class="hero-banner">
-      <img src="resources/IMGS/mainBackgroundImage.jpeg" class="hero-img" />
+      <!-- Comentado para hacerol en CSS con parallax scroll -->
+      <!-- <img src="resources/IMGS/mainBackgroundImage.jpeg" class="hero-img" /> -->
+      <div class="hero-overlay"></div>
 
       <div class="hero-content">
         <h1 class="hero-title">SeaSide</h1>
@@ -237,65 +239,6 @@
       <div class="footer-divider"></div>
       <p class="footer-copyright">© 2026 SeaSide. All rights reserved.</p>
     </footer>
-
-    <!-- ═══════════════════════════════════════════════════════
-         JAVASCRIPT
-         ═══════════════════════════════════════════════════════ -->
-    <script>
-      /* ── 1. NAVBAR: transparente → blur → sólido ─────────── */
-      const navbar = document.getElementById('navbar');
-
-      function updateNavbar() {
-        const scrollY = window.scrollY;
-        if (scrollY < 40) {
-          // En la cima: completamente transparente
-          navbar.classList.remove('blurred', 'scrolled');
-        } else if (scrollY < 150) {
-          // Zona intermedia: blur semitransparente
-          navbar.classList.add('blurred');
-          navbar.classList.remove('scrolled');
-        } else {
-          // Scrolleado: sólido con color
-          navbar.classList.remove('blurred');
-          navbar.classList.add('scrolled');
-        }
-      }
-
-      window.addEventListener('scroll', updateNavbar, { passive: true });
-      updateNavbar(); // estado inicial
-
-
-      /* ── 2. SCROLL REVEAL: gallery figures & comment boxes ── */
-      const revealEls = document.querySelectorAll('.gallery-figure, .comment-box');
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, idx) => {
-          if (entry.isIntersecting) {
-            // Retraso escalonado según posición en el DOM
-            const delay = Array.from(revealEls).indexOf(entry.target) % 3 * 120;
-            entry.target.style.animationDelay = delay + 'ms';
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -60px 0px'
-      });
-
-      revealEls.forEach(el => observer.observe(el));
-
-
-      /* ── 3. SMOOTH SCROLL para links internos ────────────── */
-      document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', e => {
-          const target = document.querySelector(link.getAttribute('href'));
-          if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      });
-    </script>
+    <script src="js/landing.js"></script>
   </body>
 </html>

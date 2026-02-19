@@ -55,27 +55,9 @@ section:last-of-type {
   right: 0;
   z-index: 100;
 
-  background: rgba(255, 222, 99, 0);
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
-  transition:
-    background 0.4s ease,
-    backdrop-filter 0.4s ease,
-    box-shadow 0.4s ease;
+  background: transparent;
 }
 
-.navigation-bar.blurred {
-  background: rgba(255, 222, 99, 0.4);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.navigation-bar.scrolled {
-  background: linear-gradient(to right, #ffde63, #ffbc4c);
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
-  box-shadow: 0 4px 20px rgba(1, 21, 74, 0.15);
-}
 
 .navigation-bar .logo {
   padding: 0;
@@ -128,7 +110,7 @@ main {
   padding: 0;
 }
 
-.hero-banner {
+/* .hero-banner {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -148,13 +130,37 @@ main {
   opacity: 45%;
   z-index: 0;
   pointer-events: none;
+} */
+
+
+.hero-banner {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  /* Parallax */
+  background-image: url('../resources/IMGS/mainBackgroundImage.jpeg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  opacity-color: rgba(255,255,255, 0.45); 
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 240, 0.58); 
+  z-index: 1;
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
   text-align: center;
-  color: white;
 }
 
 .hero-title {
@@ -401,7 +407,6 @@ main {
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
-
 
 
 .comment-box.visible {
