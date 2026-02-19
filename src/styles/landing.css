@@ -64,14 +64,14 @@ section:last-of-type {
     box-shadow 0.4s ease;
 }
 
-// blur del scroll del navbar
+/* blur semitransparente cuando se empieza a scrollear */
 .navigation-bar.blurred {
   background: rgba(255, 222, 99, 0.4);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
-// sólido al bajar más
+/* sólido al bajar más */
 .navigation-bar.scrolled {
   background: linear-gradient(to right, #ffde63, #ffbc4c);
   backdrop-filter: blur(0px);
@@ -137,10 +137,10 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: hidden;   /* importante: clip para que la img no se vea fuera */
 }
 
-// La imagen queda contenida solo dentro del hero banner
+/* La imagen queda contenida solo dentro del hero-banner */
 .hero-img {
   position: absolute;
   top: 50%;
@@ -265,8 +265,7 @@ main {
   transform-origin: center;
   will-change: transform, box-shadow;
 
-
-  // estado inicial para reveal on scroll
+  /* estado inicial para reveal on scroll */
   opacity: 0;
   transform: translateY(50px);
   transition:
@@ -368,7 +367,7 @@ footer {
   max-width: 900px;
 }
 
-// display:contents hace que los hijos del col vayan directo al grid
+/* display:contents hace que los hijos del col vayan directo al grid */
 .footer-col {
   display: contents;
 }

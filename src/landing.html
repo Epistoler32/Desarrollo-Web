@@ -21,9 +21,9 @@
       <nav>
         <ul class="nav-links">
           <li><a class="page-link" href="Home.html">Home</a></li>
-          <li><a class="page-link" href="menu.html">Menú</a></li>
+          <li><a class="page-link" href="Menu.html">Menú</a></li>
           <li><a class="page-link" href="Contact">Contacto</a></li>
-          <li><a class="login-link" href="login.html">Log in</a></li>
+          <li><a class="login-link" href="Login.html">Log in</a></li>
         </ul>
       </nav>
     </header>
@@ -142,10 +142,16 @@
       <section id="visit-us">
         <h4 class="general-title">Visitanos</h4>
 
-
+        <!--
+          Grid 3 columnas × 2 filas.
+          Los .footer-col tienen display:contents, así los 6 ítems
+          fluyen directamente al grid del padre en orden:
+          fila 1 → col1-item1, col2-item1, col3-item1
+          fila 2 → col1-item2, col2-item2, col3-item2
+        -->
         <div class="footer-info-grid">
 
-          <!-- Columna 1 - fila 1 -->
+          <!-- Columna 1 (fila 1): Dirección -->
           <div class="footer-col">
             <div class="footer-info-item">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +174,7 @@
             </div>
           </div>
 
-          <!-- Columna 2 - fila 1 -->
+          <!-- Columna 2 (fila 1): Horario -->
           <div class="footer-col">
             <div class="footer-info-item footer-hours">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg"
@@ -178,13 +184,13 @@
                 <polyline points="12 6 12 12 16 14"/>
               </svg>
               <span>
-                Lunes a jueves: 12:00 p.m. - 9:00 p.m.<br/>
-                Viernes y sábado: 12:00 p.m. - 10:30 p.m.<br/>
-                Domingos y festivos: 12:00 p.m. - 8:00 p.m.
+                Lunes a jueves: 12:00 p.m. – 9:00 p.m.<br/>
+                Viernes y sábado: 12:00 p.m. – 10:30 p.m.<br/>
+                Domingos y festivos: 12:00 p.m. – 8:00 p.m.
               </span>
             </div>
 
-            <!-- Columna 2 - fila 2 -->
+            <!-- Columna 2 (fila 2): Instagram -->
             <div class="footer-info-item">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -197,7 +203,7 @@
             </div>
           </div>
 
-          <!-- Columna 3 - fila 1 -->
+          <!-- Columna 3 (fila 1): Twitter/X -->
           <div class="footer-col">
             <div class="footer-info-item">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg"
@@ -207,7 +213,7 @@
               <span>@SeaSideRestaurantetwt</span>
             </div>
 
-            <!-- Columna 3 - fila 2 -->
+            <!-- Columna 3 (fila 2): Email -->
             <div class="footer-info-item">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -226,7 +232,64 @@
       <p class="footer-copyright">© 2026 SeaSide. All rights reserved.</p>
     </footer>
 
-    <script src="js/landing.js"></script>
+    <!-- ═══════════════════════════════════════════════════════
+         JAVASCRIPT
+         ═══════════════════════════════════════════════════════ -->
+    <script>
+      /* ── 1. NAVBAR: transparente → blur → sólido ─────────── */
+      const navbar = document.getElementById('navbar');
 
+      function updateNavbar() {
+        const scrollY = window.scrollY;
+        if (scrollY < 40) {
+          // En la cima: completamente transparente
+          navbar.classList.remove('blurred', 'scrolled');
+        } else if (scrollY < 150) {
+          // Zona intermedia: blur semitransparente
+          navbar.classList.add('blurred');
+          navbar.classList.remove('scrolled');
+        } else {
+          // Scrolleado: sólido con color
+          navbar.classList.remove('blurred');
+          navbar.classList.add('scrolled');
+        }
+      }
+
+      window.addEventListener('scroll', updateNavbar, { passive: true });
+      updateNavbar(); // estado inicial
+
+
+      /* ── 2. SCROLL REVEAL: gallery figures & comment boxes ── */
+      const revealEls = document.querySelectorAll('.gallery-figure, .comment-box');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, idx) => {
+          if (entry.isIntersecting) {
+            // Retraso escalonado según posición en el DOM
+            const delay = Array.from(revealEls).indexOf(entry.target) % 3 * 120;
+            entry.target.style.animationDelay = delay + 'ms';
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -60px 0px'
+      });
+
+      revealEls.forEach(el => observer.observe(el));
+
+
+      /* ── 3. SMOOTH SCROLL para links internos ────────────── */
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', e => {
+          const target = document.querySelector(link.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    </script>
   </body>
 </html>
