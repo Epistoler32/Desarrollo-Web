@@ -4,11 +4,11 @@ body {
   background-color: #ffffef;
 }
 
-section {
+/*section {
   margin: 50px;
   padding-bottom: 50px;
   border-bottom: 5px solid #ffde63;
-}
+}*/
 
 section:last-of-type {
   border-bottom: none;
@@ -217,7 +217,22 @@ main {
 /* ─── ABOUT US ────────────────────────────────────────────── */
 #About-us {
   position: relative;
+  margin: 120px;
+  padding-bottom: 50px;
 }
+#Menu{
+  padding-bottom: 50px;
+  background: linear-gradient(to top, #feffc4, #ffde63);
+  padding-top: 50px;
+}
+
+#Comments{
+  padding-bottom: 50px;
+  padding-top: 50px;
+  margin: 80px;
+}
+
+
 
 /* ─── GALLERY ─────────────────────────────────────────────── */
 .gallery {
@@ -512,4 +527,5 @@ footer {
     opacity: 1;
     transform: translateY(0);
   }
+
 }
