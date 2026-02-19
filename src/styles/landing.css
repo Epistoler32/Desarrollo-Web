@@ -18,7 +18,7 @@ section:last-of-type {
 .general-title {
   font-family: "Island Moments", cursive;
   color: #01154a;
-  font-size: 100px;
+  font-size: clamp(52px, 8vw, 100px);
   text-align: center;
   font-weight: 100;
   margin: 10px;
@@ -27,7 +27,7 @@ section:last-of-type {
 .general-paragraph {
   color: #01154a;
   margin: 0%;
-  font-size: 40px;
+  font-size: clamp(16px, 2.4vw, 40px);
   font-family: "Inter", sans-serif;
   font-weight: lighter;
 }
@@ -47,7 +47,7 @@ section:last-of-type {
   align-items: center;
   margin: 0;
   padding: 0px 50px 0px 0px;
-  height: 130px;
+  height: clamp(70px, 9vw, 130px);
   overflow: hidden;
   position: fixed;
   top: 0;
@@ -64,14 +64,12 @@ section:last-of-type {
     box-shadow 0.4s ease;
 }
 
-/* blur semitransparente cuando se empieza a scrollear */
 .navigation-bar.blurred {
   background: rgba(255, 222, 99, 0.4);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
-/* sólido al bajar más */
 .navigation-bar.scrolled {
   background: linear-gradient(to right, #ffde63, #ffbc4c);
   backdrop-filter: blur(0px);
@@ -84,14 +82,14 @@ section:last-of-type {
   margin: 0;
 }
 .navigation-bar .logo img {
-  height: 250px;
+  height: clamp(120px, 16vw, 250px);
   width: auto;
 }
 .navigation-bar .nav-links {
   display: flex;
   justify-content: space-evenly;
   gap: 10px;
-  font-size: 25px;
+  font-size: clamp(14px, 1.6vw, 25px);
   font-weight: lighter;
   list-style: none;
   font-family: "Inter", sans-serif;
@@ -99,7 +97,7 @@ section:last-of-type {
 
 .navigation-bar .nav-links .page-link {
   color: darkblue;
-  padding: 15px 25px;
+  padding: clamp(8px, 1vw, 15px) clamp(12px, 1.6vw, 25px);
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
@@ -114,7 +112,7 @@ section:last-of-type {
 
 .login-link {
   background-color: #01154a;
-  padding: 15px 25px;
+  padding: clamp(8px, 1vw, 15px) clamp(12px, 1.6vw, 25px);
   border-radius: 10px;
   color: #ffbc4c;
   text-align: center;
@@ -124,7 +122,7 @@ section:last-of-type {
   transition: background-color 0.3s ease;
 }
 
-/* ─── HERO / PARALLAX ─────────────────────────────────────── */
+/* ─── HERO ────────────────────────────────────────────────── */
 main {
   margin: 0;
   padding: 0;
@@ -137,10 +135,9 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;   /* importante: clip para que la img no se vea fuera */
+  overflow: hidden;
 }
 
-/* La imagen queda contenida solo dentro del hero-banner */
 .hero-img {
   position: absolute;
   top: 50%;
@@ -163,7 +160,7 @@ main {
 .hero-title {
   font-family: "Island Moments", cursive;
   color: #01154a;
-  font-size: 350px;
+  font-size: clamp(100px, 24vw, 350px);
   font-weight: lighter;
   margin: 0%;
 
@@ -175,7 +172,7 @@ main {
 .hero-paragraph {
   color: #01154a;
   margin: 0%;
-  font-size: 50px;
+  font-size: clamp(18px, 3vw, 50px);
   font-family: "Inter", sans-serif;
 
   opacity: 0;
@@ -190,9 +187,9 @@ main {
   color: #ffbc4c;
   display: inline-block;
   margin-top: 40px;
-  padding: 40px 40px;
+  padding: clamp(16px, 2.4vw, 40px) clamp(20px, 2.8vw, 40px);
   text-decoration: none;
-  font-size: 25px;
+  font-size: clamp(14px, 1.6vw, 25px);
   border-radius: 10px;
   font-weight: 100;
 
@@ -216,9 +213,9 @@ main {
   background-color: #01154a;
   color: #ffbc4c;
   margin-top: 40px;
-  padding: 25px 40px;
+  padding: clamp(12px, 1.6vw, 25px) clamp(20px, 2.8vw, 40px);
   text-decoration: none;
-  font-size: 25px;
+  font-size: clamp(14px, 1.6vw, 25px);
   border-radius: 20px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -240,111 +237,219 @@ main {
 /* ─── GALLERY ─────────────────────────────────────────────── */
 .gallery {
   display: flex;
-  gap: 50px;
+  gap: clamp(16px, 2vw, 32px);
   justify-content: center;
+  flex-wrap: wrap;
 }
 
-.gallery-image {
-  width: 420px;
-  height: 420px;
-  object-fit: cover;
-  border-radius: 20px;
-  background-color: #ffffff;
-  padding: 6px;
-  display: block;
-}
-
+/* ── Card ── */
 .gallery-figure {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px;
-  background: #ffde63;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(1, 21, 74, 0.08);
-  transform-origin: center;
-  will-change: transform, box-shadow;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  width: clamp(240px, 28vw, 400px);
+  height: clamp(320px, 38vw, 540px);
+  cursor: pointer;
+  flex-shrink: 0;
 
-  /* estado inicial para reveal on scroll */
+  /* scroll reveal inicial */
   opacity: 0;
   transform: translateY(50px);
-  transition:
-    box-shadow 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  border-bottom-right-radius: 60px;
 }
 
+
+/* Imagen cubre todo el card */
+.gallery-figure > .gallery-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  padding: 0;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), filter 0.65s ease;
+}
+
+/* Overlay gradiente oscuro desde abajo */
+.gallery-figure .card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(1, 10, 40, 0.92) 0%,
+    rgba(1, 10, 40, 0.55) 42%,
+    transparent 70%
+  );
+  z-index: 1;
+  transition: background 0.45s ease;
+}
+
+/* linea de la izquierda + texto */
+.gallery-figure .card-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: clamp(18px, 2.2vw, 32px);
+  border-left: 3px solid #ffbc4c;
+  margin: clamp(16px, 2vw, 28px);
+  transform: translateY(0);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gallery-figure .gallery-caption {
+  display: block;
+  margin: 0 0 6px 0;
+  padding: 0;
+  font-family: "Island Moments", cursive;
+  font-size: clamp(26px, 3.2vw, 46px);
+  font-weight: 400;
+  color: #ffde63;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+
+.gallery-figure .caption-paragraph {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: clamp(11px, 0.95vw, 14px);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.55;
+  text-align: left;
+  /* empieza oculto, aparece en hover */
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.35s ease 0.05s, max-height 0.4s ease;
+}
+
+/* ── Hover ── */
+.gallery-figure:hover {
+  border-bottom-right-radius: 40px;
+  box-shadow:
+    0 20px 60px rgba(1, 21, 74, 0.45),
+    0 0 0 1px rgba(255, 188, 76, 0.3);
+}
+
+.gallery-figure:hover > .gallery-image {
+  transform: scale(1.07);
+  filter: saturate(1.05) brightness(0.8);
+}
+
+.gallery-figure:hover .card-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(1, 10, 40, 0.96) 0%,
+    rgba(1, 10, 40, 0.65) 50%,
+    transparent 75%
+  );
+}
+
+.gallery-figure:hover .caption-paragraph {
+  opacity: 1;
+  max-height: 80px;
+}
+
+/* ── reveal on scroll ── */
 .gallery-figure.visible {
   animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.gallery-figure:hover {
-  transform: translateY(-5px) !important;
-  box-shadow: 0 28px 80px rgba(1, 21, 74, 0.24);
-}
 
-.gallery-caption {
-  margin-top: 8px;
-  color: #01154a;
-  font-family: "Inter", sans-serif;
-  font-size: 25px;
-  font-weight: bolder;
-  text-align: right;
-}
 
-.caption-paragraph {
-  color: #01154a;
-  margin: 5%;
-  font-size: 25px;
-  font-family: "Inter", sans-serif;
-  font-weight: light;
-  text-align: right;
-}
 
 /* ─── COMMENTS ────────────────────────────────────────────── */
 .comments-grid {
   display: flex;
-  gap: 50px;
+  gap: clamp(20px, 3vw, 40px);
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 40px;
   flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .comment-box {
-  background-color: #ffbc4c;
-  border-radius: 10px;
-  padding: 30px;
-  max-width: 360px;
-  box-shadow: 0 6px 18px rgba(1, 21, 74, 0.06);
-  color: #01154a;
+  position: relative;
+  background: #01154a;
+  border-radius: 2px;
+  padding: clamp(28px, 3vw, 44px) clamp(24px, 2.6vw, 38px);
+  max-width: 340px;
+  flex: 1 1 240px;
+  overflow: hidden;
+  color: #fff;
   font-family: "Inter", sans-serif;
-  flex: 1 1 280px;
 
+  /* borde dorado abajo que crece en hover */
+  border-bottom: 3px solid transparent;
+
+  /* reveal inicial */
   opacity: 0;
   transform: translateY(40px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  transition:
+    border-color 0.35s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
+
+
 
 .comment-box.visible {
   animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .comment-box:hover {
-  transform: scale(1.05) !important;
-  box-shadow: 0 28px 80px rgba(1, 21, 74, 0.12);
+  transform: translateY(-6px) !important;
+  border-color: #ffbc4c;
+  box-shadow:
+    0 12px 40px rgba(1, 21, 74, 0.28),
+    0 2px 8px rgba(1, 21, 74, 0.12);
 }
 
 .comment-text {
-  margin: 0 0 10px 0;
-  font-size: 30px;
-  line-height: 1.4;
-  font-weight: bolder;
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px 0;
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+  font-style: italic;
 }
 
 .comment-author {
+  position: relative;
+  z-index: 1;
   margin: 0;
-  text-align: right;
-  font-weight: 600;
-  color: #01304a;
+  font-size: clamp(11px, 0.9vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffbc4c;
+  text-align: left;
 }
+
+/* Pequeño separador dorado antes del autor */
+.comment-author::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: #ffbc4c;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
 
 /* ─── FOOTER ──────────────────────────────────────────────── */
 footer {
@@ -355,7 +460,6 @@ footer {
   color: #01154a;
 }
 
-/* 3 columnas × 2 filas */
 .footer-info-grid {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -367,7 +471,6 @@ footer {
   max-width: 900px;
 }
 
-/* display:contents hace que los hijos del col vayan directo al grid */
 .footer-col {
   display: contents;
 }
