@@ -5,15 +5,14 @@ function updateNavbar() {
   const scrollY = window.scrollY;
   const threshold = 300; // píxeles hasta quedar 100% sólido
 
-  // Progreso de 0 a 1 según cuánto has scrolleado
+  // Progreso de 0 a 1 según cuánto se ha scrolleado
   const progress = Math.min(scrollY / threshold, 1);
 
-  // Interpolamos cada valor
-  const bgOpacity  = progress * 1;           // 0 → 1
-  const blurAmount = progress * 12;          // 0px → 12px
-  const shadowAlpha = progress * 0.15;       // 0 → 0.15
+  // Interpola cada valor
+  const bgOpacity  = progress * 1;
+  const blurAmount = progress * 12;
+  const shadowAlpha = progress * 0.15;
 
-  // Color de fondo: de transparente hasta el dorado (#ffde63 → #ffbc4c en gradiente)
   navbar.style.background = `linear-gradient(
     to right,
     rgba(255, 222, 99, ${bgOpacity}),
