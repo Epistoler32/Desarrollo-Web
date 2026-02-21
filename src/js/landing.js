@@ -14,14 +14,14 @@ function updateNavbar() {
   const shadowAlpha = progress * 0.15;
 
   navbar.style.background = `linear-gradient(
-    to right,
-    rgba(255, 222, 99, ${bgOpacity}),
-    rgba(255, 188, 76, ${bgOpacity})
+    to bottom,
+    rgba(217, 61, 4, ${bgOpacity}),
+    rgba(217, 121, 4, ${bgOpacity})
   )`;
   navbar.style.backdropFilter = `blur(${blurAmount}px)`;
   navbar.style.webkitBackdropFilter = `blur(${blurAmount}px)`;
   navbar.style.boxShadow = shadowAlpha > 0
-    ? `0 4px 20px rgba(1, 21, 74, ${shadowAlpha})`
+    ? `0 4px 20px rgba(217, 61, 4, ${shadowAlpha})`
     : 'none';
 }
 
