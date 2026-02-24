@@ -1,74 +1,58 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carta de plato - Atún Sellado</title>
-    <!-- Fuente Island Moments -->
+    <title>Menú</title>
+
     <link
-      href="https://fonts.googleapis.com/css2?family=Island+Moments&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter&family=Island+Moments&display=swap"
       rel="stylesheet"
     />
-    <!-- Fuente secundaria para textos -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/../static/styles/menuSingle.css" />
+    <link rel="stylesheet" th:href="@{/styles/menu.css}" />
   </head>
+
   <body>
-    <div class="page">
-      <header class="header-wave">
-        <div class="header-top">
-          <img
-            src="seasideLogo.png"
-            alt="SeaSide Restaurant"
-            class="logo"
-          />
-        </div>
-      </header>
+    <header class="header">
+      <h1>Menú</h1>
+    </header>
 
-      <main>
-        <h1 class="title-script">Carta de plato</h1>
-        <section class="card-wrapper">
-        <article class="dish-card">
-          <div class="dish-image-wrapper">
-            <img
-              src="/../static/resources/IMGS/Atun.jpeg"
-              alt="Atún Sellado"
-              class="dish-image"
-            />
+    <section class="intro">
+      Bienvenidos a un rincón donde el mar es protagonista...
+    </section>
 
-            <div class="dish-badges">
-              <div class="badge">
-                <span>40-50 mins</span>
-              </div>
-              <div class="badge">
-                <span>Alergeno</span>
-              </div>
-            </div>
-
-            <div class="dish-overlay">
-              <h2 class="dish-name">Atún Sellado</h2>
-              <p class="dish-description">
-                Lomo de atún fresco, cuidadosamente sellado a alta temperatura
-                para lograr un exterior dorado y crujiente, manteniendo su
-                centro jugoso y ligeramente rosado.
-              </p>
-              <p class="dish-price">Precio: $67.000</p>
-            </div>
+    <h2 class="section-title">Platos Fuertes</h2>
+    <section class="menu-container">
+      <div
+        class="menu-card"
+        th:each="producto : ${platos}"
+        style="background-image: url('');">
+        <div class="menu-card-content">
+          <h2 th:text="${producto.nombre}">Nombre</h2>
+          <p th:text="${producto.descripcion}">Descripción</p>
+          <div class="card-meta">
+            <!-- tiempo / alérgeno info not available yet -->
+            <div class="meta-box">&nbsp;</div>
           </div>
-        </article>
-
-        <div class="actions">
-          <button class="btn btn-secondary">Regresar</button>
-          <button class="btn btn-primary">Agregar a la orden</button>
+          <a href="#" class="card-button">Haz tu pedido</a>
         </div>
-        </section>
-      </main>
-    </div>
+      </div>
+    </section>
+
+    <h2 class="section-title">Bebidas y Postres</h2>
+    <section class="menu-container">
+      <div
+        class="menu-card"
+        th:each="producto : ${bebidas}"
+        style="background-image: url('');">
+        <div class="menu-card-content">
+          <h2 th:text="${producto.nombre}">Nombre</h2>
+          <p th:text="${producto.descripcion}">Descripción</p>
+          <div class="card-meta">
+            <div class="meta-box">&nbsp;</div>
+          </div>
+          <a href="#" class="card-button">Haz tu pedido</a>
+        </div>
+      </div>
+    </section>
   </body>
 </html>
-
-
-
