@@ -1,0 +1,96 @@
+/* ===== Reset básico ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f8f1e0;
+  min-height: 100vh;
+}
+
+/* ===== Títulos ===== */
+
+.titulo-principal {
+  font-family: "Island Moments", cursive;
+  font-size: 90px;
+  text-align: center;
+  color: #400101;
+  margin-top: 40px;
+}
+
+.subtitulo {
+  font-family: "Island Moments", cursive;
+  font-size: 50px;
+  color: #400101;
+  margin: 40px 0 20px 80px;
+}
+
+/* ===== Fondo degradado inferior ===== */
+
+.fondo-gradiente {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(90deg, #f2b705 0%, #d97904 100%);
+  z-index: -1;
+}
+
+/* ===== Layout contenedor ===== */
+
+.contenedor-tablas {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 40px 80px;
+  gap: 60px;
+}
+
+/* ===== Tabla ===== */
+
+.tabla-menu {
+  width: 550px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.tabla-menu table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-menu thead {
+  background: #400101;
+}
+
+.tabla-menu th {
+  color: #f2b705;
+  font-size: 13px;
+  padding: 12px;
+  text-align: left;
+}
+
+.tabla-menu td {
+  font-size: 13px;
+  padding: 12px;
+  background: #fef0c5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.tabla-menu tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== Imagen producto ===== */
+
+.producto-img {
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+}
