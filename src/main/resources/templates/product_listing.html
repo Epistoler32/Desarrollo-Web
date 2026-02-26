@@ -2,52 +2,218 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>Tabla Menú</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Tabla Menú | SeaSide</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter&family=Island+Moments&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Island+Moments&family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/styles/product_listing.css}" />
   </head>
 
   <body>
-    <h1 class="titulo-principal">Tabla Admin</h1>
+    <!-- ─── NAVBAR ADMIN ──────────────────────────────────── -->
+    <header class="admin-navbar">
+      <div class="navbar-left">
+        <figure class="logo">
+          <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
+        </figure>
+        <div class="admin-badge">Panel Admin</div>
+      </div>
+      <nav class="admin-nav">
+        <a class="nav-back" href="/">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          Volver al sitio
+        </a>
+      </nav>
+    </header>
 
-    <div class="contenedor-tablas">
-      <section>
-        <h2 class="subtitulo">Productos</h2>
+    <!-- ─── MAIN ──────────────────────────────────────────── -->
+    <main class="admin-main">
+      <!-- Page header -->
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1 class="titulo-principal">Gestión de Menú</h1>
+          <p class="page-subtitle">Administra los productos del restaurante</p>
+        </div>
+        <!-- <button class="btn-nuevo">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Nuevo Producto
+        </button> -->
+      </div>
 
-        <div class="tabla-menu">
-          <table>
+      <!-- ─── TABLA PRODUCTOS ─────────────────────────────── -->
+      <section class="table-section">
+        <div class="table-header">
+          <h2 class="subtitulo">Productos</h2>
+          <!-- <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+             <input type="text" placeholder="Buscar producto..." class="search-input" id="searchInput" />
+           </div> -->
+        </div>
+
+        <div class="tabla-wrapper">
+          <table class="tabla-menu" id="productTable">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Imagen</th>
+                <th class="col-img">Imagen</th>
+                <th class="col-name">Nombre</th>
+                <th class="col-desc">Descripción</th>
+                <th class="col-price">Precio</th>
+                <th class="col-time">Tiempo</th>
+                <th class="col-alerg">Alérgenos</th>
               </tr>
             </thead>
             <tbody>
-              <tr th:each="producto : ${products}">
-                <td th:text="${producto.nombre}"></td>
-                <td th:text="${producto.descripcion}"></td>
-                <td th:text="${producto.precio}"></td>
-                <td>
-                  <img
-                    th:src="${producto.imageUrl}"
-                    height="100px"
-                    width="100px"
-                    th:alt="${producto.nombre}"
-                  />
+              <tr th:each="producto : ${products}" class="product-row">
+                <td class="col-img">
+                  <div class="img-wrap">
+                    <img
+                      th:src="${producto.imageUrl}"
+                      th:alt="${producto.nombre}"
+                      class="producto-img"
+                    />
+                  </div>
+                </td>
+                <td class="col-name">
+                  <span class="product-name" th:text="${producto.nombre}"
+                    >Nombre</span
+                  >
+                </td>
+                <td class="col-desc">
+                  <span class="product-desc" th:text="${producto.descripcion}"
+                    >Descripción</span
+                  >
+                </td>
+                <td class="col-price">
+                  <span
+                    class="price-tag"
+                    th:text="'$' + ${#numbers.formatInteger(producto.precio, 0, 'COMMA')}"
+                  >
+                    $0
+                  </span>
+                </td>
+                <td class="col-time">
+                  <span class="time-badge">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span th:text="${producto.tiempoMinutos} + ' min'"
+                      >– min</span
+                    >
+                  </span>
+                </td>
+                <td class="col-alerg">
+                  <span class="alerg-yes" th:if="${producto.tieneAlergenos}">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                      />
+                      <line x1="12" y1="9" x2="12" y2="13" />
+                      <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    Sí
+                  </span>
+                  <span class="alerg-no" th:unless="${producto.tieneAlergenos}"
+                    >—</span
+                  >
+                </td>
+              </tr>
+
+              <!-- Empty state -->
+              <tr
+                class="empty-row"
+                th:if="${products == null or #lists.isEmpty(products)}"
+              >
+                <td colspan="7">
+                  <div class="empty-state">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <p>No hay productos registrados aún.</p>
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
-    </div>
+    </main>
 
-    <div class="fondo-gradiente"></div>
+    <!-- ─── FOOTER ADMIN ──────────────────────────────────── -->
+    <footer class="admin-footer">
+      <p>© 2026 SeaSide — Panel de Administración</p>
+    </footer>
+
+    <script>
+      // Simple live search
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          const q = this.value.toLowerCase();
+          document.querySelectorAll(".product-row").forEach((row) => {
+            const name =
+              row.querySelector(".product-name")?.textContent.toLowerCase() ||
+              "";
+            const desc =
+              row.querySelector(".product-desc")?.textContent.toLowerCase() ||
+              "";
+            row.style.display =
+              name.includes(q) || desc.includes(q) ? "" : "none";
+          });
+        });
+      }
+    </script>
   </body>
 </html>
