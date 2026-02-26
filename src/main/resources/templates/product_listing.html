@@ -12,11 +12,11 @@
   </head>
 
   <body>
-    <h1 class="titulo-principal">Tabla Menú</h1>
+    <h1 class="titulo-principal">Tabla Admin</h1>
 
     <div class="contenedor-tablas">
       <section>
-        <h2 class="subtitulo">Platos fuertes</h2>
+        <h2 class="subtitulo">Productos</h2>
 
         <div class="tabla-menu">
           <table>
@@ -35,9 +35,10 @@
                 <td th:text="${producto.precio}"></td>
                 <td>
                   <img
-                    th:src="@{${producto.imagenUrl}}"
-                    alt="Imagen de [[${producto.nombre}]]"
-                    class="imagen-producto"
+                    th:src="${producto.imageUrl}"
+                    height="100px"
+                    width="100px"
+                    th:alt="${producto.nombre}"
                   />
                 </td>
               </tr>
