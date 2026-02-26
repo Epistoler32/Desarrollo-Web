@@ -62,6 +62,8 @@ Luego abre el navegador en `http://localhost:8080`.
 | `/` | Landing page con hero, menú destacado y comentarios |
 | `/menu` | Carta completa agrupada por categoría |
 | `/products/listing` | Lista de productos para ser administrada por el administrador |
+| `/products/{id}` | Información del producto individual |
+
 
 ---
 
