@@ -15,23 +15,16 @@ import java.util.stream.Collectors;
 @Controller
 public class MenuController {
 
-    private final ProductoService productoService;
-
     @Autowired
-    public MenuController(ProductoService productoService) {
-        this.productoService = productoService;
-    }
+    ProductoService productoService;
+
 
     @GetMapping("/menu")
     public String menuCarta(Model model) {
-        Collection<Producto> todos = productoService.getAllProducts();
-
-        // Agrupar por categoría para mostrarlos por sección en la vista
-        Map<String, List<Producto>> porCategoria = todos.stream()
-                .collect(Collectors.groupingBy(Producto::getCategoria));
-
-        model.addAttribute("porCategoria", porCategoria);
-        model.addAttribute("productos", todos);
+        Collection<Producto> fuertes = productoService.searchByCategory("platos_fuertes");
+        model.addAttribute("productos", fuertes);
+        Collection<Producto> postres = productoService.searchByCategory("postres_y_bebidas");
+        model.addAttribute("postres", postres);
 
         return "menu_carta"; // cambiado a templates/menu_carta.html
     }

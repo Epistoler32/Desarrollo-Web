@@ -23,4 +23,9 @@ public class ProductoServiceImpl implements ProductoService {
         return ProductoRepository.findAll();
     }
 
+    @Override
+    public Collection<Producto> searchByCategory(String category) {
+        return ProductoRepository.findByCategory(category);
+    }
+
 }
