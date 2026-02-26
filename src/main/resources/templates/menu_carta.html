@@ -123,9 +123,12 @@
               >
                 $42.000
               </span>
-              <button class="btn-agregar" th:data-id="${producto.ID}">
+              <a
+                class="btn-agregar"
+                th:href="@{/products/{id}(id=${producto.ID})}"
+              >
                 Agregar
-              </button>
+              </a>
             </div>
           </article>
         </div>
@@ -197,9 +200,12 @@
               >
                 $6.000
               </span>
-              <button class="btn-agregar" th:data-id="${producto.ID}">
+              <a
+                class="btn-agregar"
+                th:href="@{/products/{id}(id=${producto.ID})}"
+              >
                 Agregar
-              </button>
+              </a>
             </div>
           </article>
         </div>
