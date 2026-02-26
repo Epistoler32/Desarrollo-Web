@@ -1,0 +1,444 @@
+/* ─── RESET / BASE ───────────────────────────────────────── */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f8f1e0;
+  font-family: "Jost", sans-serif;
+}
+
+/* ─── NAVBAR (idéntico a landing) ───────────────────────── */
+.navigation-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0 50px 0 0;
+  height: clamp(70px, 9vw, 130px);
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: transparent;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.navigation-bar.scrolled {
+  background: rgba(248, 241, 224, 0.95);
+  box-shadow: 0 2px 20px rgba(64, 1, 1, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.navigation-bar .logo {
+  padding: 0;
+  margin: 0;
+}
+.navigation-bar .logo img {
+  height: clamp(120px, 16vw, 250px);
+  width: auto;
+}
+.navigation-bar .nav-links {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  font-size: clamp(14px, 1.6vw, 25px);
+  list-style: none;
+  font-family: "Jost", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.navigation-bar .nav-links .page-link {
+  /* color: #730202; */
+  color: #ffbc4c;
+  padding: clamp(8px, 1vw, 15px) clamp(12px, 1.6vw, 25px);
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 400;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-bar.scrolled .nav-links .page-link {
+    color: #730202;
+}
+
+.navigation-bar .nav-links li a:hover,
+.navigation-bar .nav-links .page-link.active {
+  background-color: #400101;
+  color: #ffbc4c;
+}
+.login-link {
+  background-color: #400101;
+  padding: clamp(8px, 1vw, 15px) clamp(12px, 1.6vw, 25px);
+  border-radius: 10px;
+  color: #F2B705;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+/* ─── HERO ───────────────────────────────────────────────── */
+.menu-hero {
+  position: relative;
+  width: 100%;
+  min-height: 42vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-image: url('/resources/IMGS/mainBackgroundImage.jpeg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center bottom;
+}
+
+.menu-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(64, 1, 1, 0.55);
+  z-index: 1;
+}
+
+.menu-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.menu-hero-title {
+  font-family: "Island Moments", cursive;
+  color: #F2B705;
+  font-size: clamp(90px, 20vw, 220px);
+  font-weight: 100;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+/* Ola inferior del hero */
+.hero-wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+  line-height: 0;
+}
+.hero-wave svg {
+  display: block;
+  width: 100%;
+  height: 80px;
+}
+.hero-wave path {
+  fill: #f8f1e0;
+}
+
+/* ─── MAIN / INTRO ───────────────────────────────────────── */
+.menu-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 40px 80px;
+}
+
+.menu-intro {
+  margin-bottom: 60px;
+  max-width: 760px;
+}
+
+.menu-intro-text {
+  font-family: "Jost", sans-serif;
+  font-weight: 300;
+  font-size: clamp(15px, 1.4vw, 20px);
+  color: #400101;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* ─── CATEGORÍA ─────────────────────────────────────────── */
+.category-section {
+  margin-bottom: 70px;
+}
+
+.category-title {
+  font-family: "Island Moments", cursive;
+  color: #400101;
+  font-size: clamp(42px, 7vw, 90px);
+  font-weight: 100;
+  margin: 0 0 32px 0;
+  position: relative;
+  display: inline-block;
+}
+
+.category-title::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 60%;
+  background: linear-gradient(to right, #F2B705, transparent);
+  margin-top: 4px;
+}
+
+/* ─── GRID DE PRODUCTOS ──────────────────────────────────── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: clamp(20px, 2.5vw, 36px);
+}
+
+/* ─── TARJETA DE PRODUCTO ────────────────────────────────── */
+.product-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(64, 1, 1, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* reveal on scroll */
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.product-card.visible {
+  animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.product-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow:
+    0 18px 50px rgba(64, 1, 1, 0.22),
+    0 0 0 1px rgba(242, 183, 5, 0.3);
+}
+
+/* ── imagen ── */
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.product-card:hover .card-img {
+  transform: scale(1.06);
+}
+
+/* overlay oscuro sobre imagen */
+.card-dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(40, 0, 0, 0.85) 0%,
+    rgba(64, 1, 1, 0.35) 45%,
+    transparent 70%
+  );
+  z-index: 1;
+  transition: background 0.4s ease;
+}
+
+.product-card:hover .card-dark-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(40, 0, 0, 0.9) 0%,
+    rgba(64, 1, 1, 0.5) 55%,
+    transparent 75%
+  );
+}
+
+/* ── badges (tiempo y alérgeno como en el figma) ── */
+.card-badges {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 20px;
+  padding: 4px 10px 4px 7px;
+  font-family: "Jost", sans-serif;
+  font-size: clamp(11px, 0.9vw, 13px);
+  font-weight: 500;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+}
+
+.badge svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.badge-time {
+  background: rgba(248, 241, 224, 0.88);
+  color: #400101;
+  border: 1px solid rgba(64, 1, 1, 0.15);
+}
+
+.badge-allergen {
+  background: rgba(64, 1, 1, 0.82);
+  color: #F2B705;
+  border: 1px solid rgba(242, 183, 5, 0.3);
+}
+
+/* ── nombre sobre la imagen ── */
+.card-name-block {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 14px 16px 16px;
+  border-left: 3px solid #F2B705;
+  margin: 0 14px 14px;
+}
+
+.card-name {
+  font-family: "Island Moments", cursive;
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 400;
+  color: #F2B705;
+  margin: 0;
+  line-height: 1.05;
+}
+
+/* ── footer tarjeta ── */
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #ffffff;
+  border-top: 1px solid rgba(64, 1, 1, 0.08);
+}
+
+.card-price {
+  font-family: "Jost", sans-serif;
+  font-weight: 600;
+  font-size: clamp(15px, 1.2vw, 18px);
+  color: #400101;
+}
+
+.btn-agregar {
+  background: linear-gradient(135deg, #D97904, #F2B705);
+  color: #400101;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-family: "Jost", sans-serif;
+  font-weight: 600;
+  font-size: clamp(13px, 1vw, 15px);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-agregar:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 18px rgba(217, 121, 4, 0.45);
+  filter: brightness(1.08);
+}
+
+.btn-agregar:active {
+  transform: scale(0.97);
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+footer {
+  background: linear-gradient(to bottom, #F2B705, #D97904);
+  padding: 20px 40px 14px;
+  text-align: center;
+  font-family: "Jost", sans-serif;
+  font-weight: 300;
+  color: #400101;
+}
+
+.general-title {
+  font-family: "Island Moments", cursive;
+  color: #400101;
+  font-size: clamp(52px, 8vw, 100px);
+  text-align: center;
+  font-weight: 100;
+  margin: 10px;
+}
+
+.footer-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(2, auto);
+  justify-content: center;
+  align-items: start;
+  gap: 14px 60px;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.footer-col {
+  display: contents;
+}
+
+.footer-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: #400101;
+  line-height: 1.4;
+}
+
+.footer-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: #D93D04;
+  margin-top: 2px;
+}
+
+.footer-divider {
+  border-top: 1px solid #D97904;
+  margin: 10px 40px 12px;
+}
+
+.footer-copyright {
+  font-size: 13px;
+  color: #400101;
+  text-align: center;
+  margin: 0;
+  padding-bottom: 6px;
+}
+
+#visit-us {
+  margin: 0;
+  padding-bottom: 16px;
+}
+
+/* ─── KEYFRAMES ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
