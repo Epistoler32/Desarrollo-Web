@@ -1,0 +1,64 @@
+/* product_detail.css
+   Import the shared menu styles and add detail-specific tweaks.
+*/
+
+/* center the detail card and space from navbar/footer */
+.detail-main {
+  max-width: 800px;
+  margin: 120px auto 80px;
+  padding: 0 20px;
+}
+
+/* if you want the footer price to be centered on this page */
+.detail-main .card-footer {
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* description text inside name block, beneath title */
+.detail-desc-overlay {
+  position: relative;
+  margin-top: 4px;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  font-size: clamp(14px, 1.2vw, 18px);
+  line-height: 1.4;
+  max-height: none;
+  overflow: visible;
+}
+
+/* ensure name block stacks name and description */
+.card-name-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-return {
+  background-color: #400101;
+  color: #ffbc4c;
+  border-radius: 8px;
+  padding: 8px 20px;
+  text-decoration: none;
+  font-family: "Jost", sans-serif;
+  font-weight: 600;
+  font-size: clamp(13px, 1vw, 15px);
+  transition: filter 0.2s ease;
+}
+
+.btn-return:hover {
+  filter: brightness(1.1);
+}
+
+/* ensure image covers the available area exactly */
+.detail-main .card-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

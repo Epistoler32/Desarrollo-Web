@@ -61,19 +61,23 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12 });
 
-revealEls.forEach(el => observer.observe(el));
+revealEls.forEach((el) => observer.observe(el));
 
 // ─── Botón Agregar (por ahora solo esta visual) ─────────────────────
 document.querySelectorAll('.btn-agregar').forEach(btn => {
   btn.addEventListener('click', function () {
     const original = this.textContent;
-    this.textContent = '✓ Agregado';
-    this.style.background = 'linear-gradient(135deg, #400101, #730202)';
-    this.style.color = '#F2B705';
+    this.textContent = "✓ Agregado";
+    this.style.background = "linear-gradient(135deg, #400101, #730202)";
+    this.style.color = "#F2B705";
     setTimeout(() => {
       this.textContent = original;
-      this.style.background = '';
-      this.style.color = '';
-    }, 1200);
+      this.style.background = "";
+      this.style.color = "";
+      const href = this.getAttribute("href");
+      if (href) {
+        window.location.href = href;
+      }
+    }, 600);
   });
 });

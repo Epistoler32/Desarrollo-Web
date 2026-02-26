@@ -58,4 +58,10 @@ public class ProductoRepository {
                 return productos.values();
         }
 
+        public Collection<Producto> findByCategory(String category) {
+                return productos.values().stream()
+                                .filter(p -> p.getCategoria().equalsIgnoreCase(category))
+                                .toList();
+        }
+
 }
