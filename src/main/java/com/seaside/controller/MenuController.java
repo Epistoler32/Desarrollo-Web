@@ -1,15 +1,14 @@
 package com.seaside.controller;
-
 import com.seaside.model.Producto;
 import com.seaside.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import java.util.List;
 
 @Controller
+
 public class MenuController {
 
     private final ProductoService productoService;
@@ -19,22 +18,8 @@ public class MenuController {
         this.productoService = productoService;
     }
 
-    /*@GetMapping("/menu")
-    public String menuCards(Model model) {
-        // reuse same data as the table view but render card layout
-        List<Producto> platosFuertes = productoService.getPlatosFuertes();
-        List<Producto> bebidasYPostres = productoService.getPostresYBebidas();
-        model.addAttribute("platos", platosFuertes);
-        model.addAttribute("bebidas", bebidasYPostres);
-        return "menu"; // menú en formato de tarjetas
-    }*/
-
     @GetMapping("/menu")
-    public String menuTable(Model model) {
-        List<Producto> platosFuertes = productoService.getPlatosFuertes();
-        List<Producto> bebidasYPostres = productoService.getPostresYBebidas();
-        model.addAttribute("platos", platosFuertes);
-        model.addAttribute("bebidas", bebidasYPostres);
-        return "menuTable"; // mantiene la tabla tradicional por si se necesita
+    public String menuCarta(Model model) {
+        return "menuCarta"; // mantiene la tabla tradicional por si se necesita
     }
 }

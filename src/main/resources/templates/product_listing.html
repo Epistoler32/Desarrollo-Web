@@ -8,14 +8,13 @@
       href="https://fonts.googleapis.com/css2?family=Inter&family=Island+Moments&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" th:href="@{/styles/menuTable.css}" />
+    <link rel="stylesheet" th:href="@{/styles/product_listing.css}" />
   </head>
 
   <body>
     <h1 class="titulo-principal">Tabla Menú</h1>
 
     <div class="contenedor-tablas">
-      <!-- PLATOS FUERTES -->
       <section>
         <h2 class="subtitulo">Platos fuertes</h2>
 
@@ -30,32 +29,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="producto : ${platos}">
-                <td th:text="${producto.nombre}"></td>
-                <td th:text="${producto.descripcion}"></td>
-                <td th:text="${producto.precio}"></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- BEBIDAS Y POSTRES -->
-      <section>
-        <h2 class="subtitulo">Bebidas y postres</h2>
-
-        <div class="tabla-menu">
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Imagen</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="producto : ${bebidas}">
+              <tr th:each="producto : ${products}">
                 <td th:text="${producto.nombre}"></td>
                 <td th:text="${producto.descripcion}"></td>
                 <td th:text="${producto.precio}"></td>
