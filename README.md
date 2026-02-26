@@ -1,4 +1,4 @@
-# SeaSide — Restaurante de Mar
+# SeaSide
 
 Aplicación web para el restaurante **SeaSide**, desarrollada con Spring Boot y Thymeleaf. Permite a los clientes explorar el menú, conocer el restaurante y hacer pedidos en línea.
 
