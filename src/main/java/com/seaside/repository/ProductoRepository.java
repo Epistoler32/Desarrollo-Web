@@ -82,40 +82,48 @@ public class ProductoRepository {
                                 "Pargo entero crujiente servido con patacones y ensalada.", 65000.0, "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395699563-2de03292-113c-4045-aa38-006631732e5e.png",
                                 50, true));
+
                 productos.put(13, new Producto(13, "Camarones al Ajillo",
                                 "Camarones salteados en mantequilla de ajo, perejil y vino blanco.", 52000.0,
                                 "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395714641-5483257a-9495-47f1-bc22-f265ea9e1d63.png",
                                 25, true));
+
                 productos.put(14, new Producto(14, "Risotto de Setas y Trufa",
                                 "Para quienes prefieren una opción de tierra con sabor intenso.", 54000.0,
                                 "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395731833-82ff3284-d305-4eb8-b03c-80a6477b8518.png",
                                 40, true));
+
                 productos.put(15, new Producto(15, "Robalo en Costra de Almendras",
                                 "Filete horneado con almendras fileteadas y mantequilla de limón.", 59000.0,
                                 "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395757630-4375172c-dca2-409f-929a-ce7032d3f563.png",
                                 45, true));
+
                 productos.put(16, new Producto(16, "Tacos de Pescado Baja Style",
                                 "Pescado rebosado, col fresca y aderezo chipotle en tortilla de maíz.", 38000.0,
                                 "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395797220-a0eab060-7b9b-452c-9bdd-35752c485b83.png",
                                 20, true));
+
                 productos.put(17, new Producto(17, "Curry de Langostinos",
                                 "Langostinos en salsa curry amarillo con un toque picante suave.", 68000.0,
                                 "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395836776-f7d8fe6f-ff7e-498f-8641-0d74f9eb4716.png",
                                 40, true));
+
                 productos.put(18, new Producto(18, "Steak de Coliflor",
                                 "Coliflor asada con especias, puré de garbanzo y aceite de hierbas.", 32000.0,
                                 "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395883811-b0fd79c1-f057-4436-86f6-78477b238e3d.png",
                                 30, true));
+
                 productos.put(19, new Producto(19, "Paella SeaSide (Individual)",
                                 "Arroz azafranado con el mix premium de la casa.", 74000.0, "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395924464-c7842027-9381-4adf-9bdb-84422493b1b5.png",
                                 55, true));
+
                 productos.put(20, new Producto(20, "Mojarra Premium",
                                 "Mojarra roja frita de gran tamaño con arroz de coco.", 45000.0, "platos_fuertes",
                                 "https://image2url.com/r2/default/images/1772395947587-ec1fe964-eb3b-4560-b7c8-b5b5a8640c39.png",
@@ -123,46 +131,63 @@ public class ProductoRepository {
 
                 // --- ADICIONALEs ---
                 productos.put(21, new Producto(21, "Flan", "Postre tradicional de huevo y caramelo.", 12000.0,
-                                "adicionales", "https://image2url.com/r2/default/images/1772395924464-c7842027-9381-4adf-9bdb-84422493b1b5.png\"", 15, true));
+                                "adicionales",
+                                "https://image2url.com/r2/default/images/1772395924464-c7842027-9381-4adf-9bdb-84422493b1b5.png\"",
+                                15, true));
+
                 productos.put(22, new Producto(22, "Cheesecake de Frutos Rojos",
                                 "Base de galleta crocante con crema suave y coulis de mora/fresa.", 18000.0,
-                                "adicionales", "https://image2url.com/r2/default/images/1772395924464-c7842027-9381-4adf-9bdb-84422493b1b5.png\"", 15, true));
+                                "adicionales",
+                                "https://image2url.com/r2/default/images/1772395924464-c7842027-9381-4adf-9bdb-84422493b1b5.png\"",
+                                15, true));
+
                 productos.put(23, new Producto(23, "Mousse de Maracuyá",
                                 "Crema aireada de fruta de la pasión con semillas crocantes.", 14000.0, "adicionales",
                                 "https://image2url.com/r2/default/images/mousse.png", 10, true));
+
                 productos.put(24, new Producto(24, "Brownie con Helado de Vainilla",
                                 "Servido caliente con salsa de chocolate amargo.", 16000.0, "adicionales",
                                 "https://image2url.com/r2/default/images/brownie.png", 20, true));
+
                 productos.put(25, new Producto(25, "Pie de Limón",
                                 "Merengue italiano sobre crema ácida de limón natural.", 15000.0, "adicionales",
                                 "https://image2url.com/r2/default/images/pielimon.png", 15, true));
+
                 productos.put(26, new Producto(26, "Volcán de Arequipe",
                                 "Pastel fundente con corazón líquido de dulce de leche.", 19000.0, "adicionales",
                                 "https://image2url.com/r2/default/images/volcan.png", 25, true));
+
                 productos.put(27, new Producto(27, "Agua Fresca",
                                 "Bebida refrescante de frutas naturales (Sandía, Limonada, Melón).", 8000.0,
                                 "adicionales", "https://image2url.com/r2/default/images/aguafresca.png", 5, true));
+
                 productos.put(28,
                                 new Producto(28, "Limonada de Coco", "Mezcla cremosa de limón y leche de coco fresca.",
                                                 12000.0, "adicionales",
                                                 "https://image2url.com/r2/default/images/limonada_coco.png", 10, true));
+
                 productos.put(29,
                                 new Producto(29, "Jugos Naturales", "Mango, fresa, lulo o guanábana (en agua o leche).",
                                                 9000.0, "adicionales",
                                                 "https://image2url.com/r2/default/images/jugo.png", 10, true));
+
                 productos.put(30, new Producto(30, "Soda Saborizada", "Mix de soda, sirope de la casa y fruta picada.",
                                 11000.0, "adicionales", "https://image2url.com/r2/default/images/soda.png", 5, true));
+
                 productos.put(31,
                                 new Producto(31, "Té Helado de la Casa",
                                                 "Infusión fría de té negro con durazno y menta.", 9500.0, "adicionales",
                                                 "https://image2url.com/r2/default/images/tehelado.png", 5, true));
+
                 productos.put(32,
                                 new Producto(32, "Café Espresso / Americano",
                                                 "Café premium de origen para cerrar la comida.", 6000.0, "adicionales",
                                                 "https://image2url.com/r2/default/images/cafe.png", 5, true));
+
                 productos.put(33, new Producto(33, "Patacones con Hogao",
                                 "Plátano frito crujiente con salsa tradicional de tomate y cebolla.", 14000.0,
                                 "adicionales", "https://image2url.com/r2/default/images/patacones.png", 20, true));
+
                 productos.put(34,
                                 new Producto(34, "Canastas de Plátano con Camarón",
                                                 "Mini canastas rellenas de ceviche de camarón.", 24000.0, "adicionales",
@@ -171,21 +196,27 @@ public class ProductoRepository {
                                 new Producto(35, "Porción de Arroz de Coco",
                                                 "El acompañamiento dulce-salado infaltable.", 7000.0, "adicionales",
                                                 "https://image2url.com/r2/default/images/arrozcoco.png", 10, true));
+
                 productos.put(36, new Producto(36, "Yucas Fritas", "Bastones de yuca con suero costeño.", 12000.0,
                                 "adicionales", "https://image2url.com/r2/default/images/yucas.png", 15, true));
+
                 productos.put(37, new Producto(37, "Ensalada de la Casa",
                                 "Mix de verdes, palmitos, aguacate y vinagreta cítrica.", 16000.0, "adicionales",
                                 "https://image2url.com/r2/default/images/ensalada.png", 15, true));
+
                 productos.put(38, new Producto(38, "Aros de Calamar",
                                 "Porción pequeña de calamares apanados con salsa tártara.", 22000.0, "adicionales",
                                 "https://image2url.com/r2/default/images/aros.png", 20, true));
+
                 productos.put(39,
                                 new Producto(39, "Papas Nativas al Horno", "Con romero, sal marina y aceite de oliva.",
                                                 13000.0, "adicionales",
                                                 "https://image2url.com/r2/default/images/papas.png", 20, true));
+
                 productos.put(40, new Producto(40, "Dip de Salmón Ahumado",
                                 "Crema para untar servida con tostadas de pan artesanal.", 26000.0, "adicionales",
                                 "https://image2url.com/r2/default/images/dip.png", 15, true));
+
         }
 
         public Producto findById(Integer id) {
