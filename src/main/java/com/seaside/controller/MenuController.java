@@ -25,8 +25,8 @@ public class MenuController {
     public String menuCarta(Model model) {
         Collection<Producto> fuertes = productoService.searchByCategory("platos_fuertes");
         model.addAttribute("productos", fuertes);
-        Collection<Producto> postres = productoService.searchByCategory("postres_y_bebidas");
-        model.addAttribute("postres", postres);
+        Collection<Producto> adicionales = productoService.searchByCategory("adicionales");
+        model.addAttribute("adicionales", adicionales);
 
         return "menu_carta"; // cambiado a templates/menu_carta.html
     }

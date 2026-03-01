@@ -134,11 +134,11 @@
         </div>
       </section>
 
-      <!-- ─── CATEGORÍA: POSTRES Y BEBIDAS ────────────────────── -->
-      <section class="category-section" th:if="${postres != null}">
-        <h2 class="category-title">Postres &amp; Bebidas</h2>
+      <!-- ─── CATEGORÍA: ADICIONALES ────────────────────── -->
+      <section class="category-section" th:if="${adicionales != null}">
+        <h2 class="category-title">Adicionales</h2>
         <div class="products-grid">
-          <article class="product-card" th:each="producto : ${postres}">
+          <article class="product-card" th:each="producto : ${adicionales}">
             <div class="card-image-wrapper">
               <img
                 th:src="${producto.imageUrl}"

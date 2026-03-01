@@ -70,7 +70,7 @@ Luego abre el navegador en `http://localhost:8080`.
 ## Categorías del menú
 
 - **Platos Fuertes** — Ceviche, Arroz Marinero, Picada Marina, Langosta Thermidor, Atún Sellado, Pulpo a la Parrilla
-- **Postres & Bebidas** — Flan, Agua Fresca
+- **Adicionales** — Flan, Agua Fresca
 
 ---
 
