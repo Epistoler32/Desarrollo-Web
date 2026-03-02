@@ -1,0 +1,264 @@
+/* ─── BASE ───────────────────────────────────────────────── */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f8f1e0;
+  font-family: "Jost", sans-serif;
+}
+
+/* ─── NAVBAR (igual que menu_carta.css) ─────────────────── */
+.navigation-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px 0 0;
+  height: clamp(70px, 9vw, 130px);
+  overflow: hidden;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(217,61,4,1), rgba(217,121,4,1));
+  box-shadow: 0 4px 20px rgba(217, 61, 4, 0.15);
+}
+
+.navigation-bar .logo img {
+  height: clamp(120px, 16vw, 250px);
+  width: auto;
+}
+
+.navigation-bar .nav-links {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+  font-size: clamp(14px, 1.6vw, 25px);
+}
+
+.navigation-bar .nav-links .page-link {
+  color: #400101;
+  padding: clamp(8px, 1vw, 15px) clamp(12px, 1.6vw, 25px);
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 400;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-bar .nav-links li a:hover {
+  background-color: #400101;
+  color: #ffbc4c !important;
+}
+
+.login-link {
+  background-color: #400101;
+  padding: clamp(8px, 1vw, 15px) clamp(12px, 1.6vw, 25px);
+  border-radius: 10px;
+  color: #F2B705;
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+/* ─── HERO ───────────────────────────────────────────────── */
+.auth-hero {
+  position: relative;
+  width: 100%;
+  min-height: 38vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-image: url('/resources/IMGS/mainBackgroundImage.jpeg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center bottom;
+}
+
+.auth-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(64, 1, 1, 0.55);
+  z-index: 1;
+}
+
+.auth-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.auth-hero-title {
+  font-family: "Island Moments", cursive;
+  color: #F2B705;
+  font-size: clamp(90px, 20vw, 220px);
+  font-weight: 100;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+.hero-wave {
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 100%;
+  z-index: 3;
+  line-height: 0;
+}
+.hero-wave svg {
+  display: block;
+  width: 100%;
+  height: 80px;
+}
+.hero-wave path { fill: #f8f1e0; }
+
+/* ─── FORMULARIO ─────────────────────────────────────────── */
+.auth-main {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px 80px;
+}
+
+.auth-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: clamp(32px, 4vw, 56px) clamp(28px, 4vw, 56px);
+  width: 100%;
+  max-width: 560px;
+  box-shadow: 0 4px 30px rgba(64, 1, 1, 0.12);
+}
+
+.auth-title {
+  font-family: "Island Moments", cursive;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 100;
+  color: #400101;
+  margin: 0 0 28px 0;
+  text-align: center;
+}
+
+/* ─── ERROR ──────────────────────────────────────────────── */
+.auth-error {
+  background: rgba(64, 1, 1, 0.08);
+  border-left: 3px solid #730202;
+  color: #400101;
+  font-size: 14px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* ─── FORM ───────────────────────────────────────────────── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* fila de dos columnas (nombre + apellido) */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #400101;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.form-group input {
+  border: 1.5px solid rgba(64, 1, 1, 0.18);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: "Jost", sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: #400101;
+  background: #f8f1e0;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #D97904;
+  box-shadow: 0 0 0 3px rgba(242, 183, 5, 0.18);
+  background: #fff;
+}
+
+.form-group input::placeholder {
+  color: #a08080;
+  font-weight: 300;
+}
+
+/* ─── BOTÓN ──────────────────────────────────────────────── */
+.auth-btn {
+  background: linear-gradient(135deg, #400101, #730202);
+  color: #F2B705;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-family: "Jost", sans-serif;
+  font-weight: 600;
+  font-size: clamp(14px, 1.2vw, 17px);
+  cursor: pointer;
+  margin-top: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(64, 1, 1, 0.3);
+}
+
+/* ─── LINK SWITCH ────────────────────────────────────────── */
+.auth-switch {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #730202;
+}
+
+.auth-switch a {
+  color: #D97904;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+.auth-footer {
+  background: linear-gradient(to bottom, #F2B705, #D97904);
+  padding: 16px 40px;
+  text-align: center;
+  font-family: "Jost", sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: #400101;
+}
+
+/* ─── KEYFRAMES ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
