@@ -140,99 +140,99 @@ public class ProductoRepository {
                 productos.put(22, new Producto(22, "Cheesecake de Frutos Rojos",
                                 "Base de galleta crocante con crema suave y coulis de mora/fresa.", 18000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/1772395924464-c7842027-9381-4adf-9bdb-84422493b1b5.png\"",
+                                "https://image2url.com/r2/default/images/1772555255134-bbc45394-6e44-41b7-9468-4ab5b957edb0.png",
                                 15, true));
 
                 productos.put(23, new Producto(23, "Mousse de Maracuyá",
                                 "Crema aireada de fruta de la pasión con semillas crocantes.", 14000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/mousse.png", 10, true));
+                                "", 10, true));
 
                 productos.put(24, new Producto(24, "Brownie con Helado de Vainilla",
                                 "Servido caliente con salsa de chocolate amargo.", 16000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/brownie.png", 20, true));
+                                "https://image2url.com/r2/default/images/1772555195935-0f751858-1c31-4aca-8fd1-f57ac4645046.pngg", 20, true));
 
                 productos.put(25, new Producto(25, "Pie de Limón",
                                 "Merengue italiano sobre crema ácida de limón natural.", 15000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/pielimon.png", 15, true));
+                                "https://image2url.com/r2/default/images/1772555167925-e69c1995-2442-4ac1-b9c1-417058abfca4.png", 15, true));
 
                 productos.put(26, new Producto(26, "Volcán de Arequipe",
                                 "Pastel fundente con corazón líquido de dulce de leche.", 19000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/volcan.png", 25, true));
+                                "https://image2url.com/r2/default/images/1772555131225-0bf9c274-a514-44eb-b0ec-2e476cc0e529.png", 25, true));
 
                 productos.put(27, new Producto(27, "Agua Fresca",
                                 "Bebida refrescante de frutas naturales (Sandía, Limonada, Melón).", 8000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/aguafresca.png", 5, true));
+                                "https://image2url.com/r2/default/images/1772555111888-fe47c4ba-0974-44af-ad0d-6490c14db4c4.png", 5, true));
 
                 productos.put(28,
                                 new Producto(28, "Limonada de Coco", "Mezcla cremosa de limón y leche de coco fresca.",
                                                 12000.0, categoriaRepository.findById(2).getNombre(),
-                                                "https://image2url.com/r2/default/images/limonada_coco.png", 10, true));
+                                                "https://image2url.com/r2/default/images/1772555070111-668d8d82-e227-45b0-b0ca-0eda756db292.png", 10, true));
 
                 productos.put(29,
                                 new Producto(29, "Jugos Naturales", "Mango, fresa, lulo o guanábana (en agua o leche).",
                                                 9000.0, categoriaRepository.findById(2).getNombre(),
-                                                "https://image2url.com/r2/default/images/jugo.png", 10, true));
+                                                "https://image2url.com/r2/default/images/1772555045620-ed135899-159b-4018-a35f-c72113402558.png", 10, true));
 
                 productos.put(30, new Producto(30, "Soda Saborizada", "Mix de soda, sirope de la casa y fruta picada.",
                                 11000.0, categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/soda.png", 5, true));
+                                "https://image2url.com/r2/default/images/1772555008586-f2cd19fa-2689-4cf5-a679-3e0675393bb7.png", 5, true));
 
                 productos.put(31,
                                 new Producto(31, "Té Helado de la Casa",
                                                 "Infusión fría de té negro con durazno y menta.", 9500.0,
                                                 categoriaRepository.findById(2).getNombre(),
-                                                "https://image2url.com/r2/default/images/tehelado.png", 5, true));
+                                                "https://image2url.com/r2/default/images/1772554958625-4340a022-ae7d-4e25-ac87-b41bc59dd81c.png", 5, true));
 
                 productos.put(32,
                                 new Producto(32, "Café Espresso / Americano",
                                                 "Café premium de origen para cerrar la comida.", 6000.0,
                                                 categoriaRepository.findById(2).getNombre(),
-                                                "https://image2url.com/r2/default/images/cafe.png", 5, true));
+                                                "https://image2url.com/r2/default/images/1772554945245-052c7691-d361-4e59-8f51-09a271e5d08c.png", 5, true));
 
                 productos.put(33, new Producto(33, "Patacones con Hogao",
                                 "Plátano frito crujiente con salsa tradicional de tomate y cebolla.", 14000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/patacones.png", 20, true));
+                                "https://image2url.com/r2/default/images/1772554930688-f90626ef-4c0e-4dda-a286-d7d4cc3e9428.png", 20, true));
 
                 productos.put(34,
                                 new Producto(34, "Canastas de Plátano con Camarón",
                                                 "Mini canastas rellenas de ceviche de camarón.", 24000.0,
                                                 categoriaRepository.findById(2).getNombre(),
-                                                "https://image2url.com/r2/default/images/canastas.png", 25, true));
+                                                "https://image2url.com/r2/default/images/1772554914873-9102bcd9-4ae2-4719-b5d4-3b2e36a8b1ee.png", 25, true));
                 productos.put(35,
                                 new Producto(35, "Porción de Arroz de Coco",
                                                 "El acompañamiento dulce-salado infaltable.", 7000.0,
                                                 categoriaRepository.findById(2).getNombre(),
-                                                "https://image2url.com/r2/default/images/arrozcoco.png", 10, true));
+                                                "https://image2url.com/r2/default/images/1772554899744-86f570c4-824f-448b-89db-410236fccc68.png", 10, true));
 
                 productos.put(36, new Producto(36, "Yucas Fritas", "Bastones de yuca con suero costeño.", 12000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/yucas.png", 15, true));
+                                "https://image2url.com/r2/default/images/1772554884170-b5815f5f-5b69-4207-b093-a3da9b875099.png", 15, true));
 
                 productos.put(37, new Producto(37, "Ensalada de la Casa",
                                 "Mix de verdes, palmitos, aguacate y vinagreta cítrica.", 16000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/ensalada.png", 15, true));
+                                "https://image2url.com/r2/default/images/1772554865453-a516247f-b228-47ef-99c0-3a542245d254.png", 15, true));
 
                 productos.put(38, new Producto(38, "Aros de Calamar",
                                 "Porción pequeña de calamares apanados con salsa tártara.", 22000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/aros.png", 20, true));
+                                "https://image2url.com/r2/default/images/1772554798309-b6d507ff-a49e-4a50-99eb-98854263730e.png", 20, true));
 
                 productos.put(39,
                                 new Producto(39, "Papas Nativas al Horno", "Con romero, sal marina y aceite de oliva.",
                                                 13000.0, categoriaRepository.findById(2).getNombre(),
-                                                "https://image2url.com/r2/default/images/papas.png", 20, true));
+                                                "https://image2url.com/r2/default/images/1772554783933-1c2458ed-4eba-440f-b71b-e8d4e683a267.png", 20, true));
 
                 productos.put(40, new Producto(40, "Dip de Salmón Ahumado",
                                 "Crema para untar servida con tostadas de pan artesanal.", 26000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/dip.png", 15, true));
+                                "https://image2url.com/r2/default/images/1772554761338-e4b74ec4-2890-4e40-9a43-c7c7c50d05fe.png", 15, true));
 
         }
 
