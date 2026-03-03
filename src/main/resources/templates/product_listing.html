@@ -86,6 +86,7 @@
                 <th class="col-price">Precio</th>
                 <th class="col-time">Tiempo</th>
                 <th class="col-alerg">Alérgenos</th>
+                <th class="col-actions">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -159,6 +160,13 @@
                     >—</span
                   >
                 </td>
+                <td class="col-actions">
+                  <a
+                    class="btn-edit"
+                    th:href="@{/products/update/{id}(id=${producto.id})}"
+                    >Actualizar</a
+                  >
+                </td>
               </tr>
 
               <!-- Empty state -->
@@ -187,6 +195,14 @@
               </tr>
             </tbody>
           </table>
+          <div
+            class="new-product-wrap"
+            style="margin-top: 20px; text-align: right"
+          >
+            <a class="btn-nuevo" th:href="@{/products/create}"
+              >Nuevo Producto</a
+            >
+          </div>
         </div>
       </section>
     </main>

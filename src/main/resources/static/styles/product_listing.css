@@ -1,18 +1,20 @@
 /* ─── VARIABLES ──────────────────────────────────────────── */
 :root {
-  --red-dark:   #400101;
-  --red-mid:    #730202;
-  --gold:       #F2B705;
-  --gold-dark:  #D97904;
-  --cream:      #f8f1e0;
+  --red-dark: #400101;
+  --red-mid: #730202;
+  --gold: #f2b705;
+  --gold-dark: #d97904;
+  --cream: #f8f1e0;
   --cream-dark: #f0e4c8;
-  --white:      #ffffff;
+  --white: #ffffff;
   --text-muted: #8a6060;
-  --border:     rgba(64, 1, 1, 0.1);
+  --border: rgba(64, 1, 1, 0.1);
 }
 
 /* ─── RESET / BASE ───────────────────────────────────────── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -31,7 +33,9 @@ body {
 /* ─── ADMIN NAVBAR ───────────────────────────────────────── */
 .admin-navbar {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: var(--red-dark);
   display: flex;
@@ -39,7 +43,7 @@ body {
   justify-content: space-between;
   padding: 0 40px 0 0;
   height: 72px;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
 }
 
 .navbar-left {
@@ -97,7 +101,7 @@ body {
 }
 
 .nav-item:hover {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--gold);
 }
 
@@ -180,7 +184,9 @@ body {
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   white-space: nowrap;
 }
 
@@ -192,6 +198,34 @@ body {
 .btn-nuevo:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(64, 1, 1, 0.3);
+}
+
+/* acciones column and buttons */
+.col-actions {
+  width: 150px;
+  text-align: center;
+}
+.btn-edit,
+.btn-delete {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+.btn-edit {
+  background: var(--gold);
+  color: var(--red-dark);
+}
+.btn-delete {
+  background: var(--red-mid);
+  color: var(--white);
+  margin-left: 6px;
+}
+.btn-edit:hover,
+.btn-delete:hover {
+  opacity: 0.85;
 }
 
 /* ─── TABLE SECTION ──────────────────────────────────────── */
@@ -307,13 +341,30 @@ body {
 }
 
 /* ── Column widths ── */
-.col-img     { width: 96px; }
-.col-name    { min-width: 140px; }
-.col-desc    { min-width: 200px; }
-.col-price   { width: 110px; white-space: nowrap; }
-.col-time    { width: 110px; white-space: nowrap; }
-.col-alerg   { width: 100px; text-align: center; }
-.col-actions { width: 120px; }
+.col-img {
+  width: 96px;
+}
+.col-name {
+  min-width: 140px;
+}
+.col-desc {
+  min-width: 200px;
+}
+.col-price {
+  width: 110px;
+  white-space: nowrap;
+}
+.col-time {
+  width: 110px;
+  white-space: nowrap;
+}
+.col-alerg {
+  width: 100px;
+  text-align: center;
+}
+.col-actions {
+  width: 120px;
+}
 
 /* ── Product image ── */
 .img-wrap {

@@ -34,7 +34,7 @@ public class ProductoController {
                 0.0, null, "", null, true);
 
         model.addAttribute("product", producto);
-        return "product_create_form";
+        return "Formulario"; // view containing the create/update form
 
     }
 
@@ -48,7 +48,7 @@ public class ProductoController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Producto producto = productoService.searchById(id);
         model.addAttribute("product", producto);
-        return "product_create_form";
+        return "Formulario"; // reuse the same form for editing
     }
 
     @GetMapping("/delete/{id}")
