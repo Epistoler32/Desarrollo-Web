@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/styles/auth.css}" />
+  <link rel="stylesheet" th:href="@{/styles/profile.css}" />
+  <title>Editar Perfil - SeaSide</title>
+</head>
+<body>
+
+<div class="auth-hero">
+  <div class="auth-hero-overlay"></div>
+  <div class="auth-hero-content">
+    <h1 class="auth-hero-title">Editar Perfil</h1>
+  </div>
+</div>
+
+<main class="auth-main">
+  <div class="auth-card">
+
+    <form th:action="@{/clients/update}" method="post" th:object="${client}" class="auth-form">
+
+      <input type="hidden" th:field="*{id}" />
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" th:field="*{nombre}" required />
+        </div>
+
+        <div class="form-group">
+          <label>Apellido</label>
+          <input type="text" th:field="*{apellido}" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Correo</label>
+        <input type="email" th:field="*{correo}" required />
+      </div>
+
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" th:field="*{telefono}" required />
+      </div>
+
+      <div class="form-group">
+        <label>Dirección</label>
+        <input type="text" th:field="*{direccion}" required />
+      </div>
+
+      <button type="submit" class="auth-btn">Guardar Cambios</button>
+
+    </form>
+
+  </div>
+</main>
+
+<footer class="auth-footer">
+  <p>© 2026 SeaSide. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
