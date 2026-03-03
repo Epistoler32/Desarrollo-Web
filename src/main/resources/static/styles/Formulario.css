@@ -30,7 +30,8 @@ form {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   padding: 8px 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;

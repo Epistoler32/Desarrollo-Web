@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -244,8 +245,14 @@ public class ProductoRepository {
         }
 
         public Collection<Producto> findByCategory(String category) {
+                if (category == null) {
+                    return List.of();
+                }
                 return productos.values().stream()
-                                .filter(p -> p.getCategoria().equalsIgnoreCase(category))
+                                .filter(p -> {
+                                    String cat = p.getCategoria();
+                                    return cat != null && cat.equalsIgnoreCase(category);
+                                })
                                 .toList();
         }
 

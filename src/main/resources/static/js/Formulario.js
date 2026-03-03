@@ -30,4 +30,13 @@ window.addEventListener("DOMContentLoaded", () => {
     imageUrlInput.addEventListener("input", updatePreview);
     updatePreview();
   }
+
+  // handle category select (for possible future enhancements)
+  const categorySelect = document.getElementById("categoria");
+  if (categorySelect) {
+    categorySelect.addEventListener("change", () => {
+      // placeholder for additional logic based on category
+      console.log("categoria seleccionada:", categorySelect.value);
+    });
+  }
 });

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.seaside.repository.CategoriaRepository;
 
 @Controller
 @RequestMapping("/products")
@@ -13,6 +14,9 @@ public class ProductoController {
 
     @Autowired
     ProductoService productoService;
+
+    @Autowired
+    CategoriaRepository categoriaRepository;
 
     @GetMapping("/listing")
     public String listProducts(Model model) {
@@ -34,6 +38,7 @@ public class ProductoController {
                 0.0, null, "", null, true);
 
         model.addAttribute("product", producto);
+        model.addAttribute("categories", categoriaRepository.findAll());
         return "Formulario"; // view containing the create/update form
 
     }
@@ -48,6 +53,7 @@ public class ProductoController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Producto producto = productoService.searchById(id);
         model.addAttribute("product", producto);
+        model.addAttribute("categories", categoriaRepository.findAll());
         return "Formulario"; // reuse the same form for editing
     }
 
