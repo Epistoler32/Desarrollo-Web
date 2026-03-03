@@ -161,11 +161,23 @@
                   >
                 </td>
                 <td class="col-actions">
-                  <a
-                    class="btn-edit"
-                    th:href="@{/products/update/{id}(id=${producto.id})}"
-                    >Actualizar</a
-                  >
+                  <div class="action-btns">
+                    <a
+                      class="btn-edit"
+                      th:href="@{/products/update/{id}(id=${producto.id})}"
+                      >Actualizar</a
+                    >
+                    <a
+                      class="btn-delete"
+                      th:href="@{/products/delete/{id}(id=${producto.id})}"
+                      onclick="
+                        return confirm(
+                          '¿Estás seguro que quieres eliminar este producto?',
+                        );
+                      "
+                      >Eliminar</a
+                    >
+                  </div>
                 </td>
               </tr>
 
