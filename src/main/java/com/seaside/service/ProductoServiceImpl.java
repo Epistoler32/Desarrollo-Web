@@ -2,6 +2,7 @@ package com.seaside.service;
 
 import com.seaside.model.Producto;
 import com.seaside.repository.ProductoRepository;
+import com.seaside.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
@@ -10,8 +11,12 @@ import java.util.Collection;
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
+
     @Autowired
     ProductoRepository ProductoRepository;
+
+    @Autowired
+    CategoriaRepository categoriaRepository;
 
     @Override
     public Producto searchById(Integer id) {
@@ -28,4 +33,16 @@ public class ProductoServiceImpl implements ProductoService {
         return ProductoRepository.findByCategory(category);
     }
 
+    @Override
+
+    public void save(Producto producto) {
+        ProductoRepository.save(producto);
+    }
+       
+
+
+    @Override
+    public void delete(Integer id) {
+        ProductoRepository.delete(id);
+    }
 }
