@@ -2,21 +2,27 @@ package com.seaside.controller;
 
 import com.seaside.model.Producto;
 import com.seaside.service.ProductoService;
+import com.seaside.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.seaside.repository.CategoriaRepository;
 
 @Controller
 @RequestMapping("/products")
 public class ProductoController {
 
+    //Pedido repository
+    //create 
+    // tengo que buscar las comidas
+    //tengo que seleccionar un docmicliario
+   //un usuario
+
     @Autowired
     ProductoService productoService;
 
     @Autowired
-    CategoriaRepository categoriaRepository;
+    CategoriaService categoriaService;
 
     @GetMapping("/listing")
     public String listProducts(Model model) {
@@ -38,7 +44,7 @@ public class ProductoController {
                 0.0, null, "", null, true);
 
         model.addAttribute("product", producto);
-        model.addAttribute("categories", categoriaRepository.findAll());
+        model.addAttribute("categories", categoriaService.getAllCategories());
         return "Formulario"; // view containing the create/update form
 
     }
@@ -53,7 +59,7 @@ public class ProductoController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Producto producto = productoService.searchById(id);
         model.addAttribute("product", producto);
-        model.addAttribute("categories", categoriaRepository.findAll());
+        model.addAttribute("categories", categoriaService.getAllCategories());
         return "Formulario"; // reuse the same form for editing
     }
 

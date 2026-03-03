@@ -2,7 +2,6 @@ package com.seaside.service;
 
 import com.seaside.model.Producto;
 import com.seaside.repository.ProductoRepository;
-import com.seaside.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
@@ -14,9 +13,6 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     ProductoRepository ProductoRepository;
-
-    @Autowired
-    CategoriaRepository categoriaRepository;
 
     @Override
     public Producto searchById(Integer id) {

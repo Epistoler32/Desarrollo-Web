@@ -85,7 +85,7 @@ public class ClientController {
     @GetMapping("/delete/{id}")
     public String deleteClient(@PathVariable("id") Integer id) {
         clienteRepository.delete(id);
-        return "redirect:/clients/listing";
+        return "redirect:/";
     }
 
     // ver perfil del cliente logueado (desde sesión)
