@@ -1,0 +1,20 @@
+.profile-card {
+  gap: 15px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  font-family: "Jost", sans-serif;
+}
+
+.profile-label {
+  font-weight: 600;
+}
+
+.profile-actions {
+  margin-top: 25px;
+  text-align: center;
+}
