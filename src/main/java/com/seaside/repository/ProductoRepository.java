@@ -151,7 +151,7 @@ public class ProductoRepository {
                 productos.put(24, new Producto(24, "Brownie con Helado de Vainilla",
                                 "Servido caliente con salsa de chocolate amargo.", 16000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/1772555195935-0f751858-1c31-4aca-8fd1-f57ac4645046.pngg", 20, true));
+                                "https://image2url.com/r2/default/images/1772555195935-0f751858-1c31-4aca-8fd1-f57ac4645046.png", 20, true));
 
                 productos.put(25, new Producto(25, "Pie de Limón",
                                 "Merengue italiano sobre crema ácida de limón natural.", 15000.0,
@@ -246,12 +246,12 @@ public class ProductoRepository {
 
         public Collection<Producto> findByCategory(String category) {
                 if (category == null) {
-                    return List.of();
+                        return List.of();
                 }
                 return productos.values().stream()
                                 .filter(p -> {
-                                    String cat = p.getCategoria();
-                                    return cat != null && cat.equalsIgnoreCase(category);
+                                        String cat = p.getCategoria();
+                                        return cat != null && cat.equalsIgnoreCase(category);
                                 })
                                 .toList();
         }
