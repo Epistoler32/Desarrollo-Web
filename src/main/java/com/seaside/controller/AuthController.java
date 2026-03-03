@@ -57,7 +57,7 @@ public class AuthController {
         // Iniciar sesión automáticamente tras el registro
         session.setAttribute("clienteSession", guardado);
 
-        return "redirect:/cliente/perfil";
+        return "redirect:/clients/profile";
     }
 
     // ─── LOGIN ───────────────────────────────────────────────
@@ -83,7 +83,7 @@ public class AuthController {
         }
 
         session.setAttribute("clienteSession", encontrado.get());
-        return "redirect:/cliente/perfil";
+        return "redirect:/clients/profile";
     }
 
     // ─── LOGOUT ──────────────────────────────────────────────
