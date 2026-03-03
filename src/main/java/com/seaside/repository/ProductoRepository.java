@@ -134,7 +134,7 @@ public class ProductoRepository {
                 // --- ADICIONALEs ---
                 productos.put(21, new Producto(21, "Flan", "Postre tradicional de huevo y caramelo.", 12000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "https://image2url.com/r2/default/images/1772395924464-c7842027-9381-4adf-9bdb-84422493b1b5.png\"",
+                                "https://image2url.com/r2/default/images/1772555602346-f0fce623-f5f2-4e48-8cdd-eca22c270d85.png",
                                 15, true));
 
                 productos.put(22, new Producto(22, "Cheesecake de Frutos Rojos",
@@ -146,7 +146,7 @@ public class ProductoRepository {
                 productos.put(23, new Producto(23, "Mousse de Maracuyá",
                                 "Crema aireada de fruta de la pasión con semillas crocantes.", 14000.0,
                                 categoriaRepository.findById(2).getNombre(),
-                                "", 10, true));
+                                "https://image2url.com/r2/default/images/1772555647637-81e870b9-e1cc-481e-a523-97ca7a0a6f36.png", 10, true));
 
                 productos.put(24, new Producto(24, "Brownie con Helado de Vainilla",
                                 "Servido caliente con salsa de chocolate amargo.", 16000.0,
