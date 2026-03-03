@@ -68,6 +68,12 @@
           >
             Editar Perfil
           </a>
+          <a
+            th:href="@{/clients/delete/{id}(id=${client.id})}"
+            class="auth-btn auth-btn-delete"
+          >
+            Eliminar Cuenta
+          </a>
         </div>
       </div>
     </main>
