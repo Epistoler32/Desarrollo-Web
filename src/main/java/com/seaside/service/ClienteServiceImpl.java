@@ -2,9 +2,11 @@ package com.seaside.service;
 
 import com.seaside.model.Cliente;
 import com.seaside.repository.ClienteRepository;
+
+import errors.UserNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.Optional;
 
@@ -16,7 +18,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente buscarPorId(Integer id) {
-        return clienteRepository.findById(id);
+        return clienteRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override
