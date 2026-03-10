@@ -6,17 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 
-
 @Service
 public class ProductoServiceImpl implements ProductoService {
-
 
     @Autowired
     ProductoRepository ProductoRepository;
 
     @Override
     public Producto searchById(Integer id) {
-        return ProductoRepository.findById(id);
+        return ProductoRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -30,15 +28,12 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-
     public void save(Producto producto) {
         ProductoRepository.save(producto);
     }
-       
-
 
     @Override
     public void delete(Integer id) {
-        ProductoRepository.delete(id);
+        ProductoRepository.deleteById(id);
     }
 }

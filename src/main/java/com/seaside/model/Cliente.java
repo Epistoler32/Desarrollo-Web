@@ -1,5 +1,9 @@
 package com.seaside.model;
 
+<<<<<<< HEAD
+import jakarta.annotation.Generated;
+=======
+>>>>>>> 35fdb6b46a04d1708de73276a297ac0f613d8c0a
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
