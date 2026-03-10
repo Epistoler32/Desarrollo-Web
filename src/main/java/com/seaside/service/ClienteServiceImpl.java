@@ -16,7 +16,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente buscarPorId(Integer id) {
-        return clienteRepository.findById(id);
+        return clienteRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public boolean existeCorreo(String correo) {
-        return clienteRepository.existeCorreo(correo);
+        return clienteRepository.existsByCorreo(correo);
     }
 
     @Override
@@ -36,12 +36,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente actualizar(Cliente cliente) {
-        return clienteRepository.update(cliente);
+        return clienteRepository.save(cliente);
     }
 
     @Override
     public void eliminar(Integer id) {
-        clienteRepository.delete(id);
+        clienteRepository.deleteById(id);
     }
 
     @Override
