@@ -11,9 +11,7 @@
     />
     <link rel="stylesheet" th:href="@{/styles/menu_carta.css}" />
     <link rel="stylesheet" th:href="@{/styles/product_detail.css}" />
-    <title th:text="${product != null} ? ${product.nombre} : 'Detalle'">
-      Detalle Producto
-    </title>
+    <title>Error</title>
   </head>
   <body>
     <!-- ─── NAVBAR ─────────────────────── -->
@@ -34,7 +32,7 @@
     <div class="menu-hero">
       <div class="menu-hero-overlay"></div>
       <div class="menu-hero-content">
-        <h1 class="menu-hero-title">Producto</h1>
+        <h1 class="menu-hero-title">Error</h1>
       </div>
       <div class="hero-wave">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
@@ -43,84 +41,34 @@
       </div>
     </div>
 
-    <!-- ─── DETAILS ─────────────────────────────────────────── -->
-    <main class="detail-main" th:if="${product != null}">
+    <!-- ─── ERROR DETAILS ───────────────────────────────────── -->
+    <main class="detail-main">
       <article
-        class="product-card"
-        style="max-width: 800px; margin: 120px auto 80px"
+        style="max-width: 800px; margin: 120px auto 80px; text-align: center"
       >
-        <div class="card-image-wrapper">
-          <img
-            class="card-img"
-            th:src="${product.imageUrl}"
-            th:alt="${product.nombre}"
-          />
-          <div class="card-dark-overlay"></div>
-          <div class="card-badges">
-            <span class="badge badge-time">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-              <span th:text="${product.tiempoMinutos} + ' min'">0 min</span>
-            </span>
-            <span
-              class="badge badge-allergen"
-              th:if="${product.tieneAlergenos}"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                />
-                <line x1="12" y1="9" x2="12" y2="13" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
-              </svg>
-              Alérgeno
-            </span>
-          </div>
-          <div class="card-name-block">
-            <h3 class="card-name" th:text="${product.nombre}">
-              Nombre producto
-            </h3>
-            <p class="detail-desc-overlay" th:text="${product.descripcion}">
-              Descripción del producto
-            </p>
-            <p class="detail-desc-overlay" th:text="${product.categoria}">
-              Categoría del producto
-            </p>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span
-            class="card-price"
-            th:text="'$' + ${#numbers.formatInteger(product.precio,0,'COMMA')}"
-            >$0</span
-          >
-          <div class="footer-buttons">
-            <a href="/menu" class="btn-return">Volver</a>
-            <button class="btn-agregar">Agregar orden</button>
-          </div>
-        </div>
+        <h3
+          style="
+            font-family: &quot;Jost&quot;, sans-serif;
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+          "
+        >
+          Oops! Algo salió mal.
+        </h3>
+        <p
+          style="
+            font-family: &quot;Jost&quot;, sans-serif;
+            font-size: 1.2rem;
+            color: #da0000;
+            margin-bottom: 32px;
+          "
+          th:text="${errorMessage}"
+        ></p>
+        <a href="/menu" class="btn-return" style="display: inline-block"
+          >Volver al menú</a
+        >
       </article>
-    </main>
-    <main th:if="${product == null}" class="detail-main">
-      <p>Producto no encontrado.</p>
     </main>
 
     <!-- ─── FOOTER ───────────────────────────────────────────── -->
@@ -145,6 +93,9 @@
                 />
                 <circle cx="12" cy="9" r="2.5" />
               </svg>
+              <span>Carrera 15 #93-48, Bogotá, Colombia</span>
+            </div>
+            <div class="footer-info-item">
               <svg
                 class="footer-icon"
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,9 +1,5 @@
 package com.seaside.model;
 
-<<<<<<< HEAD
-import jakarta.annotation.Generated;
-=======
->>>>>>> 35fdb6b46a04d1708de73276a297ac0f613d8c0a
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +30,8 @@ public class Cliente {
     @Column(length = 70, nullable = false)
     private String direccion;
 
-    public Cliente(String nombre, String apellido, String correo, String contrasena, String telefono, String direccion) {
+    public Cliente(String nombre, String apellido, String correo, String contrasena, String telefono,
+            String direccion) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;

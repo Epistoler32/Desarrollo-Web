@@ -1,0 +1,9 @@
+2026-03-09 23:42:51.514604-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE_URL CHARACTER VARYING(200)": "U&'package com.seaside;  import com.seaside.model.Categoria; import com.seaside.... (12872)"; SQL statement:
+insert into producto (categoria,descripcion,image_url,nombre,precio,tiempo_minutos,tiene_alergenos,id) values (?,?,?,?,?,?,?,default) [22001-240]
+2026-03-09 23:44:09.276807-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE_URL CHARACTER VARYING(500)": "U&'package com.seaside;  import com.seaside.model.Categoria; import com.seaside.... (12872)"; SQL statement:
+insert into producto (categoria,descripcion,image_url,nombre,precio,tiempo_minutos,tiene_alergenos,id) values (?,?,?,?,?,?,?,default) [22001-240]
+2026-03-09 23:44:15.705848-05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE_URL CHARACTER VARYING(500)": "U&'package com.seaside;  import com.seaside.model.Categoria; import com.seaside.... (12872)"; SQL statement:
+insert into producto (categoria,descripcion,image_url,nombre,precio,tiempo_minutos,tiene_alergenos,id) values (?,?,?,?,?,?,?,default) [22001-240]

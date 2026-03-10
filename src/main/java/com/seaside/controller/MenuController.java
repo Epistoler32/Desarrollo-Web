@@ -18,9 +18,9 @@ public class MenuController {
 
     @GetMapping("")
     public String menuCarta(Model model) {
-        Collection<Producto> fuertes = productoService.searchByCategory("platos_fuertes");
+        Collection<Producto> fuertes = productoService.searchByCategory("Platos Fuertes");
         model.addAttribute("productos", fuertes);
-        Collection<Producto> adicionales = productoService.searchByCategory("adicionales");
+        Collection<Producto> adicionales = productoService.searchByCategory("Adicionales");
         model.addAttribute("adicionales", adicionales);
 
         return "menu_carta"; // cambiado a templates/menu_carta.html

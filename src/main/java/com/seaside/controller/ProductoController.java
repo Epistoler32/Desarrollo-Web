@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 public class ProductoController {
 
-    //Pedido repository
-    //create 
+    // Pedido repository
+    // create
     // tengo que buscar las comidas
-    //tengo que seleccionar un docmicliario
-   //un usuario
+    // tengo que seleccionar un docmicliario
+    // un usuario
 
     @Autowired
     ProductoService productoService;
@@ -35,7 +35,6 @@ public class ProductoController {
         Producto product = productoService.searchById(ident);
         model.addAttribute("product", product);
         return "product_detail";
-
     }
 
     @GetMapping("/create")

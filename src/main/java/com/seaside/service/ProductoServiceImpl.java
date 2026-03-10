@@ -1,5 +1,6 @@
 package com.seaside.service;
 
+import com.seaside.errors.ProductNotFoundException;
 import com.seaside.model.Producto;
 import com.seaside.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Producto searchById(Integer id) {
-        return ProductoRepository.findById(id).orElse(null);
+        return ProductoRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
@@ -24,7 +26,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Collection<Producto> searchByCategory(String category) {
-        return ProductoRepository.findByCategory(category);
+        return ProductoRepository.findByCategoria(category);
     }
 
     @Override
