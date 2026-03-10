@@ -26,7 +26,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Collection<Producto> searchByCategory(String category) {
-        return ProductoRepository.findByCategoria(category);
+        return ProductoRepository.findByCategoria_Nombre(category);
     }
 
     @Override

@@ -54,11 +54,18 @@
         </p>
       </div>
 
-      <!-- ─── CATEGORÍA: PLATOS FUERTES ──────────────────────── -->
-      <section class="category-section" th:if="${productos != null}">
-        <h2 class="category-title">Platos Fuertes</h2>
+      <!-- ─── CATEGORÍAS DINÁMICAS ──────────────────────────── -->
+      <section
+        class="category-section"
+        th:each="categoria : ${categorias}"
+        th:if="${categoria.productos != null and !categoria.productos.isEmpty()}"
+      >
+        <h2 class="category-title" th:text="${categoria.nombre}">Categoría</h2>
         <div class="products-grid">
-          <article class="product-card" th:each="producto : ${productos}">
+          <article
+            class="product-card"
+            th:each="producto : ${categoria.productos}"
+          >
             <div class="card-image-wrapper">
               <img
                 th:src="${producto.imageUrl}"
@@ -128,83 +135,6 @@
                 th:href="@{/products/{id}(id=${producto.id})}"
               >
                 Ver detalle
-              </a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- ─── CATEGORÍA: ADICIONALES ────────────────────── -->
-      <section class="category-section" th:if="${adicionales != null}">
-        <h2 class="category-title">Adicionales</h2>
-        <div class="products-grid">
-          <article class="product-card" th:each="producto : ${adicionales}">
-            <div class="card-image-wrapper">
-              <img
-                th:src="${producto.imageUrl}"
-                th:alt="${producto.nombre}"
-                class="card-img"
-              />
-              <div class="card-dark-overlay"></div>
-
-              <div class="card-badges">
-                <span class="badge badge-time">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
-                  <span th:text="${producto.tiempoMinutos} + ' min'"
-                    >20 min</span
-                  >
-                </span>
-                <span
-                  class="badge badge-allergen"
-                  th:if="${producto.tieneAlergenos}"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path
-                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                    />
-                    <line x1="12" y1="9" x2="12" y2="13" />
-                    <line x1="12" y1="17" x2="12.01" y2="17" />
-                  </svg>
-                  Alérgeno
-                </span>
-              </div>
-
-              <div class="card-name-block">
-                <h3 class="card-name" th:text="${producto.nombre}">Nombre</h3>
-              </div>
-            </div>
-
-            <div class="card-footer">
-              <span
-                class="card-price"
-                th:text="'$' + ${#numbers.formatInteger(producto.precio, 0, 'COMMA')}"
-              >
-                $6.000
-              </span>
-              <a
-                class="btn-agregar"
-                th:href="@{/products/{id}(id=${producto.id})}"
-              >
-                Agregar
               </a>
             </div>
           </article>

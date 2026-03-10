@@ -79,11 +79,12 @@
 
           <div class="form-group">
             <label for="categoria">Categoría</label>
-            <select id="categoria" th:field="*{categoria}" required>
+            <select id="categoria" name="categoria.id" required>
               <option
                 th:each="cat : ${categories}"
-                th:value="${cat.nombre}"
-                th:text="${#strings.replace(cat.nombre, '_', ' ')}"
+                th:value="${cat.id}"
+                th:selected="${product.categoria != null and product.categoria.id == cat.id}"
+                th:text="${cat.nombre}"
               >
                 Categoría
               </option>

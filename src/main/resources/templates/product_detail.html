@@ -101,7 +101,10 @@
             <p class="detail-desc-overlay" th:text="${product.descripcion}">
               Descripción del producto
             </p>
-            <p class="detail-desc-overlay" th:text="${product.categoria}">
+            <p
+              class="detail-desc-overlay"
+              th:text="${product.categoria.nombre}"
+            >
               Categoría del producto
             </p>
           </div>

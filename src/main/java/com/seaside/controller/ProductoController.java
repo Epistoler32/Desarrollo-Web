@@ -50,6 +50,9 @@ public class ProductoController {
 
     @PostMapping("/create")
     public String createProduct(@ModelAttribute Producto producto) {
+        if (producto.getCategoria() != null && producto.getCategoria().getId() != null) {
+            producto.setCategoria(categoriaService.searchById(producto.getCategoria().getId()));
+        }
         productoService.save(producto);
         return "redirect:/products/listing";
     }
