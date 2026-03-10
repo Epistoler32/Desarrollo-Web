@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 @Data
 @AllArgsConstructor
@@ -23,16 +25,17 @@ public class Producto {
     private String descripcion;
     @Column(nullable = false)
     private double precio;
-    @Column(length = 50, nullable = false)
-    private String categoria;
-    @Column(length = 500)
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Categoria categoria;
+    @Column(length = 200)
     private String imageUrl; // ruta relativa, ej: /resources/IMGS/Atun.jpeg
     @Column(nullable = false)
     private Integer tiempoMinutos; // tiempo de preparación en minutos
     @Column(nullable = false)
     private boolean tieneAlergenos;
 
-    public Producto(String nombre, String descripcion, double precio, String categoria, String imageUrl,
+    public Producto(String nombre, String descripcion, double precio, Categoria categoria, String imageUrl,
             Integer tiempoMinutos, boolean tieneAlergenos) {
         this.nombre = nombre;
         this.descripcion = descripcion;
