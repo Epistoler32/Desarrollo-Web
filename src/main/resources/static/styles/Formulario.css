@@ -26,7 +26,7 @@ form {
 .form-group label {
   font-weight: 600;
   margin-bottom: 6px;
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
 }
 
 .form-group input,
@@ -35,7 +35,7 @@ form {
   padding: 8px 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
   font-size: 14px;
 }
 
@@ -57,7 +57,7 @@ form {
   border-radius: 8px;
   padding: 8px 20px;
   text-decoration: none;
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
   font-weight: 600;
   font-size: clamp(13px, 1vw, 15px);
   transition: filter 0.2s ease;

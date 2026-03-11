@@ -3,9 +3,8 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f8f1e0;
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
 }
-
 
 /* ─── NAVBAR ─────────────────────────────────────────────── */
 .navigation-bar {
@@ -21,34 +20,38 @@ body {
   left: 0;
   right: 0;
   z-index: 100;
-
   background: transparent;
+  transition: background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
 }
-
 
 .navigation-bar .logo {
   padding: 0;
   margin: 0;
 }
+
+/* Drop-shadow para visibilidad del logo en todos los fondos */
 .navigation-bar .logo img {
   height: clamp(120px, 16vw, 250px);
   width: auto;
+  filter: drop-shadow(0 1px 5px rgba(64, 1, 1, 0.45));
 }
+
 .navigation-bar .nav-links {
   display: flex;
   justify-content: space-evenly;
   gap: 10px;
-  font-size: clamp(14px, 1.6vw, 25px);  
+  font-size: clamp(14px, 1.6vw, 25px);
   list-style: none;
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
 }
 
+/* Color inicial (hero oscuro): dorado para contraste */
 .navigation-bar .nav-links .page-link {
   color: #ffbc4c;
-  padding: clamp(8px, 1vw, 15px) clamp(12px, 1.6vw, 25px);
+  padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
   border-radius: 5px;
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 500;
   display: block;
   transition: all 0.3s ease;
 }
@@ -58,8 +61,9 @@ body {
   color: #ffbc4c !important;
 }
 
+/* Scrolled: fondo cálido → links siguen dorados */
 .navigation-bar .nav-links .page-link.scrolled {
-  color: #400101; 
+  color: #ffbc4c;
 }
 
 .navigation-bar .nav-links li a.scrolled:hover {
@@ -68,28 +72,20 @@ body {
 
 .login-link {
   background-color: #400101;
-  padding: clamp(8px, 1vw, 15px) clamp(12px, 1.6vw, 25px);
+  padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
   border-radius: 10px;
   color: #F2B705;
   text-align: center;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 500;
   display: block;
   transition: background-color 0.3s ease;
 }
-
 
 .login-link:hover {
   background-color: #400101 !important;
   color: #ffbc4c !important;
 }
-
-
-
-
-
-
-
 
 /* ─── HERO ───────────────────────────────────────────────── */
 .menu-hero {
@@ -130,7 +126,6 @@ body {
   animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
 }
 
-/* Ola inferior del hero */
 .hero-wave {
   position: absolute;
   bottom: -1px;
@@ -161,8 +156,8 @@ body {
 }
 
 .menu-intro-text {
-  font-family: "Jost", sans-serif;
-  font-weight: 300;
+  font-family: "Fuzzy Bubbles", cursive;
+  font-weight: 400;
   font-size: clamp(15px, 1.4vw, 20px);
   color: #400101;
   line-height: 1.8;
@@ -209,8 +204,6 @@ body {
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  /* reveal on scroll */
   opacity: 0;
   transform: translateY(40px);
 }
@@ -221,12 +214,9 @@ body {
 
 .product-card:hover {
   transform: translateY(-6px) scale(1.01);
-  box-shadow:
-    0 18px 50px rgba(64, 1, 1, 0.22),
-    0 0 0 1px rgba(242, 183, 5, 0.3);
+  box-shadow: 0 18px 50px rgba(64, 1, 1, 0.22), 0 0 0 1px rgba(242, 183, 5, 0.3);
 }
 
-/* ── imagen ── */
 .card-image-wrapper {
   position: relative;
   width: 100%;
@@ -246,30 +236,18 @@ body {
   transform: scale(1.06);
 }
 
-/* overlay oscuro sobre imagen */
 .card-dark-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(40, 0, 0, 0.85) 0%,
-    rgba(64, 1, 1, 0.35) 45%,
-    transparent 70%
-  );
+  background: linear-gradient(to top, rgba(40, 0, 0, 0.85) 0%, rgba(64, 1, 1, 0.35) 45%, transparent 70%);
   z-index: 1;
   transition: background 0.4s ease;
 }
 
 .product-card:hover .card-dark-overlay {
-  background: linear-gradient(
-    to top,
-    rgba(40, 0, 0, 0.9) 0%,
-    rgba(64, 1, 1, 0.5) 55%,
-    transparent 75%
-  );
+  background: linear-gradient(to top, rgba(40, 0, 0, 0.9) 0%, rgba(64, 1, 1, 0.5) 55%, transparent 75%);
 }
 
-/* ── badges (tiempo y alérgeno como en el figma) ── */
 .card-badges {
   position: absolute;
   top: 12px;
@@ -287,7 +265,7 @@ body {
   gap: 5px;
   border-radius: 20px;
   padding: 4px 10px 4px 7px;
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
   font-size: clamp(11px, 0.9vw, 13px);
   font-weight: 500;
   white-space: nowrap;
@@ -312,7 +290,6 @@ body {
   border: 1px solid rgba(242, 183, 5, 0.3);
 }
 
-/* ── nombre sobre la imagen ── */
 .card-name-block {
   position: absolute;
   bottom: 0;
@@ -333,7 +310,6 @@ body {
   line-height: 1.05;
 }
 
-/* ── footer tarjeta ── */
 .card-footer {
   display: flex;
   align-items: center;
@@ -344,7 +320,7 @@ body {
 }
 
 .card-price {
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
   font-weight: 600;
   font-size: clamp(15px, 1.2vw, 18px);
   color: #400101;
@@ -356,7 +332,7 @@ body {
   border: none;
   border-radius: 8px;
   padding: 8px 20px;
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
   font-weight: 600;
   font-size: clamp(13px, 1vw, 15px);
   cursor: pointer;
@@ -376,9 +352,9 @@ body {
 /* ─── FOOTER ─────────────────────────────────────────────── */
 footer {
   background: linear-gradient(to bottom, #F2B705, #D97904);
-  padding: 20px 40px 14px;
+  padding: 44px 40px 24px;          /* ← más padding */
   text-align: center;
-  font-family: "Jost", sans-serif;
+  font-family: "Fuzzy Bubbles", cursive;
   font-weight: 300;
   color: #400101;
 }
@@ -398,7 +374,7 @@ footer {
   grid-template-rows: repeat(2, auto);
   justify-content: center;
   align-items: start;
-  gap: 14px 60px;
+  gap: 24px 70px;                   /* ← más gap */
   margin: 0 auto;
   max-width: 900px;
 }
@@ -413,7 +389,8 @@ footer {
   gap: 12px;
   font-size: 14px;
   color: #400101;
-  line-height: 1.4;
+  line-height: 1.6;
+  padding: 6px 0;
 }
 
 .footer-icon {
@@ -426,7 +403,7 @@ footer {
 
 .footer-divider {
   border-top: 1px solid #D97904;
-  margin: 10px 40px 12px;
+  margin: 24px 40px 18px;           /* ← más margen */
 }
 
 .footer-copyright {
@@ -434,22 +411,16 @@ footer {
   color: #400101;
   text-align: center;
   margin: 0;
-  padding-bottom: 6px;
+  padding-bottom: 8px;
 }
 
 #visit-us {
   margin: 0;
-  padding-bottom: 16px;
+  padding-bottom: 20px;
 }
 
 /* ─── KEYFRAMES ──────────────────────────────────────────── */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

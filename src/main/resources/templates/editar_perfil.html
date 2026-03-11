@@ -1,87 +1,89 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Island+Moments&family=Jost:wght@300;400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" th:href="@{/styles/auth.css}" />
-  <link rel="stylesheet" th:href="@{/styles/profile.css}" />
-  <title>Editar Perfil - SeaSide</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Island+Moments&family=Fuzzy+Bubbles:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/styles/auth.css}" />
+    <link rel="stylesheet" th:href="@{/styles/profile.css}" />
+    <title>Editar Perfil - SeaSide</title>
+  </head>
+  <body>
+    <header class="navigation-bar" id="navbar">
+      <figure class="logo">
+        <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
+      </figure>
+      <nav>
+        <ul class="nav-links">
+          <li><a class="page-link" href="/">Home</a></li>
+          <li><a class="page-link" href="/menu">Menú</a></li>
+          <li><a class="page-link" href="/clients/profile">Perfil</a></li>
+        </ul>
+      </nav>
+    </header>
 
-<header class="navigation-bar" id="navbar">
-  <figure class="logo">
-    <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
-  </figure>
-  <nav>
-    <ul class="nav-links">
-      <li><a class="page-link" href="/">Home</a></li>
-      <li><a class="page-link" href="/menu">Menú</a></li>
-      <li><a class="page-link" href="/clients/profile">Perfil</a></li>
-    </ul>
-  </nav>
-</header>
-
-<div class="auth-hero">
-  <div class="auth-hero-overlay"></div>
-  <div class="auth-hero-content">
-    <h1 class="auth-hero-title">Editar Perfil</h1>
-  </div>
-  <div class="hero-wave">
-    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-      <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" />
-    </svg>
-  </div>
-</div>
-
-<main class="auth-main">
-  <div class="auth-card">
-
-    <form th:action="@{/clients/update}" method="post" th:object="${client}" class="auth-form">
-
-      <input type="hidden" th:field="*{id}" />
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" th:field="*{nombre}" required />
-        </div>
-
-        <div class="form-group">
-          <label>Apellido</label>
-          <input type="text" th:field="*{apellido}" required />
-        </div>
+    <div class="auth-hero">
+      <div class="auth-hero-overlay"></div>
+      <div class="auth-hero-content">
+        <h1 class="auth-hero-title">Editar Perfil</h1>
       </div>
-
-      <div class="form-group">
-        <label>Correo</label>
-        <input type="email" th:field="*{correo}" required />
+      <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" />
+        </svg>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label>Teléfono</label>
-        <input type="text" th:field="*{telefono}" required />
+    <main class="auth-main">
+      <div class="auth-card">
+        <form
+          th:action="@{/clients/update}"
+          method="post"
+          th:object="${client}"
+          class="auth-form"
+        >
+          <input type="hidden" th:field="*{id}" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" th:field="*{nombre}" required />
+            </div>
+
+            <div class="form-group">
+              <label>Apellido</label>
+              <input type="text" th:field="*{apellido}" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Correo</label>
+            <input type="email" th:field="*{correo}" required />
+          </div>
+
+          <div class="form-group">
+            <label>Teléfono</label>
+            <input type="text" th:field="*{telefono}" required />
+          </div>
+
+          <div class="form-group">
+            <label>Dirección</label>
+            <input type="text" th:field="*{direccion}" required />
+          </div>
+
+          <button type="submit" class="auth-btn">Guardar Cambios</button>
+        </form>
       </div>
+    </main>
 
-      <div class="form-group">
-        <label>Dirección</label>
-        <input type="text" th:field="*{direccion}" required />
-      </div>
-
-      <button type="submit" class="auth-btn">Guardar Cambios</button>
-
-    </form>
-
-  </div>
-</main>
-
-<footer class="auth-footer">
-  <p>© 2026 SeaSide. All rights reserved.</p>
-</footer>
-
-<script th:src="@{/js/auth.js}"></script>
-</body>
+    <footer class="auth-footer">
+      <p>© 2026 SeaSide. All rights reserved.</p>
+    </footer>
+    <script th:src="@{/js/navbar.js}"></script>
+  </body>
 </html>

@@ -1,96 +1,135 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Island+Moments&family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" th:href="@{/styles/auth.css}" />
-  <title>Crear Cuenta - SeaSide</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Island+Moments&family=Fuzzy+Bubbles:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/styles/auth.css}" />
+    <title>Crear Cuenta - SeaSide</title>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navigation-bar" id="navbar">
+      <figure class="logo">
+        <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
+      </figure>
+      <nav>
+        <ul class="nav-links">
+          <li><a class="page-link" href="/">Home</a></li>
+          <li><a class="page-link" href="/menu">Menú</a></li>
+          <li><a class="login-link" href="/login">Log in</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <!-- NAVBAR -->
-  <header class="navigation-bar" id="navbar">
-    <figure class="logo">
-      <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
-    </figure>
-    <nav>
-      <ul class="nav-links">
-        <li><a class="page-link" href="/">Home</a></li>
-        <li><a class="page-link" href="/menu">Menú</a></li>
-        <li><a class="login-link" href="/login">Log in</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- HERO -->
-  <div class="auth-hero">
-    <div class="auth-hero-overlay"></div>
-    <div class="auth-hero-content">
-      <h1 class="auth-hero-title">Únete</h1>
+    <!-- HERO -->
+    <div class="auth-hero">
+      <div class="auth-hero-overlay"></div>
+      <div class="auth-hero-content">
+        <h1 class="auth-hero-title">Únete</h1>
+      </div>
+      <div class="hero-wave">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" />
+        </svg>
+      </div>
     </div>
-    <div class="hero-wave">
-      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-        <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" />
-      </svg>
-    </div>
-  </div>
 
-  <!-- FORMULARIO -->
-  <main class="auth-main">
-    <div class="auth-card">
-      <h2 class="auth-title">Crear cuenta</h2>
+    <!-- FORMULARIO -->
+    <main class="auth-main">
+      <div class="auth-card">
+        <h2 class="auth-title">Crear cuenta</h2>
 
-      <!-- Mensaje de error -->
-      <div class="auth-error" th:if="${error}" th:text="${error}"></div>
+        <!-- Mensaje de error -->
+        <div class="auth-error" th:if="${error}" th:text="${error}"></div>
 
-      <form method="post" action="/signup" class="auth-form">
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+        <form method="post" action="/signup" class="auth-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                placeholder="Tu nombre"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="apellido">Apellido</label>
+              <input
+                type="text"
+                id="apellido"
+                name="apellido"
+                placeholder="Tu apellido"
+                required
+              />
+            </div>
           </div>
+
           <div class="form-group">
-            <label for="apellido">Apellido</label>
-            <input type="text" id="apellido" name="apellido" placeholder="Tu apellido" required />
+            <label for="correo">Correo electrónico</label>
+            <input
+              type="email"
+              id="correo"
+              name="correo"
+              placeholder="correo@ejemplo.com"
+              required
+            />
           </div>
-        </div>
 
-        <div class="form-group">
-          <label for="correo">Correo electrónico</label>
-          <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required />
-        </div>
+          <div class="form-group">
+            <label for="contrasena">Contraseña</label>
+            <input
+              type="password"
+              id="contrasena"
+              name="contrasena"
+              placeholder="Mínimo 6 caracteres"
+              required
+              minlength="6"
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="contrasena">Contraseña</label>
-          <input type="password" id="contrasena" name="contrasena" placeholder="Mínimo 6 caracteres" required minlength="6" />
-        </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input
+              type="tel"
+              id="telefono"
+              name="telefono"
+              placeholder="310 000 0000"
+              required
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="telefono">Teléfono</label>
-          <input type="tel" id="telefono" name="telefono" placeholder="310 000 0000" required />
-        </div>
+          <div class="form-group">
+            <label for="direccion">Dirección de entrega</label>
+            <input
+              type="text"
+              id="direccion"
+              name="direccion"
+              placeholder="Calle 1 # 2 - 3, Bogotá"
+              required
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="direccion">Dirección de entrega</label>
-          <input type="text" id="direccion" name="direccion" placeholder="Calle 1 # 2 - 3, Bogotá" required />
-        </div>
+          <button type="submit" class="auth-btn">Crear cuenta</button>
+        </form>
 
-        <button type="submit" class="auth-btn">Crear cuenta</button>
+        <p class="auth-switch">
+          ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
+        </p>
+      </div>
+    </main>
 
-      </form>
+    <footer class="auth-footer">
+      <p>© 2026 SeaSide. All rights reserved.</p>
+    </footer>
 
-      <p class="auth-switch">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
-    </div>
-  </main>
-
-  <footer class="auth-footer">
-    <p>© 2026 SeaSide. All rights reserved.</p>
-  </footer>
-
-  <script th:src="@{/js/auth.js}"></script>
-</body>
+    <script th:src="@{/js/navbar.js}"></script>
+  </body>
 </html>
