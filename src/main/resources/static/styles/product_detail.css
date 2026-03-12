@@ -9,7 +9,7 @@
   padding: 0 20px;
 }
 
-/* if you want the footer price to be centered on this page */
+/* footer price centered on this page */
 .detail-main .card-footer {
   justify-content: space-between;
   align-items: center;

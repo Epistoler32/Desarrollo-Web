@@ -29,7 +29,6 @@ body {
   margin: 0;
 }
 
-/* Drop-shadow para visibilidad del logo en todos los fondos */
 .navigation-bar .logo img {
   height: clamp(120px, 16vw, 250px);
   width: auto;
@@ -45,7 +44,7 @@ body {
   font-family: "Fuzzy Bubbles", cursive;
 }
 
-/* Color inicial (hero oscuro): dorado para contraste */
+/* dorado */
 .navigation-bar .nav-links .page-link {
   color: #ffbc4c;
   padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
@@ -61,7 +60,7 @@ body {
   color: #ffbc4c !important;
 }
 
-/* Scrolled: fondo cálido → links siguen dorados */
+/*  fondo cálido a links siguen dorados */
 .navigation-bar .nav-links .page-link.scrolled {
   color: #ffbc4c;
 }
@@ -266,7 +265,7 @@ body {
 /* ─── FOOTER ─────────────────────────────────────────────── */
 .auth-footer {
   background: linear-gradient(to bottom, #F2B705, #D97904);
-  padding: 22px 40px 18px;          /* ← más padding */
+  padding: 22px 40px 18px;
   text-align: center;
   font-family: "Fuzzy Bubbles", cursive;
   font-weight: 300;

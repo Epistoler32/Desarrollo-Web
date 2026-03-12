@@ -29,7 +29,7 @@ body {
   margin: 0;
 }
 
-/* Drop-shadow para visibilidad del logo en todos los fondos */
+/* visibilidad del logo en todos los fondos */
 .navigation-bar .logo img {
   height: clamp(120px, 16vw, 250px);
   width: auto;
@@ -45,7 +45,7 @@ body {
   font-family: "Fuzzy Bubbles", cursive;
 }
 
-/* Color inicial (hero oscuro): dorado para contraste */
+/* dorado */
 .navigation-bar .nav-links .page-link {
   color: #ffbc4c;
   padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
@@ -61,7 +61,7 @@ body {
   color: #ffbc4c !important;
 }
 
-/* Scrolled: fondo cálido → links siguen dorados */
+/* fondo cálido a links siguen dorados */
 .navigation-bar .nav-links .page-link.scrolled {
   color: #ffbc4c;
 }
@@ -352,7 +352,7 @@ body {
 /* ─── FOOTER ─────────────────────────────────────────────── */
 footer {
   background: linear-gradient(to bottom, #F2B705, #D97904);
-  padding: 44px 40px 24px;          /* ← más padding */
+  padding: 44px 40px 24px;
   text-align: center;
   font-family: "Fuzzy Bubbles", cursive;
   font-weight: 300;
@@ -374,7 +374,7 @@ footer {
   grid-template-rows: repeat(2, auto);
   justify-content: center;
   align-items: start;
-  gap: 24px 70px;                   /* ← más gap */
+  gap: 24px 70px;
   margin: 0 auto;
   max-width: 900px;
 }
@@ -403,7 +403,7 @@ footer {
 
 .footer-divider {
   border-top: 1px solid #D97904;
-  margin: 24px 40px 18px;           /* ← más margen */
+  margin: 24px 40px 18px;
 }
 
 .footer-copyright {

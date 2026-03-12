@@ -17,7 +17,7 @@ const observer = new IntersectionObserver((entries) => {
 
 revealEls.forEach((el) => observer.observe(el));
 
-// ─── Botón Agregar (feedback visual) ─────────────────────────────────────────
+// ─── Botón Agregar ─────────────────────────────────────────
 document.querySelectorAll('.btn-agregar').forEach(btn => {
   btn.addEventListener('click', function () {
     const original = this.textContent;

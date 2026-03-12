@@ -57,7 +57,7 @@ section:last-of-type {
   margin: 0;
 }
 
-/* Drop-shadow para que el logo sea visible tanto en fondos oscuros como claros */
+/* Drop shadow para que el logo sea visible */
 .navigation-bar .logo img {
   height: clamp(120px, 16vw, 250px);
   width: auto;
@@ -73,7 +73,7 @@ section:last-of-type {
   font-family: "Fuzzy Bubbles", cursive;
 }
 
-/* Color inicial (navbar transparente sobre hero claro): rojo muy oscuro + sombra blanca para contraste */
+/* rojo muy oscuro + sombra blanca */
 .navigation-bar .nav-links .page-link {
   color: #2d0000;
   padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
@@ -91,7 +91,7 @@ section:last-of-type {
   text-shadow: none;
 }
 
-/* Scrolled: fondo cálido → links dorados */
+/* fondo cálido a links dorados */
 .navigation-bar .nav-links .page-link.scrolled {
   text-shadow: none;
 }
@@ -457,7 +457,7 @@ main {
 /* ─── FOOTER ──────────────────────────────────────────────── */
 footer {
   background: linear-gradient(to bottom, #F2B705, #D97904);
-  padding: 44px 40px 24px;         /* ← más padding arriba y abajo */
+  padding: 44px 40px 24px;
   text-align: center;
   font-family: "Fuzzy Bubbles", cursive;
   font-weight: 300;
@@ -470,7 +470,7 @@ footer {
   grid-template-rows: repeat(2, auto);
   justify-content: center;
   align-items: start;
-  gap: 24px 70px;                  /* ← más gap vertical y horizontal */
+  gap: 24px 70px;
   margin: 0 auto;
   max-width: 900px;
 }

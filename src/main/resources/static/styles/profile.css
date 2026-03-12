@@ -20,8 +20,7 @@
 }
 
 /* ─── NAVBAR ─────────────────────────────────────────────── */
-/* En perfil el navbar siempre está visible (no hay hero largo), 
-   usa el mismo tono crema claro para consistencia */
+
 .navigation-bar {
   display: flex;
   justify-content: space-between;
@@ -38,7 +37,7 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-/* Drop-shadow para visibilidad del logo */
+/* visibilidad del logo */
 .navigation-bar .logo img {
   height: clamp(120px, 16vw, 250px);
   width: auto;
