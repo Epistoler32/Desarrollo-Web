@@ -2,6 +2,8 @@
 
 Aplicación web full-stack para el restaurante **SeaSide**, desarrollada con Spring Boot y Thymeleaf. Permite a los clientes explorar el menú completo, registrarse, gestionar su perfil y ver el detalle de cada plato. Incluye un panel de administración para gestionar el catálogo de productos.
 
+<img src="https://github.com/user-attachments/assets/e59578ff-d971-4b9e-bb52-3a306724ae7d"></img>
+
 ---
 
 ## Funcionalidades
