@@ -132,125 +132,126 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1772395947587-ec1fe964-eb3b-4560-b7c8-b5b5a8640c39.png",
                                         40, true));
 
+
                         productoRepository.save(new Producto(null, "Tiradito de Atún",
                                         "Láminas finas de atún fresco con leche de tigre amarilla y jalapeño.",
                                         47000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/e1ab52005d05980ced645a567ff66fe3.png",
+                                        "https://image2url.com/r2/default/images/1773714772384-831dd70c-f469-40f3-b009-b60d778aedef.png",
                                         35, true));
                         productoRepository.save(new Producto(null, "Corvina a la Criolla",
                                         "Corvina en salsa de tomate, cebolla, ají dulce y hierbas del pacífico.",
                                         50000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/e4f6bd59e0b067f5c4b5a0e20c992451.png",
+                                        "https://image2url.com/r2/default/images/1773714838450-7e406df0-5fb8-4223-92e4-055339382c94.png",
                                         40, true));
                         productoRepository.save(new Producto(null, "Almejas al Vapor con Vino Blanco",
                                         "Almejas frescas abiertas al vapor con ajo, mantequilla y perejil.",
                                         53000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/5f35058b3c1e4e3378c84624e7dc16bc.png",
+                                        "https://image2url.com/r2/default/images/1773714876272-92a7d633-de67-4b9f-998c-b87c4143ae79.png",
                                         30, true));
                         productoRepository.save(new Producto(null, "Cangrejo Gratinado",
                                         "Caparazón de cangrejo relleno con gratín de queso gruyère y hierbas finas.",
                                         78000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/1ef5aac7dc4a552cd734a85a404e5afc.png",
+                                        "https://image2url.com/r2/default/images/1773714923755-5e02e11f-bec1-41b5-9ce0-74205d70803d.png",
                                         25, true));
                         productoRepository.save(new Producto(null, "Langostinos al Curry Verde",
                                         "Langostinos en salsa thai de curry verde con leche de coco y albahaca.",
                                         66000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/a1c4d613e9a852ea3de2d644b1997e4a.png",
+                                        "https://image2url.com/r2/default/images/1773714970483-b30cdbb7-b583-401f-8fcc-724891c494f6.png",
                                         35, true));
                         productoRepository.save(new Producto(null, "Trucha con Alcaparras",
                                         "Trucha a la plancha con salsa de mantequilla dorada, alcaparras y limón.",
                                         51000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/498c379d58044035e2151ce75bd7c420.png",
+                                        "https://image2url.com/r2/default/images/1773715026066-602f8f3b-d66a-4ddf-b251-85ff8cbcba71.png",
                                         40, true));
                         productoRepository.save(new Producto(null, "Bacalao a la Vizcaína",
                                         "Bacalao desalado en salsa de pimientos rojos asados y aceitunas negras.",
                                         56000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/8b5a0c45a9345618867efef81701c118.png",
+                                        "https://image2url.com/r2/default/images/1773715064538-9265713d-31ec-4681-8c2d-693bdaa4f84f.png",
                                         30, true));
                         productoRepository.save(new Producto(null, "Pasta Negra con Mariscos",
                                         "Pasta en tinta de calamar con frutos del mar frescos y aceite de albahaca.",
                                         60000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/38ab59babcc6799c80b9f02dfdf6353c.png",
+                                        "https://image2url.com/r2/default/images/1773715094837-38291554-be6d-42d2-beab-54d06d0ae37b.png",
                                         35, true));
                         productoRepository.save(new Producto(null, "Mahi-Mahi Tropical",
                                         "Dorado a la plancha con salsa de mango y piña asada, servido con arroz.",
                                         53000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/5ca3d6a2d7267c297da2b8999070ac91.png",
+                                        "https://image2url.com/r2/default/images/1773715139954-6b83200d-e061-4eb6-9da3-7f6f6472dd70.png",
                                         35, true));
                         productoRepository.save(new Producto(null, "Calamares Rellenos Mediterráneos",
                                         "Calamares rellenos de arroz, tomate seco y hierbas, horneados al horno.",
                                         52000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/a707ffaeda1fa51b1c64bf5c2cb3f067.png",
+                                        "https://image2url.com/r2/default/images/1773715175583-e152ea66-e13b-4160-850f-3145c8ee535b.png",
                                         30, true));
                         productoRepository.save(new Producto(null, "Corvina en Papillote",
                                         "Corvina horneada en papel con limón, vegetales frescos y hierbas aromáticas.",
                                         49000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/7b94db7d64ef184f54ae9c548ec6ae88.png",
+                                        "https://image2url.com/r2/default/images/1773715213589-e7a9c1d7-ea3d-4b6c-9ec7-81bca68dd8ac.png",
                                         35, true));
                         productoRepository.save(new Producto(null, "Wok de Mariscos Asiático",
                                         "Camarones, vieiras y vegetales salteados en salsa de soya, jengibre y sésamo.",
                                         61000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/82a7e5bdb1523b6d9655339796943e3a.png",
+                                        "https://image2url.com/r2/default/images/1773715268289-d29b9c11-44d9-4bac-80a6-97675afbd58c.png",
                                         35, true));
                         productoRepository.save(new Producto(null, "Bouillabaisse SeaSide",
                                         "Sopa provenzal de mariscos con rouille de azafrán y pan artesanal tostado.",
                                         67000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/631d26f61d6be2e266f6de59d8cff22f.png",
+                                        "https://image2url.com/r2/default/images/1773715330854-0647e81f-d849-4349-9ee7-f1e56fa20f9f.png",
                                         30, true));
                         productoRepository.save(new Producto(null, "Medallones de Vieira",
                                         "Vieiras selladas sobre puré de coliflor con mantequilla de trufa negra.",
                                         73000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/2ce44fa70eaf965911702c81337a5ab8.png",
+                                        "https://image2url.com/r2/default/images/1773715359273-7dd1f26e-080b-4155-998a-aa38c696bd9d.png",
                                         25, true));
                         productoRepository.save(new Producto(null, "Chupe de Mariscos",
                                         "Guiso espeso tradicional con mariscos variados, papa criolla y crema de leche.",
                                         54000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/c07596bcba6c8ee882f531af7383717d.png",
+                                        "https://image2url.com/r2/default/images/1773715388397-657a286b-ada6-487e-8522-307555f114a4.png",
                                         40, true));
                         productoRepository.save(new Producto(null, "Lubina a la Sal Marina",
                                         "Lubina entera horneada en costra de sal con tomillo y romero fresco.",
                                         76000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/fbb14ed66d48e746941e5ad18a3ceb63.png",
+                                        "https://image2url.com/r2/default/images/1773715420215-36e5ba1f-4a11-4608-930d-4d94d6c9035d.png",
                                         30, true));
                         productoRepository.save(new Producto(null, "Tagliatelle con Langosta",
                                         "Pasta artesanal con trozos de langosta en bisque cremoso y cebollín.",
                                         80000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/42c0a0bdd7ff6aca51b0dd10b4ba3d19.png",
+                                        "https://image2url.com/r2/default/images/1773715456478-89d33df2-5235-4103-b407-9e16860aae06.png",
                                         25, true));
                         productoRepository.save(new Producto(null, "Ceviche Mixto del Pacífico",
                                         "Camarón, pulpo y pescado en leche de tigre verde con aguacate y maíz.",
                                         46000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/b681c69a88492a9373372a8ca2c4e3b2.png",
+                                        "https://image2url.com/r2/default/images/1773715484240-4cf6b058-21a5-4199-a13c-e3a25d1b6fc1.png",
                                         40, true));
                         productoRepository.save(new Producto(null, "Pescado a la Veracruzana",
                                         "Filete de pescado en salsa de olivas, alcaparras y jitomate estilo mexicano.",
                                         50000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/d0b049e2a07f002cf9aad3d39b75b43a.png",
+                                        "https://image2url.com/r2/default/images/1773715547367-cc352f47-4efa-40c2-a2f4-debf61cff890.png",
                                         35, true));
                         productoRepository.save(new Producto(null, "Gambas a la Plancha",
                                         "Camarones tigre a la plancha con mantequilla de ajo tostado y limón fresco.",
                                         63000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/415daef686a0feb6524ef4c333aaaa91.png",
+                                        "https://image2url.com/r2/default/images/1773715565692-2e6dfe3e-dd21-4f02-a455-111f78efa13e.png",
                                         40, true));
                         productoRepository.save(new Producto(null, "Sudado de Pescado Costero",
                                         "Cocción lenta en caldo de tomate, coco y especias costeñas con vegetales.",
                                         47000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/93eb7534e3bc73e434cdeb0a67672672.png",
+                                        "https://image2url.com/r2/default/images/1773715584638-3c111359-132a-435c-b4d3-8776debe0d1c.png",
                                         40, true));
                         productoRepository.save(new Producto(null, "Churrasco de Pez Espada",
                                         "Filete grueso de pez espada a la parrilla con chimichurri de hierbas del mar.",
                                         70000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/6233334294c3c87aff6b819bf2c9fa75.png",
+                                        "https://image2url.com/r2/default/images/1773715621531-7aab5370-0a72-459f-9dbb-864fc7d57114.png",
                                         35, true));
                         productoRepository.save(new Producto(null, "Tilapia en Salsa de Maracuyá",
                                         "Filete de tilapia horneado con reducción de maracuyá, miel y mostaza Dijon.",
                                         44000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/1c4beed812065a64e6394e23502f003d.png",
+                                        "https://image2url.com/r2/default/images/1773715734522-b8bd36d9-5278-462f-9572-1fb8d24d5572.png",
                                         40, true));
                         productoRepository.save(new Producto(null, "Bogavante a la Mantequilla",
                                         "Medio bogavante a la plancha con mantequilla clarificada y limón Meyer.",
                                         95000.0, platosFuertes,
-                                        "https://img.sanishtech.com/u/791e43a41e59960d9a3c79e995f18258.png",
+                                        "https://image2url.com/r2/default/images/1773715756354-fb72998c-e166-463e-a092-3f3bca7b7295.png",
                                         20, true));
 
                         // ======================================================
@@ -260,7 +261,7 @@ public class DataLoader implements CommandLineRunner {
                         productoRepository.save(new Producto(null, "Brochetas de Mariscos a la Parrilla",
                                         "Pinchos de camarón, calamar y pescado marinados en cítricos y especias.",
                                         57000.0, entradas,
-                                        "https://img.sanishtech.com/u/a1fcd7c77af5d313efb254d50d129002.png",
+                                        "https://image2url.com/r2/default/images/1773715803146-d92c1d99-b9bc-41ed-a86f-1fd897cf8a95.png",
                                         40, true));
                         productoRepository.save(new Producto(null, "Camarones al Ajillo",
                                         "Camarones salteados en mantequilla de ajo, perejil y vino blanco.", 52000.0,
