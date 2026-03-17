@@ -1,10 +1,6 @@
 package com.seaside.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,24 +10,62 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Cliente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(nullable = false, length = 50)
     private String nombre;
+
     @Column(length = 50, nullable = false)
     private String apellido;
+
     @Column(length = 70, nullable = false, unique = true)
     private String correo;
+
     @Column(length = 50, nullable = false)
     private String contrasena;
+
     @Column(length = 20, nullable = false, unique = true)
     private String telefono;
+
     @Column(length = 70, nullable = false)
     private String direccion;
 
-    public Cliente(String nombre, String apellido, String correo, String contrasena, String telefono,
-            String direccion) {
+    // Relación OneToOne con Carrito — cascade ALL para que al crear/borrar cliente
+    // se cree/borre su carrito automáticamente
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "carrito_id")
+    private Carrito carrito;
+
+    public Cliente(String nombre, String apellido, String correo,
+                   String contrasena, String telefono, String direccion) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
+
+    // Constructor completo sin id (para DataLoader con carrito pre-asignado)
+    public Cliente(String nombre, String apellido, String correo,
+                   String contrasena, String telefono, String direccion,
+                   Carrito carrito) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.carrito = carrito;
+    }
+
+    // Constructor con id explícito y sin carrito — usado en ClientController.showCreateForm
+    public Cliente(Integer id, String nombre, String apellido, String correo,
+                   String contrasena, String telefono, String direccion) {
+        this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
