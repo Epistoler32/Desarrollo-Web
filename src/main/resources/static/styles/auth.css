@@ -1,9 +1,14 @@
-/* ─── BASE ───────────────────────────────────────────────── */
+/* ─── BASE ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #f8f1e0;
   font-family: "Fuzzy Bubbles", cursive;
+  font-weight: 300;
+  background-color: #f8f1e0;
+  color: #400101;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ─── NAVBAR ─────────────────────────────────────────────── */
@@ -11,23 +16,17 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0;
-  padding: 0px 50px 0px 0px;
+  padding: 0 50px 0 0;
   height: clamp(70px, 9vw, 130px);
   overflow: hidden;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 100;
   background: transparent;
   transition: background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
 }
 
-.navigation-bar .logo {
-  padding: 0;
-  margin: 0;
-}
+.navigation-bar .logo { padding: 0; margin: 0; }
 
 .navigation-bar .logo img {
   height: clamp(120px, 16vw, 250px);
@@ -37,14 +36,12 @@ body {
 
 .navigation-bar .nav-links {
   display: flex;
-  justify-content: space-evenly;
   gap: 10px;
-  font-size: clamp(14px, 1.6vw, 25px);
   list-style: none;
   font-family: "Fuzzy Bubbles", cursive;
+  font-size: clamp(14px, 1.6vw, 25px);
 }
 
-/* dorado */
 .navigation-bar .nav-links .page-link {
   color: #ffbc4c;
   padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
@@ -52,22 +49,17 @@ body {
   text-decoration: none;
   font-weight: 500;
   display: block;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.6);
 }
 
 .navigation-bar .nav-links li a:hover {
   background-color: #400101;
-  color: #ffbc4c !important;
-}
-
-/*  fondo cálido a links siguen dorados */
-.navigation-bar .nav-links .page-link.scrolled {
   color: #ffbc4c;
+  text-shadow: none;
 }
 
-.navigation-bar .nav-links li a.scrolled:hover {
-  color: #ffbc4c !important;
-}
+.navigation-bar .nav-links .page-link.scrolled { text-shadow: none; }
 
 .login-link {
   background-color: #400101;
@@ -84,7 +76,7 @@ body {
 .auth-hero {
   position: relative;
   width: 100%;
-  min-height: 38vh;
+  min-height: 42vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,16 +94,12 @@ body {
   z-index: 1;
 }
 
-.auth-hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
+.auth-hero-content { position: relative; z-index: 2; text-align: center; }
 
 .auth-hero-title {
   font-family: "Island Moments", cursive;
   color: #F2B705;
-  font-size: clamp(90px, 20vw, 220px);
+  font-size: clamp(80px, 18vw, 220px);
   font-weight: 100;
   margin: 0;
   opacity: 0;
@@ -119,53 +107,47 @@ body {
   animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
 }
 
-.hero-wave {
-  position: absolute;
-  bottom: -1px; left: 0;
-  width: 100%;
-  z-index: 3;
-  line-height: 0;
-}
-.hero-wave svg {
-  display: block;
-  width: 100%;
-  height: 80px;
-}
+.hero-wave { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; z-index: 3; }
+.hero-wave svg { display: block; width: 100%; height: 80px; }
 .hero-wave path { fill: #f8f1e0; }
 
-/* ─── FORMULARIO ─────────────────────────────────────────── */
+/* ─── MAIN ───────────────────────────────────────────────── */
 .auth-main {
+  flex: 1;
   display: flex;
+  align-items: flex-start;
   justify-content: center;
-  padding: 60px 20px 80px;
+  padding: 64px 24px 80px;
 }
 
+/* ─── CARD ───────────────────────────────────────────────── */
 .auth-card {
   background: #ffffff;
   border-radius: 20px;
-  padding: clamp(32px, 4vw, 56px) clamp(28px, 4vw, 56px);
+  padding: 48px 44px;
   width: 100%;
-  max-width: 560px;
-  box-shadow: 0 4px 30px rgba(64, 1, 1, 0.12);
+  max-width: 480px;
+  box-shadow: 0 4px 30px rgba(64, 1, 1, 0.10);
 }
 
 .auth-title {
   font-family: "Island Moments", cursive;
-  font-size: clamp(36px, 5vw, 56px);
   font-weight: 100;
   color: #400101;
-  margin: 0 0 28px 0;
-  text-align: center;
+  font-size: clamp(38px, 5vw, 56px);
+  line-height: 1;
+  margin: 0 0 32px 0;
 }
 
 /* ─── ERROR ──────────────────────────────────────────────── */
 .auth-error {
-  background: rgba(64, 1, 1, 0.08);
-  border-left: 3px solid #730202;
-  color: #400101;
+  background: rgba(200, 30, 30, 0.08);
+  border: 1px solid rgba(200, 30, 30, 0.25);
+  border-radius: 10px;
+  color: #c81e1e;
   font-size: 14px;
+  font-weight: 400;
   padding: 12px 16px;
-  border-radius: 8px;
   margin-bottom: 20px;
 }
 
@@ -173,13 +155,23 @@ body {
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+  min-width: 0;
+}
+
+.form-row .form-group {
+  min-width: 0;
+}
+
+.form-row .form-group input {
+  width: 100%;
+  min-width: 0;
 }
 
 .form-group {
@@ -188,54 +180,59 @@ body {
   gap: 6px;
 }
 
+/* MEDICAT #1: tipografía Fuzzy Bubbles en todos los elementos del formulario */
 .form-group label {
+  font-family: "Fuzzy Bubbles", cursive;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: #400101;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.form-group input {
+.form-group input,
+.form-group select,
+.form-group textarea {
+  font-family: "Fuzzy Bubbles", cursive;
+  font-weight: 300;
+  font-size: 15px;
+  color: #400101;
+  background: #f8f1e0;
   border: 1.5px solid rgba(64, 1, 1, 0.18);
   border-radius: 10px;
   padding: 12px 14px;
-  font-family: "Fuzzy Bubbles", cursive;
-  font-size: 15px;
-  font-weight: 300;
-  color: #400101;
-  background: #f8f1e0;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.form-group input:focus {
-  border-color: #D97904;
-  box-shadow: 0 0 0 3px rgba(242, 183, 5, 0.18);
-  background: #fff;
-}
-
-.form-group input::placeholder {
+.form-group input::placeholder,
+.form-group textarea::placeholder {
   color: #a08080;
   font-weight: 300;
 }
 
-/* ─── BOTÓN ──────────────────────────────────────────────── */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #D97904;
+  box-shadow: 0 0 0 3px rgba(242, 183, 5, 0.18);
+  background: #ffffff;
+}
+
+/* ─── SUBMIT BUTTON ──────────────────────────────────────── */
 .auth-btn {
+  margin-top: 6px;
   background: linear-gradient(135deg, #400101, #730202);
   color: #F2B705;
   border: none;
   border-radius: 12px;
-  padding: 14px;
+  padding: 14px 28px;
   font-family: "Fuzzy Bubbles", cursive;
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(14px, 1.2vw, 17px);
   cursor: pointer;
-  margin-top: 6px;
+  width: 100%;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-align: center;
-  text-decoration: none;
-  display: block;
 }
 
 .auth-btn:hover {
@@ -243,13 +240,12 @@ body {
   box-shadow: 0 8px 24px rgba(64, 1, 1, 0.3);
 }
 
-/* ─── LINK SWITCH ────────────────────────────────────────── */
+/* ─── SWITCH LINK ────────────────────────────────────────── */
 .auth-switch {
   text-align: center;
-  margin-top: 22px;
+  margin-top: 24px;
   font-size: 14px;
-  font-weight: 300;
-  color: #730202;
+  color: #8a6060;
 }
 
 .auth-switch a {
@@ -258,23 +254,32 @@ body {
   text-decoration: none;
 }
 
-.auth-switch a:hover {
-  text-decoration: underline;
-}
+.auth-switch a:hover { text-decoration: underline; }
 
 /* ─── FOOTER ─────────────────────────────────────────────── */
 .auth-footer {
   background: linear-gradient(to bottom, #F2B705, #D97904);
-  padding: 22px 40px 18px;
+  padding: 20px 40px;
   text-align: center;
+}
+
+.auth-footer p {
   font-family: "Fuzzy Bubbles", cursive;
   font-weight: 300;
   font-size: 13px;
   color: #400101;
+  margin: 0;
 }
 
 /* ─── KEYFRAMES ──────────────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(40px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .auth-card { padding: 36px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .auth-main { padding: 40px 16px 60px; }
 }

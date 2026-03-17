@@ -6,9 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -26,37 +24,20 @@ public class AuthController {
         return "signup";
     }
 
+    // PROFE COMENTARIO #1: @ModelAttribute en lugar de múltiples @RequestParam
     @PostMapping("/signup")
     public String procesarSignup(
-            @RequestParam String nombre,
-            @RequestParam String apellido,
-            @RequestParam String correo,
-            @RequestParam String contrasena,
-            @RequestParam String telefono,
-            @RequestParam String direccion,
+            @ModelAttribute Cliente cliente,
             Model model,
             HttpSession session) {
 
-        // Validar que el correo no esté en uso
-        if (clienteService.existeCorreo(correo)) {
+        if (clienteService.existeCorreo(cliente.getCorreo())) {
             model.addAttribute("error", "Ya existe una cuenta con ese correo.");
             return "signup";
         }
 
-        // Crear y registrar el nuevo cliente
-        Cliente nuevo = new Cliente();
-        nuevo.setNombre(nombre);
-        nuevo.setApellido(apellido);
-        nuevo.setCorreo(correo);
-        nuevo.setContrasena(contrasena);
-        nuevo.setTelefono(telefono);
-        nuevo.setDireccion(direccion);
-
-        Cliente guardado = clienteService.registrar(nuevo);
-
-        // Iniciar sesión automáticamente tras el registro
+        Cliente guardado = clienteService.registrar(cliente);
         session.setAttribute("clienteSession", guardado);
-
         return "redirect:/clients/profile";
     }
 
@@ -67,6 +48,7 @@ public class AuthController {
         return "login";
     }
 
+    // PROFECOMENTARIO #2: validación de credenciales delegada al servicio
     @PostMapping("/login")
     public String procesarLogin(
             @RequestParam String correo,
@@ -74,10 +56,9 @@ public class AuthController {
             Model model,
             HttpSession session) {
 
-        Optional<Cliente> encontrado = clienteService.buscarPorCorreo(correo);
+        Optional<Cliente> encontrado = clienteService.autenticar(correo, contrasena);
 
-        // Validar existencia y contraseña
-        if (encontrado.isEmpty() || !encontrado.get().getContrasena().equals(contrasena)) {
+        if (encontrado.isEmpty()) {
             model.addAttribute("error", "Correo o contraseña incorrectos.");
             return "login";
         }

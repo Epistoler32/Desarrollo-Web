@@ -45,42 +45,27 @@
       <div class="auth-card">
         <h2 class="auth-title">Crear cuenta</h2>
 
-        <!-- Mensaje de error -->
         <div class="auth-error" th:if="${error}" th:text="${error}"></div>
+        <!-- LA VUELTA RÁPIDA COMENTARIO #2: error de contraseña del lado cliente -->
+        <div class="auth-error" id="passwordError" style="display:none;">
+          Las contraseñas no coinciden.
+        </div>
 
-        <form method="post" action="/signup" class="auth-form">
+        <form method="post" action="/signup" class="auth-form" id="signupForm">
           <div class="form-row">
             <div class="form-group">
               <label for="nombre">Nombre</label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                placeholder="Tu nombre"
-                required
-              />
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
             </div>
             <div class="form-group">
               <label for="apellido">Apellido</label>
-              <input
-                type="text"
-                id="apellido"
-                name="apellido"
-                placeholder="Tu apellido"
-                required
-              />
+              <input type="text" id="apellido" name="apellido" placeholder="Tu apellido" required />
             </div>
           </div>
 
           <div class="form-group">
             <label for="correo">Correo electrónico</label>
-            <input
-              type="email"
-              id="correo"
-              name="correo"
-              placeholder="correo@ejemplo.com"
-              required
-            />
+            <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required />
           </div>
 
           <div class="form-group">
@@ -95,15 +80,22 @@
             />
           </div>
 
+          <!-- LA VUELTA RÁPIDA COMENTARIO #2: campo repetir contraseña -->
+          <div class="form-group">
+            <label for="confirmarContrasena">Confirmar contraseña</label>
+            <input
+              type="password"
+              id="confirmarContrasena"
+              name="confirmarContrasena"
+              placeholder="Repite tu contraseña"
+              required
+              minlength="6"
+            />
+          </div>
+
           <div class="form-group">
             <label for="telefono">Teléfono</label>
-            <input
-              type="tel"
-              id="telefono"
-              name="telefono"
-              placeholder="310 000 0000"
-              required
-            />
+            <input type="tel" id="telefono" name="telefono" placeholder="310 000 0000" required />
           </div>
 
           <div class="form-group">
@@ -131,5 +123,6 @@
     </footer>
 
     <script th:src="@{/js/navbar.js}"></script>
+    <script th:src="@{/js/signup.js}"></script>
   </body>
 </html>

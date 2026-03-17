@@ -14,13 +14,16 @@
   font-weight: 600;
 }
 
+/* LA VUELTA RÁPIDA COMENTARIO #2: separación entre botones de perfil */
 .profile-actions {
   margin-top: 25px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 /* ─── NAVBAR ─────────────────────────────────────────────── */
-
 .navigation-bar {
   display: flex;
   justify-content: space-between;
@@ -37,7 +40,6 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-/* visibilidad del logo */
 .navigation-bar .logo img {
   height: clamp(120px, 16vw, 250px);
   width: auto;
@@ -52,7 +54,7 @@
 }
 
 .navigation-bar .nav-links .page-link {
-    color: #ffbc4c;
+  color: #ffbc4c;
   padding: clamp(6px, 0.8vw, 12px) clamp(12px,1.6vw,25px);
   border-radius: 5px;
   text-decoration: none;

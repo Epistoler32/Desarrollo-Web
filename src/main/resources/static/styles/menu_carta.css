@@ -1,4 +1,8 @@
 /* ─── RESET / BASE ───────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -29,7 +33,6 @@ body {
   margin: 0;
 }
 
-/* visibilidad del logo en todos los fondos */
 .navigation-bar .logo img {
   height: clamp(120px, 16vw, 250px);
   width: auto;
@@ -45,7 +48,6 @@ body {
   font-family: "Fuzzy Bubbles", cursive;
 }
 
-/* dorado */
 .navigation-bar .nav-links .page-link {
   color: #ffbc4c;
   padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
@@ -61,7 +63,6 @@ body {
   color: #ffbc4c !important;
 }
 
-/* fondo cálido a links siguen dorados */
 .navigation-bar .nav-links .page-link.scrolled {
   color: #ffbc4c;
 }
@@ -143,6 +144,47 @@ body {
   fill: #f8f1e0;
 }
 
+/* ─── CATEGORY NAV (MEDICAT COMENTARIO #2) ──────────────────────────── */
+.category-nav {
+  position: sticky;
+  top: clamp(70px, 9vw, 130px);
+  z-index: 90;
+  background: #400101;
+  box-shadow: 0 2px 12px rgba(64, 1, 1, 0.35);
+}
+
+.category-nav-inner {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.category-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.category-nav-link {
+  color: rgba(242, 183, 5, 0.65);
+  text-decoration: none;
+  font-family: "Fuzzy Bubbles", cursive;
+  font-weight: 500;
+  font-size: clamp(13px, 1.1vw, 15px);
+  padding: 14px 22px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.category-nav-link:hover {
+  color: #F2B705;
+  border-bottom-color: #F2B705;
+  background: rgba(255, 255, 255, 0.05);
+}
+
 /* ─── MAIN / INTRO ───────────────────────────────────────── */
 .menu-main {
   max-width: 1200px;
@@ -167,6 +209,8 @@ body {
 /* ─── CATEGORÍA ─────────────────────────────────────────── */
 .category-section {
   margin-bottom: 70px;
+  /* scroll offset para la sticky nav */
+  scroll-margin-top: calc(clamp(70px, 9vw, 130px) + 48px);
 }
 
 .category-title {
@@ -215,6 +259,13 @@ body {
 .product-card:hover {
   transform: translateY(-6px) scale(1.01);
   box-shadow: 0 18px 50px rgba(64, 1, 1, 0.22), 0 0 0 1px rgba(242, 183, 5, 0.3);
+}
+
+/* LA VUELTA RÁPIDA COMENTARIO #1: tarjeta completa como enlace */
+a.product-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .card-image-wrapper {
@@ -337,6 +388,7 @@ body {
   font-size: clamp(13px, 1vw, 15px);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  display: inline-block;
 }
 
 .btn-agregar:hover {
