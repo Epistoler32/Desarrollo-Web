@@ -19,10 +19,12 @@
         <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
       </figure>
       <nav>
+        <!-- PRAIA COMENTARIO #3: navbar con Contáctanos y Visítanos separados -->
         <ul class="nav-links">
           <li><a class="page-link" href="/">Home</a></li>
           <li><a class="page-link active" href="/menu">Menú</a></li>
-          <li><a class="page-link" href="/contacto">Contact Us</a></li>
+          <li><a class="page-link" href="/contacto">Contáctanos</a></li>
+          <li><a class="page-link" href="/visitanos">Visítanos</a></li>
           <li><a class="login-link" href="/login">Log in</a></li>
         </ul>
       </nav>
@@ -40,6 +42,19 @@
         </svg>
       </div>
     </div>
+
+    <!-- ─── CATEGORY NAV (MEDICAT COMENTARIOS #2) ───────────────────────── -->
+    <nav class="category-nav" aria-label="Navegación por categorías">
+      <div class="category-nav-inner">
+        <a
+          th:each="categoria : ${categorias}"
+          th:if="${categoria.productos != null and !categoria.productos.isEmpty()}"
+          th:href="'#cat-' + ${categoria.id}"
+          class="category-nav-link"
+          th:text="${categoria.nombre}"
+        >Categoría</a>
+      </div>
+    </nav>
 
     <!-- ─── INTRO ────────────────────────────────────────────── -->
     <main class="menu-main">
@@ -59,12 +74,16 @@
         class="category-section"
         th:each="categoria : ${categorias}"
         th:if="${categoria.productos != null and !categoria.productos.isEmpty()}"
+        th:id="'cat-' + ${categoria.id}"
       >
         <h2 class="category-title" th:text="${categoria.nombre}">Categoría</h2>
         <div class="products-grid">
-          <article
+
+          <!-- LA VUELTA RÁPIDA COMENTARIO #1 -->
+          <a
             class="product-card"
             th:each="producto : ${categoria.productos}"
+            th:href="@{/products/{id}(id=${producto.id})}"
           >
             <div class="card-image-wrapper">
               <img
@@ -77,38 +96,17 @@
               <!-- Badges: tiempo y alergenos -->
               <div class="card-badges">
                 <span class="badge badge-time">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12 6 12 12 16 14" />
                   </svg>
-                  <span th:text="${producto.tiempoMinutos} + ' min'"
-                    >40 min</span
-                  >
+                  <span th:text="${producto.tiempoMinutos} + ' min'">40 min</span>
                 </span>
-                <span
-                  class="badge badge-allergen"
-                  th:if="${producto.tieneAlergenos}"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path
-                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                    />
+                <span class="badge badge-allergen" th:if="${producto.tieneAlergenos}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
                     <line x1="12" y1="9" x2="12" y2="13" />
                     <line x1="12" y1="17" x2="12.01" y2="17" />
                   </svg>
@@ -116,7 +114,6 @@
                 </span>
               </div>
 
-              <!-- Nombre del producto sobre la imagen -->
               <div class="card-name-block">
                 <h3 class="card-name" th:text="${producto.nombre}">Nombre</h3>
               </div>
@@ -124,20 +121,15 @@
 
             <!-- Footer de la tarjeta -->
             <div class="card-footer">
-              <span
-                class="card-price"
-                th:text="'$' + ${#numbers.formatInteger(producto.precio, 0, 'COMMA')}"
-              >
+              <span class="card-price"
+                th:text="'$' + ${#numbers.formatInteger(producto.precio, 0, 'COMMA')}">
                 $42.000
               </span>
-              <a
-                class="btn-agregar"
-                th:href="@{/products/{id}(id=${producto.id})}"
-              >
-                Ver detalle
-              </a>
+              <!-- Span en lugar de <a> anidado -->
+              <span class="btn-agregar">Ver detalle</span>
             </div>
-          </article>
+          </a>
+
         </div>
       </section>
     </main>
@@ -149,53 +141,25 @@
         <div class="footer-info-grid">
           <div class="footer-col">
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                />
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
                 <circle cx="12" cy="9" r="2.5" />
               </svg>
               <span>Carrera 15 #93-48, Bogotá, Colombia</span>
             </div>
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
-                />
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
               <span>+57 320 587 9412</span>
             </div>
           </div>
           <div class="footer-col">
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
               </svg>
@@ -206,16 +170,8 @@
               </span>
             </div>
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                 <circle cx="12" cy="12" r="4" />
                 <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
@@ -225,29 +181,14 @@
           </div>
           <div class="footer-col">
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                />
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
               <span>@SeaSideRestaurantetwt</span>
             </div>
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="4" width="20" height="16" rx="2" />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
               </svg>

@@ -7,6 +7,7 @@ import java.util.Optional;
 public interface ClienteService {
     Cliente buscarPorId(Integer id);
     Optional<Cliente> buscarPorCorreo(String correo);
+    Optional<Cliente> autenticar(String correo, String contrasena);
     boolean existeCorreo(String correo);
     Cliente registrar(Cliente cliente);
     Cliente actualizar(Cliente cliente);

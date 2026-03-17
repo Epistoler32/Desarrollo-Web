@@ -9,8 +9,8 @@
       href="https://fonts.googleapis.com/css2?family=Island+Moments&family=Fuzzy+Bubbles:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" th:href="@{/styles/contacto.css}" />
-    <title>Contáctanos - SeaSide</title>
+    <link rel="stylesheet" th:href="@{/styles/visitanos.css}" />
+    <title>Visítanos - SeaSide</title>
   </head>
   <body>
 
@@ -23,8 +23,8 @@
         <ul class="nav-links">
           <li><a class="page-link" href="/">Home</a></li>
           <li><a class="page-link" href="/menu">Menú</a></li>
-          <li><a class="page-link active" href="/contacto">Contáctanos</a></li>
-          <li><a class="page-link" href="/visitanos">Visítanos</a></li>
+          <li><a class="page-link" href="/contacto">Contáctanos</a></li>
+          <li><a class="page-link active" href="/visitanos">Visítanos</a></li>
           <li><a class="login-link" href="/login">Log in</a></li>
         </ul>
       </nav>
@@ -34,7 +34,7 @@
     <div class="page-hero">
       <div class="page-hero-overlay"></div>
       <div class="page-hero-content">
-        <h1 class="page-hero-title">Contáctanos</h1>
+        <h1 class="page-hero-title">Visítanos</h1>
       </div>
       <div class="hero-wave">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
@@ -44,62 +44,60 @@
     </div>
 
     <!-- ─── MAIN ─────────────────────────────────────────────── -->
-    <main class="contact-main">
+    <main class="visit-main">
 
-      <div class="contact-intro reveal">
+      <div class="visit-intro reveal">
         <p>
-          ¿Tienes alguna pregunta, comentario o deseas hacer una reserva especial?
-          Estamos aquí para atenderte. Escríbenos y te responderemos a la brevedad.
-          Para conocer nuestra ubicación y horarios, visita nuestra página de
-          <a href="/visitanos" class="inline-link">Visítanos</a>.
+          Estamos ubicados en el corazón de Bogotá, listos para recibirte.
+          Consulta nuestros horarios y cómo llegar para que tu visita sea perfecta.
         </p>
       </div>
 
-      <div class="contact-grid">
+      <!-- ── MAPA + DATOS ── -->
+      <div class="visit-top-grid reveal">
 
-        <!-- ── FORMULARIO ── -->
-        <div class="contact-card reveal">
-          <h2 class="contact-card-title">Escríbenos</h2>
-          <form class="contact-form">
-            <div class="form-row-2">
-              <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" placeholder="Tu nombre" required />
-              </div>
-              <div class="form-group">
-                <label for="apellido">Apellido</label>
-                <input type="text" id="apellido" placeholder="Tu apellido" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="correo">Correo electrónico</label>
-              <input type="email" id="correo" placeholder="correo@ejemplo.com" required />
-            </div>
-            <div class="form-group">
-              <label for="telefono">Teléfono</label>
-              <input type="tel" id="telefono" placeholder="310 000 0000" />
-            </div>
-            <div class="form-group">
-              <label for="asunto">Asunto</label>
-              <select id="asunto">
-                <option value="">Selecciona un tema</option>
-                <option>Reservación</option>
-                <option>Consulta sobre el menú</option>
-                <option>Evento especial</option>
-                <option>Comentario o sugerencia</option>
-                <option>Otro</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="mensaje">Mensaje</label>
-              <textarea id="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..."></textarea>
-            </div>
-            <button type="submit" class="contact-submit">Enviar Mensaje</button>
-          </form>
+        <div class="map-wrapper">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3717.900336543899!2d-74.06724478979052!3d4.62848749532684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f99a8193f1c9f%3A0xf93431640f134c07!2sPontificia%20Universidad%20Javeriana!5e1!3m2!1ses-419!2sco!4v1772569426288!5m2!1ses-419!2sco"
+            width="100%" height="100%"
+            style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
         </div>
 
-        <!-- ── INFO ── -->
         <div class="info-col">
+
+          <div class="info-card reveal">
+            <div class="info-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="#F2B705" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+            </div>
+            <div class="info-text">
+              <p class="info-label">Dirección</p>
+              <p class="info-value">Carrera 15 #93-48<br/>Bogotá, Colombia</p>
+            </div>
+          </div>
+
+          <div class="info-card reveal">
+            <div class="info-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="#F2B705" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="info-text">
+              <p class="info-label">Horario</p>
+              <div class="horario-list">
+                <span>Lun – Jue: <span class="horario-hora">12:00 p.m. – 9:00 p.m.</span></span>
+                <span>Vie – Sáb: <span class="horario-hora">12:00 p.m. – 10:30 p.m.</span></span>
+                <span>Dom y fest: <span class="horario-hora">12:00 p.m. – 8:00 p.m.</span></span>
+              </div>
+            </div>
+          </div>
 
           <div class="info-card reveal">
             <div class="info-icon-wrap">
@@ -109,47 +107,66 @@
               </svg>
             </div>
             <div class="info-text">
-              <p class="info-label">Teléfono</p>
+              <p class="info-label">Reservas y consultas</p>
               <p class="info-value">+57 320 587 9412</p>
-              <p class="info-sub">contacto@seasiderestaurante.com</p>
-            </div>
-          </div>
-
-          <div class="info-card reveal">
-            <div class="info-icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                stroke="#F2B705" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <circle cx="12" cy="12" r="4"/>
-                <circle cx="17.5" cy="6.5" r="0.5" fill="#F2B705"/>
-              </svg>
-            </div>
-            <div class="info-text">
-              <p class="info-label">Redes sociales</p>
-              <p class="info-value">Instagram: <span class="info-highlight">@SeaSideRestaurante</span></p>
-              <p class="info-value">X / Twitter: <span class="info-highlight">@SeaSideRestaurantetwt</span></p>
-            </div>
-          </div>
-
-          <div class="info-card info-card-gold reveal">
-            <div class="info-icon-wrap info-icon-dark">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                stroke="#400101" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                <circle cx="12" cy="9" r="2.5"/>
-              </svg>
-            </div>
-            <div class="info-text info-text-flex">
-              <div>
-                <p class="info-label info-label-dark">¿Quieres visitarnos?</p>
-                <p class="info-value info-value-dark">Consulta nuestra ubicación, horarios y cómo llegar.</p>
-              </div>
-              <a href="/visitanos" class="info-cta-btn">Ver →</a>
+              <a href="/contacto" class="info-sub-link">O escríbenos aquí →</a>
             </div>
           </div>
 
         </div>
       </div>
+
+      <!-- ── ¿CÓMO LLEGAR? ── -->
+      <div class="how-section reveal">
+        <h2 class="how-title">
+          ¿Cómo llegar?
+          <span class="how-underline"></span>
+        </h2>
+        <div class="how-grid">
+
+          <div class="how-card">
+            <div class="how-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="#D97904" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <h3 class="how-card-title">En carro</h3>
+            <p class="how-card-text">
+              Acceso por la Cra 15 desde la Calle 90 o la Calle 100. Parqueaderos disponibles en el sector.
+            </p>
+          </div>
+
+          <div class="how-card">
+            <div class="how-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="#D97904" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/>
+              </svg>
+            </div>
+            <h3 class="how-card-title">En TransMilenio</h3>
+            <p class="how-card-text">
+              Estación Calle 100 (ruta B81 o B90). Baja y camina 5 minutos hacia el occidente.
+            </p>
+          </div>
+
+          <div class="how-card">
+            <div class="how-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="#D97904" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
+            <h3 class="how-card-title">En app de movilidad</h3>
+            <p class="how-card-text">
+              Busca "SeaSide Restaurante, Cra 15 #93-48, Bogotá" en Uber, InDriver o Beat.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
     </main>
 
     <!-- ─── FOOTER ───────────────────────────────────────────── -->

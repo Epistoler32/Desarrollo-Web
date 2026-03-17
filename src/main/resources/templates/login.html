@@ -9,16 +9,11 @@
       href="https://fonts.googleapis.com/css2?family=Island+Moments&family=Fuzzy+Bubbles:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- navbar, hero, colores de marca -->
     <link rel="stylesheet" th:href="@{/styles/auth.css}" />
     <title>Iniciar Sesión – SeaSide</title>
   </head>
   <body>
+
     <!-- ─── NAVBAR ──────────────────────────────────────────── -->
     <header class="navigation-bar" id="navbar">
       <figure class="logo">
@@ -33,7 +28,7 @@
       </nav>
     </header>
 
-    <!-- ─── HERO ────────────────────────────────────────────── -->
+    <!-- ─── HERO ─────────────────────────────────────────────── -->
     <div class="auth-hero">
       <div class="auth-hero-overlay"></div>
       <div class="auth-hero-content">
@@ -46,25 +41,18 @@
       </div>
     </div>
 
-    <!-- ─── FORMULARIO (Bootstrap) ──────────────────────────── -->
+    <!-- ─── FORMULARIO ───────────────────────────────────────── -->
     <main class="auth-main">
       <div class="auth-card">
         <h2 class="auth-title">Iniciar sesión</h2>
 
-        <!-- Bootstrap alert de error -->
-        <div
-          class="alert alert-danger"
-          role="alert"
-          th:if="${error}"
-          th:text="${error}"
-        ></div>
+        <div class="auth-error" th:if="${error}" th:text="${error}"></div>
 
-        <form method="post" action="/login">
-          <div class="mb-3">
-            <label for="correo" class="form-label">Correo electrónico</label>
+        <form class="auth-form" method="post" action="/login">
+          <div class="form-group">
+            <label for="correo">Correo electrónico</label>
             <input
               type="email"
-              class="form-control"
               id="correo"
               name="correo"
               placeholder="correo@ejemplo.com"
@@ -72,11 +60,10 @@
             />
           </div>
 
-          <div class="mb-4">
-            <label for="contrasena" class="form-label">Contraseña</label>
+          <div class="form-group">
+            <label for="contrasena">Contraseña</label>
             <input
               type="password"
-              class="form-control"
               id="contrasena"
               name="contrasena"
               placeholder="Tu contraseña"
@@ -84,10 +71,7 @@
             />
           </div>
 
-          <!-- d-grid hace que el botón ocupe todo el ancho -->
-          <div class="d-grid">
-            <button type="submit" class="btn auth-btn">Ingresar</button>
-          </div>
+          <button type="submit" class="auth-btn">Ingresar</button>
         </form>
 
         <p class="auth-switch">
@@ -100,8 +84,6 @@
       <p>© 2026 SeaSide. All rights reserved.</p>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/js/navbar.js}"></script>
   </body>
 </html>

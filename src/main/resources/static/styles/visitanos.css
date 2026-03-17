@@ -1,0 +1,360 @@
+/* ─── BASE ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Fuzzy Bubbles", cursive;
+  font-weight: 300;
+  background-color: #f8f1e0;
+  color: #400101;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── NAVBAR ─────────────────────────────────────────────── */
+.navigation-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px 0 0;
+  height: clamp(70px, 9vw, 130px);
+  overflow: hidden;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: transparent;
+  transition: background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.navigation-bar .logo { padding: 0; margin: 0; }
+
+.navigation-bar .logo img {
+  height: clamp(120px, 16vw, 250px);
+  width: auto;
+  filter: drop-shadow(0 1px 5px rgba(64, 1, 1, 0.45));
+}
+
+.navigation-bar .nav-links {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+  font-size: clamp(14px, 1.6vw, 25px);
+}
+
+.navigation-bar .nav-links .page-link {
+  color: #ffbc4c;
+  padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.6);
+}
+
+.navigation-bar .nav-links li a:hover {
+  background-color: #400101;
+  color: #ffbc4c;
+  text-shadow: none;
+}
+
+.navigation-bar .nav-links .page-link.active {
+  color: #F2B705;
+  font-weight: 700;
+}
+
+.navigation-bar .nav-links .page-link.scrolled {
+  color: #400101;
+  text-shadow: none;
+}
+
+.login-link {
+  background-color: #400101;
+  padding: clamp(6px, 0.8vw, 12px) clamp(12px, 1.6vw, 25px);
+  border-radius: 10px;
+  color: #F2B705;
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+/* ─── HERO ───────────────────────────────────────────────── */
+.page-hero {
+  position: relative;
+  width: 100%;
+  min-height: 42vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-image: url('/resources/IMGS/mainBackgroundImage.jpeg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center bottom;
+}
+
+.page-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(64, 1, 1, 0.55);
+  z-index: 1;
+}
+
+.page-hero-content { position: relative; z-index: 2; text-align: center; }
+
+.page-hero-title {
+  font-family: "Island Moments", cursive;
+  color: #F2B705;
+  font-size: clamp(80px, 18vw, 220px);
+  font-weight: 100;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+.hero-wave { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; z-index: 3; }
+.hero-wave svg { display: block; width: 100%; height: 80px; }
+.hero-wave path { fill: #f8f1e0; }
+
+/* ─── MAIN ───────────────────────────────────────────────── */
+.visit-main {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 40px 80px;
+  width: 100%;
+}
+
+/* ─── INTRO ──────────────────────────────────────────────── */
+.visit-intro {
+  max-width: 700px;
+  margin-bottom: 56px;
+}
+
+.visit-intro p {
+  font-size: clamp(15px, 1.4vw, 20px);
+  line-height: 1.8;
+  color: #400101;
+}
+
+/* ─── TOP GRID: mapa + tarjetas ──────────────────────────── */
+.visit-top-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 60px;
+}
+
+.map-wrapper {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 30px rgba(64, 1, 1, 0.12);
+  height: 420px;
+}
+
+.map-wrapper iframe { display: block; }
+
+/* ─── INFO COL ───────────────────────────────────────────── */
+.info-col { display: flex; flex-direction: column; gap: 20px; }
+
+.info-card {
+  background: #400101;
+  border-radius: 18px;
+  padding: 28px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  border: 1px solid rgba(242, 183, 5, 0.15);
+  border-bottom: 3px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(64, 1, 1, 0.35);
+  border-color: #F2B705;
+}
+
+.info-icon-wrap {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(242, 183, 5, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.info-icon-wrap svg { width: 20px; height: 20px; }
+
+.info-text { display: flex; flex-direction: column; gap: 4px; }
+
+.info-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #F2B705;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.horario-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.horario-hora { color: rgba(255, 255, 255, 0.55); }
+
+.info-sub-link {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.info-sub-link:hover { color: #F2B705; }
+
+/* ─── COMO LLEGAR ──────────────────────────────────────── */
+.how-section { }
+
+.how-title {
+  font-family: "Island Moments", cursive;
+  font-weight: 100;
+  color: #400101;
+  font-size: clamp(42px, 7vw, 90px);
+  margin: 0 0 32px 0;
+  display: inline-block;
+}
+
+.how-underline {
+  display: block;
+  height: 3px;
+  width: 60%;
+  background: linear-gradient(to right, #F2B705, transparent);
+  margin-top: 4px;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.how-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(64, 1, 1, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.how-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 32px rgba(64, 1, 1, 0.14);
+}
+
+.how-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(242, 183, 5, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.how-icon-wrap svg { width: 20px; height: 20px; }
+
+.how-card-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: #400101;
+}
+
+.how-card-text {
+  font-size: 13px;
+  color: #8a6060;
+  line-height: 1.65;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+footer {
+  background: linear-gradient(to bottom, #F2B705, #D97904);
+  padding: 44px 40px 24px;
+  text-align: center;
+  color: #400101;
+}
+
+#visit-us { margin: 0; padding-bottom: 20px; }
+
+.general-title {
+  font-family: "Island Moments", cursive;
+  font-weight: 100;
+  color: #400101;
+  font-size: clamp(52px, 8vw, 100px);
+  margin: 10px;
+}
+
+.footer-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: center;
+  align-items: start;
+  gap: 24px 70px;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.footer-col { display: contents; }
+
+.footer-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: #400101;
+  line-height: 1.6;
+  padding: 6px 0;
+}
+
+.footer-icon { width: 22px; height: 22px; flex-shrink: 0; color: #D93D04; margin-top: 2px; }
+
+.footer-divider { border-top: 1px solid #D97904; margin: 24px 40px 18px; }
+
+.footer-copyright { font-size: 13px; color: #400101; margin: 0; padding-bottom: 8px; }
+
+/* ─── REVEAL ─────────────────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal.visible { animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .visit-top-grid { grid-template-columns: 1fr; }
+  .map-wrapper { height: 320px; }
+  .visit-main { padding: 48px 24px 60px; }
+}

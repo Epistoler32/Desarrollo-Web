@@ -1,0 +1,14 @@
+// ── AdicionalesRepository.java ────────────────────────────────────────────────
+package com.seaside.repository;
+ 
+import com.seaside.model.Adicionales;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+ 
+@Repository
+public interface AdicionalesRepository extends JpaRepository<Adicionales, Integer> {
+    // Buscar adicionales por categoría — usado en product_detail para mostrar opciones
+    List<Adicionales> findByCategoria_Id(Integer categoriaId);
+    List<Adicionales> findByCategoria_Nombre(String nombre);
+}

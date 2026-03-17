@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
-    ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository;
 
     @Override
     public Cliente buscarPorId(Integer id) {
@@ -21,6 +21,12 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Optional<Cliente> buscarPorCorreo(String correo) {
         return clienteRepository.findByCorreo(correo);
+    }
+
+    @Override
+    public Optional<Cliente> autenticar(String correo, String contrasena) {
+        return clienteRepository.findByCorreo(correo)
+                .filter(c -> c.getContrasena().equals(contrasena));
     }
 
     @Override
@@ -35,6 +41,10 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente actualizar(Cliente cliente) {
+        if (cliente.getContrasena() == null || cliente.getContrasena().isEmpty()) {
+            clienteRepository.findById(cliente.getId())
+                    .ifPresent(existing -> cliente.setContrasena(existing.getContrasena()));
+        }
         return clienteRepository.save(cliente);
     }
 
