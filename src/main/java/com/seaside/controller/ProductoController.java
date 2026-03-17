@@ -1,6 +1,7 @@
 package com.seaside.controller;
 
 import com.seaside.model.Producto;
+import com.seaside.service.AdicionalService;
 import com.seaside.service.ProductoService;
 import com.seaside.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +13,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 public class ProductoController {
 
-    // Pedido repository
-    // create
-    // tengo que buscar las comidas
-    // tengo que seleccionar un docmicliario
-    // un usuario
-
     @Autowired
     ProductoService productoService;
 
     @Autowired
     CategoriaService categoriaService;
+
+    @Autowired
+    AdicionalService adicionalService;
 
     @GetMapping("/listing")
     public String listProducts(Model model) {
@@ -34,18 +32,17 @@ public class ProductoController {
     public String getProductById(Model model, @PathVariable("id") Integer ident) {
         Producto product = productoService.searchById(ident);
         model.addAttribute("product", product);
+        // Pasar los adicionales de la misma categoría del producto
+        model.addAttribute("adicionales",
+                adicionalService.findByCategoria(product.getCategoria().getId()));
         return "product_detail";
     }
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        Producto producto = new Producto(null, "", "",
-                0.0, null, "", null, true);
-
-        model.addAttribute("product", producto);
+        model.addAttribute("product", new Producto(null, "", "", 0.0, null, "", null, true));
         model.addAttribute("categories", categoriaService.getAllCategories());
-        return "Formulario"; // view containing the create/update form
-
+        return "Formulario";
     }
 
     @PostMapping("/create")
@@ -59,10 +56,9 @@ public class ProductoController {
 
     @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        Producto producto = productoService.searchById(id);
-        model.addAttribute("product", producto);
+        model.addAttribute("product", productoService.searchById(id));
         model.addAttribute("categories", categoriaService.getAllCategories());
-        return "Formulario"; // reuse the same form for editing
+        return "Formulario";
     }
 
     @GetMapping("/delete/{id}")

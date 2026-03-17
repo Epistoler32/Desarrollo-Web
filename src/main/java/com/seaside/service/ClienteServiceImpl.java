@@ -41,10 +41,16 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente actualizar(Cliente cliente) {
-        if (cliente.getContrasena() == null || cliente.getContrasena().isEmpty()) {
-            clienteRepository.findById(cliente.getId())
-                    .ifPresent(existing -> cliente.setContrasena(existing.getContrasena()));
-        }
+        clienteRepository.findById(cliente.getId()).ifPresent(existing -> {
+            // Preservar contraseña si llega vacía
+            if (cliente.getContrasena() == null || cliente.getContrasena().isEmpty()) {
+                cliente.setContrasena(existing.getContrasena());
+            }
+            // Preservar carrito
+            if (cliente.getCarrito() == null) {
+                cliente.setCarrito(existing.getCarrito());
+            }
+        });
         return clienteRepository.save(cliente);
     }
 

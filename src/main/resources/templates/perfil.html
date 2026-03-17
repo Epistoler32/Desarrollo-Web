@@ -23,6 +23,7 @@
           <li><a class="page-link" href="/">Home</a></li>
           <li><a class="page-link" href="/menu">Menú</a></li>
           <li><a class="page-link" href="/clients/profile">Perfil</a></li>
+          <li><a class="login-link" href="/logout">Cerrar sesión</a></li>
         </ul>
       </nav>
     </header>
@@ -70,7 +71,9 @@
           </a>
           <a
             th:href="@{/clients/delete/{id}(id=${client.id})}"
-            class="auth-btn auth-btn-delete"
+            class="auth-btn"
+            style="background: linear-gradient(135deg, #730202, #c81e1e);"
+            onclick="return confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');"
           >
             Eliminar Cuenta
           </a>
