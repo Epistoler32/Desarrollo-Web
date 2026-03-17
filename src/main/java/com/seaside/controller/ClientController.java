@@ -23,14 +23,14 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public String getClientById(Model model, @PathVariable("id") Integer id) {
-        Cliente cliente = clienteService.buscarPorId(id);
-        model.addAttribute("client", cliente);
+        model.addAttribute("client", clienteService.buscarPorId(id));
         return "client_detail";
     }
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("client", new Cliente(null, "", "", "", "", "", ""));
+        // El controlador solo pone un cliente vacío en el modelo - sin lógica
+        model.addAttribute("client", new Cliente());
         return "client_form";
     }
 
@@ -39,7 +39,8 @@ public class ClientController {
         if (clienteService.existeCorreo(cliente.getCorreo())) {
             return "redirect:/clients/create?error=email";
         }
-        clienteService.registrar(cliente);
+        // registrarNuevo garantiza carrito, igual que en AuthController
+        clienteService.registrarNuevo(cliente);
         return "redirect:/clients/listing";
     }
 
@@ -53,9 +54,9 @@ public class ClientController {
         return "editar_perfil";
     }
 
-    // PROFE COMENTARIO #2: lógica de contraseña eliminada del controlador, vive en el servicio
     @PostMapping("/update")
     public String updateClient(@ModelAttribute Cliente cliente, HttpSession session) {
+        // actualizar() preserva contraseña y carrito - toda esa lógica vive en el servicio
         Cliente actualizado = clienteService.actualizar(cliente);
         session.setAttribute("clienteSession", actualizado);
         return "redirect:/clients/profile";

@@ -14,7 +14,7 @@ import java.util.Optional;
 public class AuthController {
 
     @Autowired
-    ClienteService clienteService;
+    private ClienteService clienteService;
 
     // ─── SIGNUP ──────────────────────────────────────────────
 
@@ -24,7 +24,6 @@ public class AuthController {
         return "signup";
     }
 
-    // PROFE COMENTARIO #1: @ModelAttribute en lugar de múltiples @RequestParam
     @PostMapping("/signup")
     public String procesarSignup(
             @ModelAttribute Cliente cliente,
@@ -36,7 +35,8 @@ public class AuthController {
             return "signup";
         }
 
-        Cliente guardado = clienteService.registrar(cliente);
+        // registrarNuevo garantiza que el cliente siempre tenga un carrito asignado
+        Cliente guardado = clienteService.registrarNuevo(cliente);
         session.setAttribute("clienteSession", guardado);
         return "redirect:/clients/profile";
     }
@@ -48,7 +48,6 @@ public class AuthController {
         return "login";
     }
 
-    // PROFECOMENTARIO #2: validación de credenciales delegada al servicio
     @PostMapping("/login")
     public String procesarLogin(
             @RequestParam String correo,

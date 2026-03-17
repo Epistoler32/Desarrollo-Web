@@ -2,40 +2,59 @@ package com.seaside.service;
 
 import com.seaside.errors.ProductNotFoundException;
 import com.seaside.model.Producto;
+import com.seaside.repository.CategoriaRepository;
 import com.seaside.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Collection;
 
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
-    ProductoRepository ProductoRepository;
+    private ProductoRepository productoRepository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     @Override
     public Producto searchById(Integer id) {
-        return ProductoRepository.findById(id)
+        return productoRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
     public Collection<Producto> getAllProducts() {
-        return ProductoRepository.findAll();
+        return productoRepository.findAll();
     }
 
     @Override
     public Collection<Producto> searchByCategory(String category) {
-        return ProductoRepository.findByCategoria_Nombre(category);
+        return productoRepository.findByCategoria_Nombre(category);
     }
 
     @Override
     public void save(Producto producto) {
-        ProductoRepository.save(producto);
+        productoRepository.save(producto);
+    }
+
+    // Cuando el formulario envía solo el id de la categoria
+
+    @Override
+    public void saveWithCategoria(Producto producto) {
+        if (producto.getCategoria() != null && producto.getCategoria().getId() != null) {
+            producto.setCategoria(
+                    categoriaRepository.findById(producto.getCategoria().getId())
+                            .orElseThrow(() -> new IllegalArgumentException(
+                                    "Categoría no encontrada: " + producto.getCategoria().getId()))
+            );
+        }
+        productoRepository.save(producto);
     }
 
     @Override
     public void delete(Integer id) {
-        ProductoRepository.deleteById(id);
+        productoRepository.deleteById(id);
     }
 }

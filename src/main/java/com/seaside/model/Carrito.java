@@ -20,7 +20,7 @@ public class Carrito {
     @Column(nullable = false)
     private LocalDateTime ultimaActualizacion;
 
-    // Relación inversa: un carrito pertenece a un cliente
+    // un carrito pertenece a un cliente
     @OneToOne(mappedBy = "carrito")
     private Cliente cliente;
 
@@ -32,7 +32,6 @@ public class Carrito {
         this.ultimaActualizacion = ultimaActualizacion;
     }
 
-    // Getter explícito para evitar problemas de orden de compilación con Lombok
     public Integer getId() {
         return id;
     }

@@ -2,8 +2,8 @@ package com.seaside.controller;
 
 import com.seaside.model.Producto;
 import com.seaside.service.AdicionalService;
-import com.seaside.service.ProductoService;
 import com.seaside.service.CategoriaService;
+import com.seaside.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class ProductoController {
 
     @Autowired
-    ProductoService productoService;
+    private ProductoService productoService;
 
     @Autowired
-    CategoriaService categoriaService;
+    private CategoriaService categoriaService;
 
     @Autowired
-    AdicionalService adicionalService;
+    private AdicionalService adicionalService;
 
     @GetMapping("/listing")
     public String listProducts(Model model) {
@@ -32,7 +32,6 @@ public class ProductoController {
     public String getProductById(Model model, @PathVariable("id") Integer ident) {
         Producto product = productoService.searchById(ident);
         model.addAttribute("product", product);
-        // Pasar los adicionales de la misma categoría del producto
         model.addAttribute("adicionales",
                 adicionalService.findByCategoria(product.getCategoria().getId()));
         return "product_detail";
@@ -40,17 +39,15 @@ public class ProductoController {
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("product", new Producto(null, "", "", 0.0, null, "", null, true));
+        model.addAttribute("product", new Producto());
         model.addAttribute("categories", categoriaService.getAllCategories());
         return "Formulario";
     }
 
     @PostMapping("/create")
     public String createProduct(@ModelAttribute Producto producto) {
-        if (producto.getCategoria() != null && producto.getCategoria().getId() != null) {
-            producto.setCategoria(categoriaService.searchById(producto.getCategoria().getId()));
-        }
-        productoService.save(producto);
+        // saveWithCategoria resuelve el objeto Categoria a partir del id del formulario
+        productoService.saveWithCategoria(producto);
         return "redirect:/products/listing";
     }
 

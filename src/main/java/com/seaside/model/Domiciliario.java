@@ -42,7 +42,7 @@ public class Domiciliario {
     @Column(nullable = false)
     private boolean disponible;
 
-    // FK al pedido que tiene asignado actualmente (puede ser null si está libre)
+    // FK al pedido que tiene asignado actualmente
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;

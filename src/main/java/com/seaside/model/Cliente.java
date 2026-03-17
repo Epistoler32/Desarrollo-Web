@@ -33,8 +33,7 @@ public class Cliente {
     @Column(length = 70, nullable = false)
     private String direccion;
 
-    // Relación OneToOne con Carrito — cascade ALL para que al crear/borrar cliente
-    // se cree/borre su carrito automáticamente
+    // Relación uno a uno con Carrito
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "carrito_id")
     private Carrito carrito;
@@ -49,7 +48,7 @@ public class Cliente {
         this.direccion = direccion;
     }
 
-    // Constructor completo sin id (para DataLoader con carrito pre-asignado)
+    // Constructor completo sin id
     public Cliente(String nombre, String apellido, String correo,
                    String contrasena, String telefono, String direccion,
                    Carrito carrito) {
@@ -62,7 +61,7 @@ public class Cliente {
         this.carrito = carrito;
     }
 
-    // Constructor con id explícito y sin carrito — usado en ClientController.showCreateForm
+    // Constructor con id explícito y sin carrito
     public Cliente(Integer id, String nombre, String apellido, String correo,
                    String contrasena, String telefono, String direccion) {
         this.id = id;
