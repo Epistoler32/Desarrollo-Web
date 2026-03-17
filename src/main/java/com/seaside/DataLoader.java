@@ -47,14 +47,14 @@ public class DataLoader implements CommandLineRunner {
 
         // ══════════════════════════════════════════════════════════════
         // PRODUCTOS
-        // Convención de alérgenos usada:
-        //   Pescado   → peces (robalo, salmón, atún, corvina, trucha, bacalao…)
-        //   Marisco   → crustáceos y moluscos (camarón, langosta, pulpo, calamar, mejillón…)
-        //   Gluten    → trigo / pasta / pan
-        //   Lácteos   → crema, mantequilla, queso
-        //   Huevo     → presente en salsas y repostería
-        //   Frutos secos → almendras, nueces, ajonjolí
-        //   Mostaza   → presente en algunas salsas
+        // alérgenos:
+        //   Pescado 
+        //   Marisco
+        //   Gluten
+        //   Lácteos
+        //   Huevo
+        //   Frutos secos
+        //   Mostaza
         // ══════════════════════════════════════════════════════════════
         if (productoRepository.count() == 0) {
 
@@ -575,85 +575,85 @@ public class DataLoader implements CommandLineRunner {
 
             adicionalesRepository.save(new Adicionales("Queso costeño rallado",
                     "50g de queso costeño rallado para gratinar.", 4000.0,
-                    "https://img.sanishtech.com/u/queso-costeno.png",
+                    "https://i.postimg.cc/R06dWRG4/image.png",
                     3, true, entradas));   // Lácteos
 
             // Adicionales para Acompañamientos
             adicionalesRepository.save(new Adicionales("Porción extra de arroz de coco",
                     "Ración adicional del arroz insignia de la casa.", 7000.0,
-                    "https://img.sanishtech.com/u/arroz-extra.png",
+                    "https://i.postimg.cc/rmHfhHmC/image.png",
                     10, false, acompanamientos));  // Sin alérgenos
 
             adicionalesRepository.save(new Adicionales("Patacón extra",
                     "Dos patacones adicionales con hogao.", 5000.0,
-                    "https://img.sanishtech.com/u/patacon-extra.png",
+                    "https://i.postimg.cc/gcXpYF3H/image.png",
                     10, false, acompanamientos));  // Sin alérgenos
 
             adicionalesRepository.save(new Adicionales("Suero costeño",
                     "Porción de suero costeño para acompañar.", 3500.0,
-                    "https://img.sanishtech.com/u/suero.png",
+                    "https://i.postimg.cc/VLXcCqG4/image.png",
                     2, true, acompanamientos));    // Lácteos
 
             adicionalesRepository.save(new Adicionales("Ensalada verde pequeña",
                     "Mix de lechugas, tomate cherry y vinagreta de limón.", 5500.0,
-                    "https://img.sanishtech.com/u/ensalada-verde.png",
+                    "https://i.postimg.cc/44hDDvTB/image.png",
                     5, false, acompanamientos));   // Sin alérgenos
 
             adicionalesRepository.save(new Adicionales("Maduro asado",
                     "Plátano maduro asado con canela y panela.", 4000.0,
-                    "https://img.sanishtech.com/u/maduro-asado.png",
+                    "https://i.postimg.cc/BQTd6qbC/image.png",
                     12, false, acompanamientos));  // Sin alérgenos
 
             // Adicionales para Postres
             adicionalesRepository.save(new Adicionales("Bola de helado de vainilla",
                     "Helado artesanal de vainilla de Madagascar.", 5000.0,
-                    "https://img.sanishtech.com/u/helado-vainilla.png",
+                    "https://i.postimg.cc/Jh2Fg0YJ/image.png",
                     2, true, postres));    // Lácteos, Huevo
 
             adicionalesRepository.save(new Adicionales("Salsa de chocolate amargo",
                     "Coulis de chocolate 70% cacao, tibio.", 3000.0,
-                    "https://img.sanishtech.com/u/salsa-chocolate.png",
+                    "https://i.postimg.cc/NGTnJg65/image.png",
                     3, true, postres));    // Puede contener trazas de Lácteos
 
             adicionalesRepository.save(new Adicionales("Fresas frescas (x5)",
                     "Fresas frescas de temporada en mitades.", 4500.0,
-                    "https://img.sanishtech.com/u/fresas.png",
+                    "https://i.postimg.cc/9fr8GVmN/image.png",
                     2, false, postres));   // Sin alérgenos
 
             adicionalesRepository.save(new Adicionales("Crema chantilly",
                     "Crema batida artesanal, sin azúcar añadida.", 3500.0,
-                    "https://img.sanishtech.com/u/chantilly.png",
+                    "https://i.postimg.cc/6qNMJvrQ/image.png",
                     3, true, postres));    // Lácteos
 
             adicionalesRepository.save(new Adicionales("Maracuyá en almíbar",
                     "Reducción de maracuyá con panela y especias.", 4000.0,
-                    "https://img.sanishtech.com/u/maracuya-almibar.png",
+                    "https://i.postimg.cc/RVwNZnw2/image.png",
                     5, false, postres));   // Sin alérgenos
 
             // Adicionales para Bebidas
             adicionalesRepository.save(new Adicionales("Leche de coco (250ml)",
                     "Leche de coco natural para combinar con tu bebida.", 4500.0,
-                    "https://img.sanishtech.com/u/leche-coco.png",
+                    "https://i.postimg.cc/h45Gr11M/image.png",
                     2, false, bebidas));   // Sin alérgenos declarados
 
             adicionalesRepository.save(new Adicionales("Sirope de hierbas",
                     "Sirope artesanal de albahaca, menta y limón.", 3000.0,
-                    "https://img.sanishtech.com/u/sirope-hierbas.png",
+                    "https://i.postimg.cc/Gpx2x0XK/image.png",
                     2, false, bebidas));   // Sin alérgenos
 
             adicionalesRepository.save(new Adicionales("Shot de espresso doble",
                     "Doble extracción de café de especialidad.", 5000.0,
-                    "https://img.sanishtech.com/u/espresso-doble.png",
+                    "https://i.postimg.cc/5y06tPq5/image.png",
                     3, false, bebidas));   // Sin alérgenos
 
             adicionalesRepository.save(new Adicionales("Hielo extra",
                     "Vaso adicional de hielo en cubos.", 1500.0,
-                    "https://img.sanishtech.com/u/hielo.png",
+                    "https://i.postimg.cc/L5NLCYvV/image.png",
                     1, false, bebidas));   // Sin alérgenos
 
             adicionalesRepository.save(new Adicionales("Fruta picada de temporada",
                     "Porción de mango, papaya o piña según disponibilidad del día.", 4000.0,
-                    "https://img.sanishtech.com/u/fruta-temporada.png",
+                    "https://i.postimg.cc/xdzGfdTV/image.png",
                     5, false, bebidas));   // Sin alérgenos
         }
 
