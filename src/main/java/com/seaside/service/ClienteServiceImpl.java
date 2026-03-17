@@ -46,7 +46,7 @@ public class ClienteServiceImpl implements ClienteService {
             if (cliente.getContrasena() == null || cliente.getContrasena().isEmpty()) {
                 cliente.setContrasena(existing.getContrasena());
             }
-            // Preservar carrito — Thymeleaf no lo incluye en el form de editar perfil
+            // Preservar carrito
             if (cliente.getCarrito() == null) {
                 cliente.setCarrito(existing.getCarrito());
             }

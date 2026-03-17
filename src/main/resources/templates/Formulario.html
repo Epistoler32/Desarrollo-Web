@@ -13,7 +13,7 @@
     <link rel="stylesheet" th:href="@{/styles/product_detail.css}" />
     <link rel="stylesheet" th:href="@{/styles/product_listing.css}" />
     <link rel="stylesheet" th:href="@{/styles/Formulario.css}" />
-    <title>Admin - Tabla Menú | SeaSide</title>
+    <title>Admin - Gestión Producto | SeaSide</title>
   </head>
   <body>
     <header class="admin-navbar" id="navbar">
@@ -29,7 +29,7 @@
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6" />
           </svg>
-          Volver al sitio
+          Volver al listado
         </a>
       </nav>
     </header>
@@ -37,22 +37,15 @@
     <main class="admin-main">
       <div class="page-header">
         <div class="page-header-left">
-          <h1
-            class="titulo-principal"
-            th:text="${product.id} != null ? 'Actualizar plato' : 'Añadir plato'"
-          >
+          <h1 class="titulo-principal"
+              th:text="${product.id} != null ? 'Actualizar plato' : 'Añadir plato'">
             Gestión de Menú
           </h1>
         </div>
       </div>
 
       <div class="detail-main">
-        <form
-          th:action="@{/products/create}"
-          th:object="${product}"
-          method="post"
-          id="productForm"
-        >
+        <form th:action="@{/products/create}" th:object="${product}" method="post" id="productForm">
           <input type="hidden" th:field="*{id}" />
 
           <div class="form-group">
@@ -83,14 +76,30 @@
           </div>
 
           <div class="form-group">
-            <label for="tiempoMinutos">Tiempo (min)</label>
+            <label for="tiempoMinutos">Tiempo de preparación (min)</label>
             <input type="number" id="tiempoMinutos" th:field="*{tiempoMinutos}" required />
           </div>
 
           <div class="form-group checkbox-group">
             <label>
-              <input type="checkbox" th:field="*{tieneAlergenos}" /> Tiene alérgenos
+              <input type="checkbox" th:field="*{tieneAlergenos}" /> Contiene alérgenos
             </label>
+          </div>
+
+          <!-- Campo de descripción de alérgenos — visible siempre para poder editarlo -->
+          <div class="form-group">
+            <label for="descripcionAlergenos">
+              Alérgenos específicos
+              <span style="font-weight:300; font-size:12px; color:#8a6060;">
+                (ej: Gluten, Marisco, Pescado, Lactosa)
+              </span>
+            </label>
+            <input
+              type="text"
+              id="descripcionAlergenos"
+              th:field="*{descripcionAlergenos}"
+              placeholder="Deja vacío si no aplica"
+            />
           </div>
 
           <div class="form-group">
@@ -101,7 +110,6 @@
               th:field="*{imageUrl}"
               placeholder="https://..."
             />
-            <!-- LA VUELTA RÁPIDA COMENTARIO #3: título para la sección de previsualización -->
             <p id="previewLabel" style="
               display: none;
               margin-top: 12px;
@@ -109,7 +117,7 @@
               font-family: 'Fuzzy Bubbles', cursive;
               font-size: 14px;
               color: #400101;
-            ">Vista previa de la imagen:</p>
+            ">Vista previa:</p>
           </div>
 
           <div class="form-actions">
@@ -131,6 +139,9 @@
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
                 <circle cx="12" cy="9" r="2.5" />
               </svg>
+              <span>Carrera 15 #93-48, Bogotá, Colombia</span>
+            </div>
+            <div class="footer-info-item">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
@@ -142,20 +153,20 @@
             <div class="footer-info-item">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>
               <span>
-                Lunes a jueves: 12:00 p.m. - 9:00 p.m.<br />
-                Viernes y sábado: 12:00 p.m. - 10:30 p.m.<br />
+                Lunes a jueves: 12:00 p.m. - 9:00 p.m.<br/>
+                Viernes y sábado: 12:00 p.m. - 10:30 p.m.<br/>
                 Domingos y festivos: 12:00 p.m. - 8:00 p.m.
               </span>
             </div>
             <div class="footer-info-item">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
               </svg>
               <span>@SeaSideRestaurante</span>
             </div>
@@ -170,8 +181,8 @@
             <div class="footer-info-item">
               <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
               </svg>
               <span>contacto@seasiderestaurante.com</span>
             </div>

@@ -11,12 +11,174 @@
     />
     <link rel="stylesheet" th:href="@{/styles/menu_carta.css}" />
     <link rel="stylesheet" th:href="@{/styles/product_detail.css}" />
-    <title th:text="${product != null} ? ${product.nombre} : 'Detalle'">
-      Detalle Producto
-    </title>
+    <style>
+      /* ─── SECCIÓN ADICIONALES ─────────────────────────────── */
+      .adicionales-section {
+        max-width: 800px;
+        margin: 0 auto 80px;
+        padding: 0 20px;
+      }
+      .adicionales-title {
+        font-family: "Island Moments", cursive;
+        font-weight: 100;
+        color: #400101;
+        font-size: clamp(36px, 5vw, 64px);
+        margin: 0 0 8px 0;
+        display: inline-block;
+      }
+      .adicionales-title::after {
+        content: "";
+        display: block;
+        height: 3px;
+        width: 60%;
+        background: linear-gradient(to right, #F2B705, transparent);
+        margin-top: 4px;
+      }
+      .adicionales-subtitle {
+        font-family: "Fuzzy Bubbles", cursive;
+        font-weight: 300;
+        font-size: clamp(14px, 1.2vw, 16px);
+        color: #8a6060;
+        margin: 0 0 28px 0;
+      }
+      .adicionales-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: clamp(12px, 2vw, 20px);
+      }
+      .adicional-card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 2px 14px rgba(64,1,1,0.08);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        border: 1px solid rgba(64,1,1,0.07);
+      }
+      .adicional-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px rgba(64,1,1,0.15);
+      }
+      .adicional-img-wrap {
+        width: 100%;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+      }
+      .adicional-img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+      }
+      .adicional-card:hover .adicional-img { transform: scale(1.05); }
+      .adicional-body {
+        padding: 14px 16px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+      }
+      .adicional-nombre {
+        font-family: "Fuzzy Bubbles", cursive;
+        font-weight: 600;
+        font-size: 14px;
+        color: #400101;
+        margin: 0;
+      }
+      .adicional-desc {
+        font-family: "Fuzzy Bubbles", cursive;
+        font-weight: 300;
+        font-size: 12px;
+        color: #8a6060;
+        line-height: 1.5;
+        margin: 0;
+        flex: 1;
+      }
+      .adicional-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 8px;
+      }
+      .adicional-precio {
+        font-family: "Fuzzy Bubbles", cursive;
+        font-weight: 600;
+        font-size: 14px;
+        color: #400101;
+      }
+      .adicional-alergeno {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(64,1,1,0.08);
+        color: #730202;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-family: "Fuzzy Bubbles", cursive;
+      }
+      .adicional-alergeno svg { width:11px; height:11px; }
+      .adicionales-empty {
+        font-family: "Fuzzy Bubbles", cursive;
+        font-weight: 300;
+        color: #8a6060;
+        font-size: 14px;
+        padding: 12px 0;
+      }
+
+      /* ─── CARRITO NAVBAR ──────────────────────────────────── */
+      .nav-cart {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(242,183,5,0.15);
+        border: 1.5px solid rgba(242,183,5,0.4);
+        border-radius: 10px;
+        padding: clamp(6px,0.8vw,10px) clamp(10px,1.4vw,20px);
+        color: #F2B705;
+        text-decoration: none;
+        font-family: "Fuzzy Bubbles", cursive;
+        font-size: clamp(13px,1.4vw,16px);
+        font-weight: 500;
+        transition: background 0.2s ease;
+      }
+      .nav-cart:hover { background: rgba(242,183,5,0.28); }
+      .nav-cart svg { width:18px; height:18px; }
+
+      /* Badge alérgeno con tooltip */
+      .badge-allergen-wrap { position: relative; display: inline-flex; }
+      .badge-allergen-wrap:hover .alergeno-tooltip { opacity:1; }
+      .alergeno-tooltip {
+        position: absolute;
+        bottom: calc(100% + 8px);
+        right: 0;
+        background: #400101;
+        color: #F2B705;
+        font-family: "Fuzzy Bubbles", cursive;
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 10;
+      }
+      .alergeno-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%; right: 14px;
+        border: 5px solid transparent;
+        border-top-color: #400101;
+      }
+    </style>
+    <title th:text="${product != null} ? ${product.nombre} : 'Detalle'">Detalle Producto</title>
   </head>
   <body>
-    <!-- ─── NAVBAR ─────────────────────── -->
+
+    <!-- ─── NAVBAR ────────────────────── -->
     <header class="navigation-bar" id="navbar">
       <figure class="logo">
         <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
@@ -25,8 +187,26 @@
         <ul class="nav-links">
           <li><a class="page-link" href="/">Home</a></li>
           <li><a class="page-link active" href="/menu">Menú</a></li>
-          <li><a class="page-link" href="/contacto">Contact Us</a></li>
-          <li><a class="login-link" href="/login">Log in</a></li>
+          <li><a class="page-link" href="/contacto">Contáctanos</a></li>
+          <li><a class="page-link" href="/visitanos">Visítanos</a></li>
+
+          <li th:if="${session.clienteSession != null}">
+            <a href="/carrito" class="nav-cart" aria-label="Ver carrito">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Carrito
+            </a>
+          </li>
+          <li th:if="${session.clienteSession == null}">
+            <a class="login-link" href="/login">Log in</a>
+          </li>
+          <li th:if="${session.clienteSession != null}">
+            <a class="login-link" href="/clients/profile"
+               th:text="${session.clienteSession.nombre}">Mi cuenta</a>
+          </li>
         </ul>
       </nav>
     </header>
@@ -43,78 +223,51 @@
       </div>
     </div>
 
-    <!-- ─── DETAILS ─────────────────────────────────────────── -->
+    <!-- ─── DETALLE ──────────────────────────────────────── -->
     <main class="detail-main" th:if="${product != null}">
-      <article
-        class="product-card"
-        style="max-width: 800px; margin: 120px auto 80px"
-      >
+      <article class="product-card" style="max-width:800px; margin:120px auto 40px">
         <div class="card-image-wrapper">
-          <img
-            class="card-img"
-            th:src="${product.imageUrl}"
-            th:alt="${product.nombre}"
-          />
+          <img class="card-img" th:src="${product.imageUrl}" th:alt="${product.nombre}" />
           <div class="card-dark-overlay"></div>
           <div class="card-badges">
             <span class="badge badge-time">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>
               <span th:text="${product.tiempoMinutos} + ' min'">0 min</span>
             </span>
-            <span
-              class="badge badge-allergen"
-              th:if="${product.tieneAlergenos}"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                />
-                <line x1="12" y1="9" x2="12" y2="13" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
-              </svg>
-              Alérgeno
+
+            <!-- Badge alérgeno con tooltip -->
+            <span th:if="${product.tieneAlergenos}" class="badge-allergen-wrap">
+              <span class="badge badge-allergen">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                Alérgeno
+              </span>
+              <span
+                class="alergeno-tooltip"
+                th:if="${product.descripcionAlergenos != null and !#strings.isEmpty(product.descripcionAlergenos)}"
+                th:text="${product.descripcionAlergenos}"
+              ></span>
+              <span
+                class="alergeno-tooltip"
+                th:if="${product.descripcionAlergenos == null or #strings.isEmpty(product.descripcionAlergenos)}"
+              >Contiene alérgenos</span>
             </span>
           </div>
           <div class="card-name-block">
-            <h3 class="card-name" th:text="${product.nombre}">
-              Nombre producto
-            </h3>
-            <p class="detail-desc-overlay" th:text="${product.descripcion}">
-              Descripción del producto
-            </p>
-            <p
-              class="detail-desc-overlay"
-              th:text="${product.categoria.nombre}"
-            >
-              Categoría del producto
-            </p>
+            <h3 class="card-name" th:text="${product.nombre}">Nombre producto</h3>
+            <p class="detail-desc-overlay" th:text="${product.descripcion}">Descripción</p>
+            <p class="detail-desc-overlay" th:text="${product.categoria.nombre}">Categoría</p>
           </div>
         </div>
         <div class="card-footer">
-          <span
-            class="card-price"
-            th:text="'$' + ${#numbers.formatInteger(product.precio,0,'COMMA')}"
-            >$0</span
-          >
+          <span class="card-price"
+            th:text="'$' + ${#numbers.formatInteger(product.precio,0,'COMMA')}">$0</span>
           <div class="footer-buttons">
             <a href="/menu" class="btn-return">Volver</a>
             <button class="btn-agregar">Agregar orden</button>
@@ -122,115 +275,116 @@
         </div>
       </article>
     </main>
+
+    <!-- ─── ADICIONALES ──────────────────────────────────── -->
+    <section
+      class="adicionales-section"
+      th:if="${product != null}"
+    >
+      <h2 class="adicionales-title">Adicionales</h2>
+      <p class="adicionales-subtitle">
+        Complementa tu plato con estas opciones de la misma categoría
+      </p>
+
+      <!-- Hay adicionales -->
+      <div
+        class="adicionales-grid"
+        th:if="${adicionales != null and !adicionales.isEmpty()}"
+      >
+        <div class="adicional-card" th:each="ad : ${adicionales}">
+          <div class="adicional-img-wrap">
+            <img class="adicional-img" th:src="${ad.imagenURL}" th:alt="${ad.nombre}" />
+          </div>
+          <div class="adicional-body">
+            <p class="adicional-nombre" th:text="${ad.nombre}">Nombre</p>
+            <p class="adicional-desc" th:text="${ad.descripcion}">Descripción</p>
+            <div class="adicional-footer">
+              <span class="adicional-precio"
+                th:text="'+ $' + ${#numbers.formatInteger(ad.precio,0,'COMMA')}">
+                + $0
+              </span>
+              <span class="adicional-alergeno" th:if="${ad.tieneAlergenos}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                </svg>
+                Alérgeno
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sin adicionales para esta categoría -->
+      <p
+        class="adicionales-empty"
+        th:if="${adicionales == null or adicionales.isEmpty()}"
+      >
+        No hay adicionales disponibles para esta categoría.
+      </p>
+    </section>
+
     <main th:if="${product == null}" class="detail-main">
       <p>Producto no encontrado.</p>
     </main>
 
-    <!-- ─── FOOTER ───────────────────────────────────────────── -->
+    <!-- ─── FOOTER ─────────────────────────────────────── -->
     <footer>
       <section id="visit-us">
         <h4 class="general-title">Visitanos</h4>
         <div class="footer-info-grid">
           <div class="footer-col">
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                />
-                <circle cx="12" cy="9" r="2.5" />
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
               </svg>
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
-                />
+              <span>Carrera 15 #93-48, Bogotá, Colombia</span>
+            </div>
+            <div class="footer-info-item">
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
               <span>+57 320 587 9412</span>
             </div>
           </div>
           <div class="footer-col">
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>
               <span>
-                Lunes a jueves: 12:00 p.m. - 9:00 p.m.<br />
-                Viernes y sábado: 12:00 p.m. - 10:30 p.m.<br />
+                Lunes a jueves: 12:00 p.m. - 9:00 p.m.<br/>
+                Viernes y sábado: 12:00 p.m. - 10:30 p.m.<br/>
                 Domingos y festivos: 12:00 p.m. - 8:00 p.m.
               </span>
             </div>
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
               </svg>
               <span>@SeaSideRestaurante</span>
             </div>
           </div>
           <div class="footer-col">
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path
-                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                />
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
               <span>@SeaSideRestaurantetwt</span>
             </div>
             <div class="footer-info-item">
-              <svg
-                class="footer-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
               </svg>
               <span>contacto@seasiderestaurante.com</span>
             </div>

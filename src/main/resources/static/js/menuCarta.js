@@ -1,7 +1,6 @@
 // ─── menuCarta.js ─────────────────────────────────────────────────────────────
-// Lógica exclusiva de menu_carta y product_detail.
 
-// ─── Reveal on scroll para tarjetas de producto ───────────────────────────────
+// ─── Reveal on scroll ─────────────────────────────────────────────────────────
 const revealEls = document.querySelectorAll('.product-card');
 
 const observer = new IntersectionObserver((entries) => {
@@ -17,21 +16,45 @@ const observer = new IntersectionObserver((entries) => {
 
 revealEls.forEach((el) => observer.observe(el));
 
-// ─── Botón Agregar ─────────────────────────────────────────
-document.querySelectorAll('.btn-agregar').forEach(btn => {
-  btn.addEventListener('click', function () {
-    const original = this.textContent;
-    this.textContent = '✓ Agregado';
-    this.style.background = 'linear-gradient(135deg, #400101, #730202)';
-    this.style.color = '#F2B705';
-    setTimeout(() => {
-      this.textContent = original;
-      this.style.background = '';
-      this.style.color = '';
-      const href = this.getAttribute('href');
-      if (href) {
-        window.location.href = href;
-      }
-    }, 600);
+// ─── FILTROS ───────────────────────────────────────────────────────────────────
+
+const searchInput   = document.getElementById('filter-search');
+const alergenoBtn   = document.getElementById('filter-alergenos');
+const cards         = document.querySelectorAll('.product-card');
+const categorySections = document.querySelectorAll('.category-section');
+
+let soloSinAlergenos = false;
+
+function applyFilters() {
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+  cards.forEach(card => {
+    const nombre    = (card.dataset.nombre  || '').toLowerCase();
+    const alergenos = card.dataset.alergenos === 'true';
+
+    const matchesSearch   = !query || nombre.includes(query);
+    const matchesAlergeno = !soloSinAlergenos || !alergenos;
+
+    card.style.display = (matchesSearch && matchesAlergeno) ? '' : 'none';
   });
-});
+
+  // Ocultar secciones enteras si todos sus productos están ocultos
+  categorySections.forEach(section => {
+    const visible = [...section.querySelectorAll('.product-card')]
+      .some(c => c.style.display !== 'none');
+    section.style.display = visible ? '' : 'none';
+  });
+}
+
+if (searchInput) {
+  searchInput.addEventListener('input', applyFilters);
+}
+
+if (alergenoBtn) {
+  alergenoBtn.addEventListener('click', () => {
+    soloSinAlergenos = !soloSinAlergenos;
+    alergenoBtn.classList.toggle('active', soloSinAlergenos);
+    alergenoBtn.setAttribute('aria-pressed', soloSinAlergenos);
+    applyFilters();
+  });
+}
