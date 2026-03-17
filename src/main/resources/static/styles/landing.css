@@ -92,6 +92,7 @@ section:last-of-type {
 
 .navigation-bar .nav-links .page-link.scrolled {
   text-shadow: none;
+  color: #400101;
 }
 
 .navigation-bar .nav-links li a.scrolled:hover {

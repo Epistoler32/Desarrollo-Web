@@ -63,7 +63,10 @@ body {
   font-weight: 700;
 }
 
-.navigation-bar .nav-links .page-link.scrolled { text-shadow: none; }
+.navigation-bar .nav-links .page-link.scrolled {
+  text-shadow: none;
+  color: #400101;
+}
 
 .login-link {
   background-color: #400101;
