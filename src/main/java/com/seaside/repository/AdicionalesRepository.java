@@ -8,7 +8,7 @@ import java.util.List;
  
 @Repository
 public interface AdicionalesRepository extends JpaRepository<Adicionales, Integer> {
-    // Buscar adicionales por categoría — usado en product_detail para mostrar opciones
+    // Buscar adicionales por categoría
     List<Adicionales> findByCategoria_Id(Integer categoriaId);
     List<Adicionales> findByCategoria_Nombre(String nombre);
 }

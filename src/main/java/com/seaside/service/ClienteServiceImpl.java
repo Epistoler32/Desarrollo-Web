@@ -1,9 +1,12 @@
 package com.seaside.service;
 
+import com.seaside.model.Carrito;
 import com.seaside.model.Cliente;
 import com.seaside.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -34,6 +37,17 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.existsByCorreo(correo);
     }
 
+    // Registra un cliente nuevo garantizando que siempre tenga un carrito asociado.
+
+    @Override
+    public Cliente registrarNuevo(Cliente cliente) {
+        if (cliente.getCarrito() == null) {
+            cliente.setCarrito(new Carrito(LocalDateTime.now()));
+        }
+        return clienteRepository.save(cliente);
+    }
+
+    // Persiste el cliente tal cual, sin modificar su estado.
     @Override
     public Cliente registrar(Cliente cliente) {
         return clienteRepository.save(cliente);
@@ -42,11 +56,10 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Cliente actualizar(Cliente cliente) {
         clienteRepository.findById(cliente.getId()).ifPresent(existing -> {
-            // Preservar contraseña si llega vacía
             if (cliente.getContrasena() == null || cliente.getContrasena().isEmpty()) {
                 cliente.setContrasena(existing.getContrasena());
             }
-            // Preservar carrito
+            // el cliente no puede cambiar su carrito desde el perfil
             if (cliente.getCarrito() == null) {
                 cliente.setCarrito(existing.getCarrito());
             }

@@ -43,12 +43,11 @@ public class Producto {
     @Column(nullable = false)
     private boolean tieneAlergenos;
 
-    // Describe cuáles alérgenos contiene, ej: "Gluten, Marisco, Pescado"
-    // Nullable para no romper productos existentes sin esta info
+    // Describe cuáles alérgenos contiene
     @Column(length = 150)
     private String descripcionAlergenos;
 
-    // Constructor sin id
+    // Constructor con id 
     public Producto(Integer id, String nombre, String descripcion, double precio,
                     Categoria categoria, String imageUrl,
                     Integer tiempoMinutos, boolean tieneAlergenos) {
@@ -72,5 +71,19 @@ public class Producto {
         this.imageUrl = imageUrl;
         this.tiempoMinutos = tiempoMinutos;
         this.tieneAlergenos = tieneAlergenos;
+    }
+
+    // Constructor completo sin id
+    public Producto(String nombre, String descripcion, double precio, Categoria categoria,
+                    String imageUrl, Integer tiempoMinutos, boolean tieneAlergenos,
+                    String descripcionAlergenos) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.imageUrl = imageUrl;
+        this.tiempoMinutos = tiempoMinutos;
+        this.tieneAlergenos = tieneAlergenos;
+        this.descripcionAlergenos = descripcionAlergenos;
     }
 }

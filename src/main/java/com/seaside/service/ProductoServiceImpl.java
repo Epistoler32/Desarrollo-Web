@@ -2,40 +2,86 @@ package com.seaside.service;
 
 import com.seaside.errors.ProductNotFoundException;
 import com.seaside.model.Producto;
+import com.seaside.repository.CarritoProductoRepository;
+import com.seaside.repository.CategoriaRepository;
+import com.seaside.repository.ItemPedidoRepository;
 import com.seaside.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Collection;
 
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
-    ProductoRepository ProductoRepository;
+    private ProductoRepository productoRepository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private CarritoProductoRepository carritoProductoRepository;
+
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
     @Override
     public Producto searchById(Integer id) {
-        return ProductoRepository.findById(id)
+        return productoRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
     public Collection<Producto> getAllProducts() {
-        return ProductoRepository.findAll();
+        return productoRepository.findAll();
     }
 
     @Override
     public Collection<Producto> searchByCategory(String category) {
-        return ProductoRepository.findByCategoria_Nombre(category);
+        return productoRepository.findByCategoria_Nombre(category);
     }
 
     @Override
     public void save(Producto producto) {
-        ProductoRepository.save(producto);
+        productoRepository.save(producto);
     }
 
+    /**
+     * Cuando el formulario envía solo el id de la categoría (categoria.id),
+     * este método resuelve el objeto Categoria completo antes de persistir.
+     */
     @Override
+    public void saveWithCategoria(Producto producto) {
+        if (producto.getCategoria() != null && producto.getCategoria().getId() != null) {
+            producto.setCategoria(
+                    categoriaRepository.findById(producto.getCategoria().getId())
+                            .orElseThrow(() -> new IllegalArgumentException(
+                                    "Categoría no encontrada: " + producto.getCategoria().getId()))
+            );
+        }
+        productoRepository.save(producto);
+    }
+
+    /**
+     * Elimina un producto limpiando primero todas las referencias que lo bloquean:
+     * 1. CarritoProducto — filas de la tabla intermedia carrito_producto
+     * 2. ItemPedido      — items de pedidos que referencian este producto
+     *
+     * Sin este orden, la FK en carrito_producto e item_pedido lanza
+     * ConstraintViolationException e impide el borrado.
+     */
+    @Override
+    @Transactional
     public void delete(Integer id) {
-        ProductoRepository.deleteById(id);
+        // 1. Quitar el producto de todos los carritos donde esté
+        carritoProductoRepository.deleteByProductoId(id);
+
+        // 2. Quitar los items de pedido que referencian este producto
+        itemPedidoRepository.deleteByProductoId(id);
+
+        // 3. Ahora sí se puede borrar el producto sin violar FK
+        productoRepository.deleteById(id);
     }
 }
