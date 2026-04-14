@@ -1,16 +1,18 @@
 package com.seaside.errors;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+import java.util.Map;
+
+@RestControllerAdvice
 public class globalExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public String handleProductNotFound(ProductNotFoundException ex,
-            Model model) {
-        model.addAttribute("errorMessage", ex.getMessage());
-        return "error"; // busca error.html en la carpeta templates
+    public ResponseEntity<Map<String, String>> handleProductNotFound(ProductNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", ex.getMessage()));
     }
 }

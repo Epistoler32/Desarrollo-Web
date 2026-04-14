@@ -2,75 +2,43 @@ package com.seaside.controller;
 
 import com.seaside.model.Cliente;
 import com.seaside.service.ClienteService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
     private ClienteService clienteService;
 
-    // ─── SIGNUP ──────────────────────────────────────────────
-
-    @GetMapping("/signup")
-    public String mostrarSignup(Model model) {
-        model.addAttribute("cliente", new Cliente());
-        return "signup";
-    }
-
     @PostMapping("/signup")
-    public String procesarSignup(
-            @ModelAttribute Cliente cliente,
-            Model model,
-            HttpSession session) {
-
+    public ResponseEntity<?> procesarSignup(@RequestBody Cliente cliente) {
         if (clienteService.existeCorreo(cliente.getCorreo())) {
-            model.addAttribute("error", "Ya existe una cuenta con ese correo.");
-            return "signup";
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "Ya existe una cuenta con ese correo."));
         }
-
-        // registrarNuevo garantiza que el cliente siempre tenga un carrito asignado
         Cliente guardado = clienteService.registrarNuevo(cliente);
-        session.setAttribute("clienteSession", guardado);
-        return "redirect:/clients/profile";
-    }
-
-    // ─── LOGIN ───────────────────────────────────────────────
-
-    @GetMapping("/login")
-    public String mostrarLogin() {
-        return "login";
+        return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
     }
 
     @PostMapping("/login")
-    public String procesarLogin(
-            @RequestParam String correo,
-            @RequestParam String contrasena,
-            Model model,
-            HttpSession session) {
+    public ResponseEntity<?> procesarLogin(@RequestBody Map<String, String> credentials) {
+        String correo = credentials.get("correo");
+        String contrasena = credentials.get("contrasena");
 
         Optional<Cliente> encontrado = clienteService.autenticar(correo, contrasena);
 
         if (encontrado.isEmpty()) {
-            model.addAttribute("error", "Correo o contraseña incorrectos.");
-            return "login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Correo o contraseña incorrectos."));
         }
 
-        session.setAttribute("clienteSession", encontrado.get());
-        return "redirect:/clients/profile";
-    }
-
-    // ─── LOGOUT ──────────────────────────────────────────────
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
+        return ResponseEntity.ok(encontrado.get());
     }
 }

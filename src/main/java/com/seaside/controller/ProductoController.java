@@ -1,16 +1,21 @@
 package com.seaside.controller;
 
+import com.seaside.model.Adicionales;
 import com.seaside.model.Producto;
 import com.seaside.service.AdicionalService;
 import com.seaside.service.CategoriaService;
 import com.seaside.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/products")
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/products")
 public class ProductoController {
 
     @Autowired
@@ -22,45 +27,37 @@ public class ProductoController {
     @Autowired
     private AdicionalService adicionalService;
 
-    @GetMapping("/listing")
-    public String listProducts(Model model) {
-        model.addAttribute("products", productoService.getAllProducts());
-        return "product_listing";
+    @GetMapping
+    public ResponseEntity<Collection<Producto>> listProducts() {
+        return ResponseEntity.ok(productoService.getAllProducts());
     }
 
     @GetMapping("/{id}")
-    public String getProductById(Model model, @PathVariable("id") Integer ident) {
-        Producto product = productoService.searchById(ident);
-        model.addAttribute("product", product);
-        model.addAttribute("adicionales",
-                adicionalService.findByCategoria(product.getCategoria().getId()));
-        return "product_detail";
+    public ResponseEntity<Map<String, Object>> getProductById(@PathVariable("id") Integer id) {
+        Producto product = productoService.searchById(id);
+        List<Adicionales> adicionales = adicionalService.findByCategoria(product.getCategoria().getId());
+        return ResponseEntity.ok(Map.of(
+                "product", product,
+                "adicionales", adicionales
+        ));
     }
 
-    @GetMapping("/create")
-    public String showCreateForm(Model model) {
-        model.addAttribute("product", new Producto());
-        model.addAttribute("categories", categoriaService.getAllCategories());
-        return "Formulario";
-    }
-
-    @PostMapping("/create")
-    public String createProduct(@ModelAttribute Producto producto) {
-        // saveWithCategoria resuelve el objeto Categoria a partir del id del formulario
+    @PostMapping
+    public ResponseEntity<Void> createProduct(@RequestBody Producto producto) {
         productoService.saveWithCategoria(producto);
-        return "redirect:/products/listing";
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("product", productoService.searchById(id));
-        model.addAttribute("categories", categoriaService.getAllCategories());
-        return "Formulario";
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateProduct(@PathVariable("id") Integer id, @RequestBody Producto producto) {
+        producto.setId(id);
+        productoService.saveWithCategoria(producto);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Integer id) {
         productoService.delete(id);
-        return "redirect:/products/listing";
+        return ResponseEntity.noContent().build();
     }
 }

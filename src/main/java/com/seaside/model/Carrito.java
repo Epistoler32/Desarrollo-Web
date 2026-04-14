@@ -1,5 +1,6 @@
 package com.seaside.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class Carrito {
     @Column(nullable = false)
     private LocalDateTime ultimaActualizacion;
 
-    // un carrito pertenece a un cliente
+    @JsonIgnore
     @OneToOne(mappedBy = "carrito")
     private Cliente cliente;
 

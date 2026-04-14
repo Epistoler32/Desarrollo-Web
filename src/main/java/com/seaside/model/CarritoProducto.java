@@ -1,5 +1,6 @@
 package com.seaside.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class CarritoProducto {
     @EmbeddedId
     private CarritoProductoId id;
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("carritoId")
     @JoinColumn(name = "carrito_id", nullable = false)

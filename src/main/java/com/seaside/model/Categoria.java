@@ -1,5 +1,6 @@
 package com.seaside.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ public class Categoria {
     @Column(length = 50, nullable = false)
     private String nombre;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categoria")
     private List<Producto> productos;
 

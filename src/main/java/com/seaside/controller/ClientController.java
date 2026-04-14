@@ -2,79 +2,51 @@ package com.seaside.controller;
 
 import com.seaside.model.Cliente;
 import com.seaside.service.ClienteService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/clients")
+import java.util.Collection;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/clients")
 public class ClientController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping("/listing")
-    public String listClients(Model model) {
-        model.addAttribute("clients", clienteService.obtenerTodos());
-        return "client_listing";
+    @GetMapping
+    public ResponseEntity<Collection<Cliente>> listClients() {
+        return ResponseEntity.ok(clienteService.obtenerTodos());
     }
 
     @GetMapping("/{id}")
-    public String getClientById(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("client", clienteService.buscarPorId(id));
-        return "client_detail";
+    public ResponseEntity<Cliente> getClientById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(clienteService.buscarPorId(id));
     }
 
-    @GetMapping("/create")
-    public String showCreateForm(Model model) {
-        // El controlador solo pone un cliente vacío en el modelo - sin lógica
-        model.addAttribute("client", new Cliente());
-        return "client_form";
-    }
-
-    @PostMapping("/create")
-    public String createClient(@ModelAttribute Cliente cliente) {
+    @PostMapping
+    public ResponseEntity<?> createClient(@RequestBody Cliente cliente) {
         if (clienteService.existeCorreo(cliente.getCorreo())) {
-            return "redirect:/clients/create?error=email";
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "Ya existe una cuenta con ese correo."));
         }
-        // registrarNuevo garantiza carrito, igual que en AuthController
-        clienteService.registrarNuevo(cliente);
-        return "redirect:/clients/listing";
+        Cliente guardado = clienteService.registrarNuevo(cliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
     }
 
-    @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model, HttpSession session) {
-        Cliente clienteSession = (Cliente) session.getAttribute("clienteSession");
-        if (clienteSession == null || !clienteSession.getId().equals(id)) {
-            return "redirect:/login";
-        }
-        model.addAttribute("client", clienteService.buscarPorId(id));
-        return "editar_perfil";
-    }
-
-    @PostMapping("/update")
-    public String updateClient(@ModelAttribute Cliente cliente, HttpSession session) {
-        // actualizar() preserva contraseña y carrito - toda esa lógica vive en el servicio
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> updateClient(@PathVariable("id") Integer id, @RequestBody Cliente cliente) {
+        cliente.setId(id);
         Cliente actualizado = clienteService.actualizar(cliente);
-        session.setAttribute("clienteSession", actualizado);
-        return "redirect:/clients/profile";
+        return ResponseEntity.ok(actualizado);
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteClient(@PathVariable("id") Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClient(@PathVariable("id") Integer id) {
         clienteService.eliminar(id);
-        return "redirect:/";
-    }
-
-    @GetMapping("/profile")
-    public String verPerfil(HttpSession session, Model model) {
-        Cliente cliente = (Cliente) session.getAttribute("clienteSession");
-        if (cliente == null) {
-            return "redirect:/login";
-        }
-        model.addAttribute("client", cliente);
-        return "perfil";
+        return ResponseEntity.noContent().build();
     }
 }

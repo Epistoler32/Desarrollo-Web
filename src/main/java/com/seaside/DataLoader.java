@@ -22,6 +22,7 @@ public class DataLoader implements CommandLineRunner {
     @Autowired private PedidoRepository pedidoRepository;
     @Autowired private ItemPedidoRepository itemPedidoRepository;
     @Autowired private DomiciliarioRepository domiciliarioRepository;
+        @Autowired private OperadorRepository operadorRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -679,6 +680,32 @@ public class DataLoader implements CommandLineRunner {
         }
 
         // ══════════════════════════════════════════════════════════════
+        // OPERADORES
+        // ══════════════════════════════════════════════════════════════
+        if (operadorRepository.count() == 0) {
+            operadorRepository.save(new Operador(null, "Daniel Rojas", "drojas", "OpDani2026"));
+            operadorRepository.save(new Operador(null, "Paula Cardenas", "pcardenas", "OpPaula2026"));
+            operadorRepository.save(new Operador(null, "Miguel Pineda", "mpineda", "OpMiguel2026"));
+            operadorRepository.save(new Operador(null, "Tatiana Acosta", "tacosta", "OpTati2026"));
+            operadorRepository.save(new Operador(null, "Santiago Velez", "svelez", "OpSanti2026"));
+            operadorRepository.save(new Operador(null, "Natalia Becerra", "nbecerra", "OpNata2026"));
+            operadorRepository.save(new Operador(null, "Felipe Quintero", "fquintero", "OpFeli2026"));
+            operadorRepository.save(new Operador(null, "Carolina Mejia", "cmejia", "OpCaro2026"));
+            operadorRepository.save(new Operador(null, "Julian Salas", "jsalas", "OpJuli2026"));
+            operadorRepository.save(new Operador(null, "Camila Duarte", "cduarte", "OpCami2026"));
+            operadorRepository.save(new Operador(null, "Esteban Muñoz", "emunoz", "OpEste2026"));
+            operadorRepository.save(new Operador(null, "Laura Avila", "lavila", "OpLau2026"));
+            operadorRepository.save(new Operador(null, "Andres Fajardo", "afajardo", "OpAndres2026"));
+            operadorRepository.save(new Operador(null, "Valeria Cifuentes", "vcifuentes", "OpVale2026"));
+            operadorRepository.save(new Operador(null, "Nicolas Bernal", "nbernal", "OpNico2026"));
+            operadorRepository.save(new Operador(null, "Diana Moncada", "dmoncada", "OpDiana2026"));
+            operadorRepository.save(new Operador(null, "Javier Ocampo", "jocampo", "OpJavi2026"));
+            operadorRepository.save(new Operador(null, "Manuela Pinzon", "mpinzon", "OpManu2026"));
+            operadorRepository.save(new Operador(null, "Ricardo Tamayo", "rtamayo", "OpRica2026"));
+            operadorRepository.save(new Operador(null, "Sara Guerrero", "sguerrero", "OpSara2026"));
+        }
+
+        // ══════════════════════════════════════════════════════════════
         // CLIENTES (con carrito asociado)
         // ══════════════════════════════════════════════════════════════
         if (clienteRepository.count() == 0) {
@@ -744,50 +771,99 @@ public class DataLoader implements CommandLineRunner {
         // PEDIDOS e ITEMS DE PEDIDO
         // ══════════════════════════════════════════════════════════════
         if (pedidoRepository.count() == 0) {
+                        Cliente laura = clienteRepository.findByCorreo("laura.gomez@email.com").orElseThrow();
+                        Cliente carlos = clienteRepository.findByCorreo("carlos.ramirez@email.com").orElseThrow();
+                        Cliente ana = clienteRepository.findByCorreo("ana.martinez@email.com").orElseThrow();
+                        Cliente juan = clienteRepository.findByCorreo("juan.torres@email.com").orElseThrow();
+                        Cliente maria = clienteRepository.findByCorreo("maria.lopez@email.com").orElseThrow();
+                        Cliente andres = clienteRepository.findByCorreo("andres.castro@email.com").orElseThrow();
+                        Cliente sofia = clienteRepository.findByCorreo("sofia.herrera@email.com").orElseThrow();
+                        Cliente diego = clienteRepository.findByCorreo("diego.vargas@email.com").orElseThrow();
+                        Cliente valentina = clienteRepository.findByCorreo("valentina.rojas@email.com").orElseThrow();
+                        Cliente mateo = clienteRepository.findByCorreo("mateo.castano@email.com").orElseThrow();
 
-            Cliente laura  = clienteRepository.findByCorreo("laura.gomez@email.com").orElseThrow();
-            Cliente carlos = clienteRepository.findByCorreo("carlos.ramirez@email.com").orElseThrow();
-            Cliente ana    = clienteRepository.findByCorreo("ana.martinez@email.com").orElseThrow();
-            Cliente juan   = clienteRepository.findByCorreo("juan.torres@email.com").orElseThrow();
-            Cliente maria  = clienteRepository.findByCorreo("maria.lopez@email.com").orElseThrow();
+                        Producto ceviche = productoRepository.findAll().get(0);
+                        Producto arroz = productoRepository.findAll().get(1);
+                        Producto langosta = productoRepository.findAll().get(2);
+                        Producto atun = productoRepository.findAll().get(3); 
+                        Producto pulpo = productoRepository.findAll().get(4);
+                        Producto salmon = productoRepository.findAll().get(5);
+                        Producto encocado = productoRepository.findAll().get(6);
+                        Producto cazuela = productoRepository.findAll().get(7);
+                        Producto filet = productoRepository.findAll().get(8);
+                        Producto fettuccine = productoRepository.findAll().get(9);
 
-            Producto ceviche  = productoRepository.findAll().get(0);
-            Producto arroz    = productoRepository.findAll().get(1);
-            Producto langosta = productoRepository.findAll().get(2);
-            Producto atun     = productoRepository.findAll().get(3);
-            Producto pulpo    = productoRepository.findAll().get(4);
+                        Pedido p1 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 1), LocalDate.of(2026, 3, 1), "Entregado", 100000.0, laura));
+                        itemPedidoRepository.save(new ItemPedido(2, 84000.0, p1, ceviche));
+                        itemPedidoRepository.save(new ItemPedido(1, 16000.0, p1, arroz));
 
-            // Pedido 1 - entregado
-            Pedido p1 = pedidoRepository.save(new Pedido(
-                    LocalDate.of(2026, 3, 1), LocalDate.of(2026, 3, 1),
-                    "Entregado", 100000.0, laura));
-            itemPedidoRepository.save(new ItemPedido(2, 84000.0, p1, ceviche));
-            itemPedidoRepository.save(new ItemPedido(1, 16000.0, p1, arroz));
+                        Pedido p2 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 2), LocalDate.of(2026, 3, 2), "En preparación", 85000.0, carlos));
+                        itemPedidoRepository.save(new ItemPedido(1, 85000.0, p2, langosta));
 
-            // Pedido 2 - en preparación
-            Pedido p2 = pedidoRepository.save(new Pedido(
-                    LocalDate.of(2026, 3, 8), LocalDate.of(2026, 3, 8),
-                    "En preparación", 85000.0, carlos));
-            itemPedidoRepository.save(new ItemPedido(1, 85000.0, p2, langosta));
+                        Pedido p3 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 3), LocalDate.of(2026, 3, 4), "Pendiente", 133000.0, ana));
+                        itemPedidoRepository.save(new ItemPedido(1, 64000.0, p3, atun));
+                        itemPedidoRepository.save(new ItemPedido(1, 69000.0, p3, pulpo));
 
-            // Pedido 3 - pendiente
-            Pedido p3 = pedidoRepository.save(new Pedido(
-                    LocalDate.now(), LocalDate.now().plusDays(1),
-                    "Pendiente", 128000.0, ana));
-            itemPedidoRepository.save(new ItemPedido(1, 64000.0, p3, atun));
-            itemPedidoRepository.save(new ItemPedido(1, 69000.0, p3, pulpo));
+                        Pedido p4 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 4), LocalDate.of(2026, 3, 4), "Cancelado", 42000.0, juan));
+                        itemPedidoRepository.save(new ItemPedido(1, 42000.0, p4, ceviche));
 
-            // Pedido 4 - cancelado
-            Pedido p4 = pedidoRepository.save(new Pedido(
-                    LocalDate.of(2026, 2, 20), LocalDate.of(2026, 2, 20),
-                    "Cancelado", 42000.0, juan));
-            itemPedidoRepository.save(new ItemPedido(1, 42000.0, p4, ceviche));
+                        Pedido p5 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 5), LocalDate.of(2026, 3, 5), "En camino", 58000.0, maria));
+                        itemPedidoRepository.save(new ItemPedido(1, 58000.0, p5, arroz));
 
-            // Pedido 5 - en camino
-            Pedido p5 = pedidoRepository.save(new Pedido(
-                    LocalDate.now(), LocalDate.now(),
-                    "En camino", 58000.0, maria));
-            itemPedidoRepository.save(new ItemPedido(1, 58000.0, p5, arroz));
+                        Pedido p6 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 6), LocalDate.of(2026, 3, 6), "Entregado", 110000.0, andres));
+                        itemPedidoRepository.save(new ItemPedido(2, 110000.0, p6, salmon));
+
+                        Pedido p7 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 7), LocalDate.of(2026, 3, 8), "Pendiente", 97000.0, sofia));
+                        itemPedidoRepository.save(new ItemPedido(1, 48000.0, p7, encocado));
+                        itemPedidoRepository.save(new ItemPedido(1, 49000.0, p7, fettuccine));
+
+                        Pedido p8 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 8), LocalDate.of(2026, 3, 8), "En preparación", 62000.0, diego));
+                        itemPedidoRepository.save(new ItemPedido(1, 62000.0, p8, cazuela));
+
+                        Pedido p9 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 9), LocalDate.of(2026, 3, 10), "En camino", 127000.0, valentina));
+                        itemPedidoRepository.save(new ItemPedido(1, 85000.0, p9, langosta));
+                        itemPedidoRepository.save(new ItemPedido(1, 42000.0, p9, ceviche));
+
+                        Pedido p10 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 10), LocalDate.of(2026, 3, 10), "Entregado", 72000.0, mateo));
+                        itemPedidoRepository.save(new ItemPedido(1, 72000.0, p10, filet));
+
+                        Pedido p11 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 11), LocalDate.of(2026, 3, 11), "Entregado", 106000.0, laura));
+                        itemPedidoRepository.save(new ItemPedido(1, 42000.0, p11, ceviche));
+                        itemPedidoRepository.save(new ItemPedido(1, 64000.0, p11, atun));
+
+                        Pedido p12 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 12), LocalDate.of(2026, 3, 13), "Pendiente", 124000.0, carlos));
+                        itemPedidoRepository.save(new ItemPedido(2, 116000.0, p12, arroz));
+                        itemPedidoRepository.save(new ItemPedido(1, 8000.0, p12, arroz));
+
+                        Pedido p13 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 13), LocalDate.of(2026, 3, 13), "En preparación", 102000.0, ana));
+                        itemPedidoRepository.save(new ItemPedido(1, 53000.0, p13, encocado));
+                        itemPedidoRepository.save(new ItemPedido(1, 49000.0, p13, fettuccine));
+
+                        Pedido p14 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 14), LocalDate.of(2026, 3, 14), "Cancelado", 69000.0, juan));
+                        itemPedidoRepository.save(new ItemPedido(1, 69000.0, p14, pulpo));
+
+                        Pedido p15 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 15), LocalDate.of(2026, 3, 16), "En camino", 147000.0, maria));
+                        itemPedidoRepository.save(new ItemPedido(1, 85000.0, p15, langosta));
+                        itemPedidoRepository.save(new ItemPedido(1, 62000.0, p15, cazuela));
+
+                        Pedido p16 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 16), LocalDate.of(2026, 3, 16), "Entregado", 144000.0, andres));
+                        itemPedidoRepository.save(new ItemPedido(2, 144000.0, p16, filet));
+
+                        Pedido p17 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 17), LocalDate.of(2026, 3, 18), "Pendiente", 113000.0, sofia));
+                        itemPedidoRepository.save(new ItemPedido(1, 55000.0, p17, salmon));
+                        itemPedidoRepository.save(new ItemPedido(1, 58000.0, p17, arroz));
+
+                        Pedido p18 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 18), LocalDate.of(2026, 3, 18), "En preparación", 98000.0, diego));
+                        itemPedidoRepository.save(new ItemPedido(1, 64000.0, p18, atun));
+                        itemPedidoRepository.save(new ItemPedido(2, 34000.0, p18, arroz));
+
+                        Pedido p19 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 19), LocalDate.of(2026, 3, 19), "En camino", 118000.0, valentina));
+                        itemPedidoRepository.save(new ItemPedido(1, 49000.0, p19, fettuccine));
+                        itemPedidoRepository.save(new ItemPedido(1, 69000.0, p19, pulpo));
+
+                        Pedido p20 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 20), LocalDate.of(2026, 3, 20), "Entregado", 104000.0, mateo));
+                        itemPedidoRepository.save(new ItemPedido(1, 42000.0, p20, ceviche));
+                        itemPedidoRepository.save(new ItemPedido(1, 62000.0, p20, cazuela));
         }
     }
 }
