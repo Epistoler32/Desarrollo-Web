@@ -35,11 +35,9 @@ public class ProductoController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getProductById(@PathVariable("id") Integer id) {
         Producto product = productoService.searchById(id);
-        List<Adicionales> adicionales = adicionalService.findByCategoria(product.getCategoria().getId());
         return ResponseEntity.ok(Map.of(
                 "product", product,
-                "adicionales", adicionales
-        ));
+                "adicionales", product.getAdicionales()));
     }
 
     @PostMapping
@@ -59,5 +57,13 @@ public class ProductoController {
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Integer id) {
         productoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/adicionales")
+    public ResponseEntity<Void> updateAdicionales(
+            @PathVariable("id") Integer id,
+            @RequestBody List<Integer> adicionalIds) {
+        productoService.updateAdicionales(id, adicionalIds);
+        return ResponseEntity.ok().build();
     }
 }

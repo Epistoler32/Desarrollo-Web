@@ -1,5 +1,10 @@
 package com.seaside.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +15,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Data
 @AllArgsConstructor
@@ -47,10 +54,10 @@ public class Producto {
     @Column(length = 150)
     private String descripcionAlergenos;
 
-    // Constructor con id 
+    // Constructor con id
     public Producto(Integer id, String nombre, String descripcion, double precio,
-                    Categoria categoria, String imageUrl,
-                    Integer tiempoMinutos, boolean tieneAlergenos) {
+            Categoria categoria, String imageUrl,
+            Integer tiempoMinutos, boolean tieneAlergenos) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -63,7 +70,7 @@ public class Producto {
 
     // Constructor sin id ni descripcionAlergenos
     public Producto(String nombre, String descripcion, double precio, Categoria categoria,
-                    String imageUrl, Integer tiempoMinutos, boolean tieneAlergenos) {
+            String imageUrl, Integer tiempoMinutos, boolean tieneAlergenos) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -75,8 +82,8 @@ public class Producto {
 
     // Constructor completo sin id
     public Producto(String nombre, String descripcion, double precio, Categoria categoria,
-                    String imageUrl, Integer tiempoMinutos, boolean tieneAlergenos,
-                    String descripcionAlergenos) {
+            String imageUrl, Integer tiempoMinutos, boolean tieneAlergenos,
+            String descripcionAlergenos) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -86,4 +93,10 @@ public class Producto {
         this.tieneAlergenos = tieneAlergenos;
         this.descripcionAlergenos = descripcionAlergenos;
     }
+
+    @ManyToMany
+    @JoinTable(name = "producto_adicionales", joinColumns = @JoinColumn(name = "producto_id"), inverseJoinColumns = @JoinColumn(name = "adicional_id"))
+
+    @JsonIgnoreProperties({ "hibernateLazyInitializer" })
+    private Set<Adicionales> adicionales = new HashSet<>();
 }

@@ -1,7 +1,11 @@
 package com.seaside.service;
 
+import java.util.List;
+import java.util.Set;
 import com.seaside.errors.ProductNotFoundException;
+import com.seaside.model.Adicionales;
 import com.seaside.model.Producto;
+import com.seaside.repository.AdicionalesRepository;
 import com.seaside.repository.CarritoProductoRepository;
 import com.seaside.repository.CategoriaRepository;
 import com.seaside.repository.ItemPedidoRepository;
@@ -9,7 +13,7 @@ import com.seaside.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.HashSet;
 import java.util.Collection;
 
 @Service
@@ -26,6 +30,9 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
+
+    @Autowired
+    private AdicionalesRepository adicionalesRepository;
 
     @Override
     public Producto searchById(Integer id) {
@@ -58,8 +65,7 @@ public class ProductoServiceImpl implements ProductoService {
             producto.setCategoria(
                     categoriaRepository.findById(producto.getCategoria().getId())
                             .orElseThrow(() -> new IllegalArgumentException(
-                                    "Categoría no encontrada: " + producto.getCategoria().getId()))
-            );
+                                    "Categoría no encontrada: " + producto.getCategoria().getId())));
         }
         productoRepository.save(producto);
     }
@@ -67,7 +73,7 @@ public class ProductoServiceImpl implements ProductoService {
     /**
      * Elimina un producto limpiando primero todas las referencias que lo bloquean:
      * 1. CarritoProducto — filas de la tabla intermedia carrito_producto
-     * 2. ItemPedido      — items de pedidos que referencian este producto
+     * 2. ItemPedido — items de pedidos que referencian este producto
      *
      * Sin este orden, la FK en carrito_producto e item_pedido lanza
      * ConstraintViolationException e impide el borrado.
@@ -83,5 +89,13 @@ public class ProductoServiceImpl implements ProductoService {
 
         // 3. Ahora sí se puede borrar el producto sin violar FK
         productoRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateAdicionales(Integer productoId, List<Integer> adicionalIds) {
+        Producto producto = searchById(productoId);
+        Set<Adicionales> adicionales = new HashSet<>(adicionalesRepository.findAllById(adicionalIds));
+        producto.setAdicionales(adicionales);
+        productoRepository.save(producto);
     }
 }
