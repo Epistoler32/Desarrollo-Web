@@ -16,7 +16,6 @@ import java.util.Optional;
 @Service
 public class PedidoServiceImpl implements PedidoService {
 
-    // Estados que se consideran "activos" (aún no finalizados)
     private static final List<String> ESTADOS_INACTIVOS =
             Arrays.asList("Entregado", "Cancelado", "ENTREGADO", "CANCELADO");
 
@@ -69,12 +68,20 @@ public class PedidoServiceImpl implements PedidoService {
         Domiciliario domiciliario = domiciliarioRepository.findById(domiciliarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Domiciliario no encontrado: " + domiciliarioId));
 
-        // Asociar domiciliario al pedido y marcarlo no disponible
+        // Liberar el domiciliario anterior si tenía otro pedido asignado
+        domiciliarioRepository.findAll().stream()
+                .filter(d -> d.getPedido() != null && d.getPedido().getId().equals(pedidoId)
+                        && !d.getId().equals(domiciliarioId))
+                .forEach(d -> {
+                    d.setPedido(null);
+                    d.setDisponible(true);
+                    domiciliarioRepository.save(d);
+                });
+
         domiciliario.setPedido(pedido);
         domiciliario.setDisponible(false);
         domiciliarioRepository.save(domiciliario);
 
-        // Cambiar estado del pedido a EN_CAMINO
         pedido.setEstado("EN_CAMINO");
         pedidoRepository.save(pedido);
     }
@@ -82,8 +89,26 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public void delete(Integer id) {
-        // Limpiar items antes de borrar el pedido
+        // Liberar domiciliarios asignados a este pedido
+        domiciliarioRepository.findAll().stream()
+                .filter(d -> d.getPedido() != null && d.getPedido().getId().equals(id))
+                .forEach(d -> {
+                    d.setPedido(null);
+                    d.setDisponible(true);
+                    domiciliarioRepository.save(d);
+                });
+
         itemPedidoRepository.deleteByPedidoId(id);
         pedidoRepository.deleteById(id);
+    }
+
+    // Busca si algún domiciliario tiene este pedido asignado y devuelve su id.
+    @Override
+    public Integer getDomiciliarioIdByPedido(Integer pedidoId) {
+        return domiciliarioRepository.findAll().stream()
+                .filter(d -> d.getPedido() != null && d.getPedido().getId().equals(pedidoId))
+                .map(Domiciliario::getId)
+                .findFirst()
+                .orElse(null);
     }
 }
