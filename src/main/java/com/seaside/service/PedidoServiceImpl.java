@@ -28,21 +28,32 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
+    private void populateDomiciliarioId(Pedido pedido) {
+        domiciliarioRepository.findByPedidoId(pedido.getId())
+                .ifPresent(d -> pedido.setDomiciliarioId(d.getId()));
+    }
+
     @Override
     public List<Pedido> findAll() {
-        return pedidoRepository.findAll();
+        List<Pedido> pedidos = pedidoRepository.findAll();
+        pedidos.forEach(this::populateDomiciliarioId);
+        return pedidos;
     }
 
     @Override
     public List<Pedido> findActivos() {
-        return pedidoRepository.findAll().stream()
+        List<Pedido> pedidos = pedidoRepository.findAll().stream()
                 .filter(p -> !ESTADOS_INACTIVOS.contains(p.getEstado()))
                 .toList();
+        pedidos.forEach(this::populateDomiciliarioId);
+        return pedidos;
     }
 
     @Override
     public Optional<Pedido> findById(Integer id) {
-        return pedidoRepository.findById(id);
+        Optional<Pedido> pedido = pedidoRepository.findById(id);
+        pedido.ifPresent(this::populateDomiciliarioId);
+        return pedido;
     }
 
     @Override
@@ -68,15 +79,14 @@ public class PedidoServiceImpl implements PedidoService {
         Domiciliario domiciliario = domiciliarioRepository.findById(domiciliarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Domiciliario no encontrado: " + domiciliarioId));
 
-        // Liberar el domiciliario anterior si tenía otro pedido asignado
-        domiciliarioRepository.findAll().stream()
-                .filter(d -> d.getPedido() != null && d.getPedido().getId().equals(pedidoId)
-                        && !d.getId().equals(domiciliarioId))
-                .forEach(d -> {
-                    d.setPedido(null);
-                    d.setDisponible(true);
-                    domiciliarioRepository.save(d);
-                });
+        // Si el pedido ya tenía un domiciliario distinto, liberarlo
+        domiciliarioRepository.findByPedidoId(pedidoId).ifPresent(anterior -> {
+            if (!anterior.getId().equals(domiciliarioId)) {
+                anterior.setPedido(null);
+                anterior.setDisponible(true);
+                domiciliarioRepository.save(anterior);
+            }
+        });
 
         domiciliario.setPedido(pedido);
         domiciliario.setDisponible(false);
@@ -89,26 +99,14 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public void delete(Integer id) {
-        // Liberar domiciliarios asignados a este pedido
-        domiciliarioRepository.findAll().stream()
-                .filter(d -> d.getPedido() != null && d.getPedido().getId().equals(id))
-                .forEach(d -> {
-                    d.setPedido(null);
-                    d.setDisponible(true);
-                    domiciliarioRepository.save(d);
-                });
+        // Liberar domiciliarios asignados antes de eliminar el pedido
+        domiciliarioRepository.findAllByPedidoId(id).forEach(d -> {
+            d.setPedido(null);
+            d.setDisponible(true);
+            domiciliarioRepository.save(d);
+        });
 
         itemPedidoRepository.deleteByPedidoId(id);
         pedidoRepository.deleteById(id);
-    }
-
-    // Busca si algún domiciliario tiene este pedido asignado y devuelve su id.
-    @Override
-    public Integer getDomiciliarioIdByPedido(Integer pedidoId) {
-        return domiciliarioRepository.findAll().stream()
-                .filter(d -> d.getPedido() != null && d.getPedido().getId().equals(pedidoId))
-                .map(Domiciliario::getId)
-                .findFirst()
-                .orElse(null);
     }
 }
