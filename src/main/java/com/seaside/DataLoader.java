@@ -13,19 +13,18 @@ import java.time.LocalDateTime;
 @Component
 @Transactional
 public class DataLoader implements CommandLineRunner {
-
-    @Autowired private CategoriaRepository categoriaRepository;
-    @Autowired private ProductoRepository productoRepository;
-    @Autowired private ClienteRepository clienteRepository;
-    @Autowired private AdministradorRepository administradorRepository;
-    @Autowired private AdicionalesRepository adicionalesRepository;
-    @Autowired private PedidoRepository pedidoRepository;
-    @Autowired private ItemPedidoRepository itemPedidoRepository;
-    @Autowired private DomiciliarioRepository domiciliarioRepository;
+        @Autowired private CategoriaRepository categoriaRepository;
+        @Autowired private ProductoRepository productoRepository;
+        @Autowired private ClienteRepository clienteRepository;
+        @Autowired private AdministradorRepository administradorRepository;
+        @Autowired private AdicionalesRepository adicionalesRepository;
+        @Autowired private PedidoRepository pedidoRepository;
+        @Autowired private ItemPedidoRepository itemPedidoRepository;
+        @Autowired private DomiciliarioRepository domiciliarioRepository;
         @Autowired private OperadorRepository operadorRepository;
 
-    @Override
-    public void run(String... args) throws Exception {
+        @Override
+        public void run(String... args) throws Exception {
 
         // ══════════════════════════════════════════════════════════════
         // CATEGORÍAS
@@ -33,17 +32,17 @@ public class DataLoader implements CommandLineRunner {
         Categoria platosFuertes, acompanamientos, bebidas, postres, entradas;
 
         if (categoriaRepository.count() == 0) {
-            platosFuertes   = categoriaRepository.save(new Categoria("Platos Fuertes"));
-            acompanamientos = categoriaRepository.save(new Categoria("Acompañamientos"));
-            bebidas         = categoriaRepository.save(new Categoria("Bebidas"));
-            postres         = categoriaRepository.save(new Categoria("Postres"));
-            entradas        = categoriaRepository.save(new Categoria("Entradas"));
+                platosFuertes   = categoriaRepository.save(new Categoria("Platos Fuertes"));
+                acompanamientos = categoriaRepository.save(new Categoria("Acompañamientos"));
+                bebidas         = categoriaRepository.save(new Categoria("Bebidas"));
+                postres         = categoriaRepository.save(new Categoria("Postres"));
+                entradas        = categoriaRepository.save(new Categoria("Entradas"));
         } else {
-            platosFuertes   = categoriaRepository.findByNombre("Platos Fuertes");
-            acompanamientos = categoriaRepository.findByNombre("Acompañamientos");
-            bebidas         = categoriaRepository.findByNombre("Bebidas");
-            postres         = categoriaRepository.findByNombre("Postres");
-            entradas        = categoriaRepository.findByNombre("Entradas");
+                platosFuertes   = categoriaRepository.findByNombre("Platos Fuertes");
+                acompanamientos = categoriaRepository.findByNombre("Acompañamientos");
+                bebidas         = categoriaRepository.findByNombre("Bebidas");
+                postres         = categoriaRepository.findByNombre("Postres");
+                entradas        = categoriaRepository.findByNombre("Entradas");
         }
 
         // ══════════════════════════════════════════════════════════════

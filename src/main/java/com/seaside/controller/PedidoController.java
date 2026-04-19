@@ -17,8 +17,7 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-    // GET /api/pedidos
-    // Acepta ?activos=true para filtrar solo los pedidos activos
+    // GET /api/pedidos  |  GET /api/pedidos?activos=true
     @GetMapping
     public ResponseEntity<List<Pedido>> getAll(
             @RequestParam(name = "activos", required = false, defaultValue = "false") boolean activos) {
@@ -35,8 +34,7 @@ public class PedidoController {
                         .body(Map.of("error", "Pedido no encontrado con id: " + id)));
     }
 
-    // PATCH /api/pedidos/{id}/estado
-    // Body: { "estado": "EN_CAMINO" }
+    // PATCH /api/pedidos/{id}/estado  —  body: { "estado": "EN_CAMINO" }
     @PatchMapping("/{id}/estado")
     public ResponseEntity<?> actualizarEstado(
             @PathVariable Integer id,
@@ -56,8 +54,7 @@ public class PedidoController {
                         .body(Map.of("error", "Pedido no encontrado con id: " + id)));
     }
 
-    // PATCH /api/pedidos/{id}/domiciliario
-    // Body: { "domiciliarioId": 2 }
+    // PATCH /api/pedidos/{id}/domiciliario  —  body: { "domiciliarioId": 2 }
     @PatchMapping("/{id}/domiciliario")
     public ResponseEntity<?> asignarDomiciliario(
             @PathVariable Integer id,

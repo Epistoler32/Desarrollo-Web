@@ -40,8 +40,11 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> items = new ArrayList<>();
 
-    public Pedido(LocalDate fechaCreacion, LocalDate fechaEntrega,
-                  String estado, double total, Cliente cliente) {
+
+    @Transient
+    private Integer domiciliarioId;
+
+    public Pedido(LocalDate fechaCreacion, LocalDate fechaEntrega, String estado, double total, Cliente cliente) {
         this.fechaCreacion = fechaCreacion;
         this.fechaEntrega = fechaEntrega;
         this.estado = estado;

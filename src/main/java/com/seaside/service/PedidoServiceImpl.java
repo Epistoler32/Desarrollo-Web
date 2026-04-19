@@ -2,13 +2,9 @@ package com.seaside.service;
 
 import com.seaside.model.Domiciliario;
 import com.seaside.model.Pedido;
-import com.seaside.repository.AdicionalesRepository;
-import com.seaside.repository.ClienteRepository;
 import com.seaside.repository.DomiciliarioRepository;
 import com.seaside.repository.ItemPedidoRepository;
 import com.seaside.repository.PedidoRepository;
-import com.seaside.repository.ProductoRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +16,6 @@ import java.util.Optional;
 @Service
 public class PedidoServiceImpl implements PedidoService {
 
-    // Estados que se consideran activos (aún no finalizados)
     private static final List<String> ESTADOS_INACTIVOS = Arrays.asList("Entregado", "Cancelado", "ENTREGADO",
             "CANCELADO");
 
@@ -33,27 +28,41 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
-    @Autowired private ClienteRepository clienteRepository;
-    @Autowired private ProductoRepository productoRepository;
-    @Autowired private AdicionalesRepository adicionalesRepository;
+    @Autowired
+    private com.seaside.repository.ClienteRepository clienteRepository;
 
-    
+    @Autowired
+    private com.seaside.repository.ProductoRepository productoRepository;
+
+    @Autowired
+    private com.seaside.repository.AdicionalesRepository adicionalesRepository;
+
+    private void populateDomiciliarioId(Pedido pedido) {
+        domiciliarioRepository.findByPedidoId(pedido.getId())
+                .ifPresent(d -> pedido.setDomiciliarioId(d.getId()));
+    }
 
     @Override
     public List<Pedido> findAll() {
-        return pedidoRepository.findAll();
+        List<Pedido> pedidos = pedidoRepository.findAll();
+        pedidos.forEach(this::populateDomiciliarioId);
+        return pedidos;
     }
 
     @Override
     public List<Pedido> findActivos() {
-        return pedidoRepository.findAll().stream()
+        List<Pedido> pedidos = pedidoRepository.findAll().stream()
                 .filter(p -> !ESTADOS_INACTIVOS.contains(p.getEstado()))
                 .toList();
+        pedidos.forEach(this::populateDomiciliarioId);
+        return pedidos;
     }
 
     @Override
     public Optional<Pedido> findById(Integer id) {
-        return pedidoRepository.findById(id);
+        Optional<Pedido> pedido = pedidoRepository.findById(id);
+        pedido.ifPresent(this::populateDomiciliarioId);
+        return pedido;
     }
 
     @Override
@@ -79,12 +88,19 @@ public class PedidoServiceImpl implements PedidoService {
         Domiciliario domiciliario = domiciliarioRepository.findById(domiciliarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Domiciliario no encontrado: " + domiciliarioId));
 
-        // Asociar domiciliario al pedido y marcarlo no disponible
+        // Si el pedido ya tenía un domiciliario distinto, liberarlo
+        domiciliarioRepository.findByPedidoId(pedidoId).ifPresent(anterior -> {
+            if (!anterior.getId().equals(domiciliarioId)) {
+                anterior.setPedido(null);
+                anterior.setDisponible(true);
+                domiciliarioRepository.save(anterior);
+            }
+        });
+
         domiciliario.setPedido(pedido);
         domiciliario.setDisponible(false);
         domiciliarioRepository.save(domiciliario);
 
-        // Cambiar estado del pedido a EN_CAMINO
         pedido.setEstado("EN_CAMINO");
         pedidoRepository.save(pedido);
     }
@@ -92,13 +108,16 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public void delete(Integer id) {
-        // Limpiar items antes de borrar el pedido
+        // Liberar domiciliarios asignados antes de eliminar el pedido
+        domiciliarioRepository.findAllByPedidoId(id).forEach(d -> {
+            d.setPedido(null);
+            d.setDisponible(true);
+            domiciliarioRepository.save(d);
+        });
+
         itemPedidoRepository.deleteByPedidoId(id);
         pedidoRepository.deleteById(id);
     }
-
-
-    // Sprint 9
 
     @Override
     @Transactional
@@ -133,7 +152,7 @@ public class PedidoServiceImpl implements PedidoService {
             total += subtotalProducto;
         }
 
-        // Crear el pedido con estado PENDIENTE
+        // Crear el pedido con estado PENDIENDE
         java.time.LocalDate hoy = java.time.LocalDate.now();
         com.seaside.model.Pedido pedido = new com.seaside.model.Pedido(
                 hoy,

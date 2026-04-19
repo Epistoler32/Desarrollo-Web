@@ -1,9 +1,6 @@
 package com.seaside.controller;
 
-import com.seaside.model.Adicionales;
 import com.seaside.model.Producto;
-import com.seaside.service.AdicionalService;
-import com.seaside.service.CategoriaService;
 import com.seaside.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +18,6 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @Autowired
-    private CategoriaService categoriaService;
-
-    @Autowired
-    private AdicionalService adicionalService;
-
     @GetMapping
     public ResponseEntity<Collection<Producto>> listProducts() {
         return ResponseEntity.ok(productoService.getAllProducts());
@@ -35,10 +26,9 @@ public class ProductoController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getProductById(@PathVariable("id") Integer id) {
         Producto product = productoService.searchById(id);
-        List<Adicionales> adicionales = adicionalService.findByCategoria(product.getCategoria().getId());
         return ResponseEntity.ok(Map.of(
                 "product", product,
-                "adicionales", adicionales
+                "adicionales", productoService.getAdicionalesParaProducto(id)
         ));
     }
 
@@ -59,5 +49,13 @@ public class ProductoController {
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Integer id) {
         productoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/adicionales")
+    public ResponseEntity<Void> updateAdicionales(
+            @PathVariable("id") Integer id,
+            @RequestBody List<Integer> adicionalIds) {
+        productoService.updateAdicionales(id, adicionalIds);
+        return ResponseEntity.ok().build();
     }
 }
