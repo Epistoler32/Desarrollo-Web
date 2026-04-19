@@ -13,4 +13,6 @@ public interface PedidoService {
     void actualizarEstado(Integer id, String estado);
     void asignarDomiciliario(Integer pedidoId, Integer domiciliarioId);
     void delete(Integer id);
+
+    Pedido crearPedido(com.seaside.dto.PedidoRequest request);
 }

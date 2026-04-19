@@ -88,4 +88,18 @@ public class PedidoController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(Map.of("error", "Pedido no encontrado con id: " + id)));
     }
+
+
+    // POST /api/pedidos
+    // valida usuario/contraseña contra la tabla de operadores existente
+    @PostMapping
+    public ResponseEntity<?> crearPedido(@RequestBody com.seaside.dto.PedidoRequest request) {
+        try {
+            Pedido pedido = pedidoService.crearPedido(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", ex.getMessage()));
+        }
+    }
 }
