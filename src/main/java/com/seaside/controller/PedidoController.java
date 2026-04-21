@@ -2,6 +2,8 @@ package com.seaside.controller;
 
 import com.seaside.model.Pedido;
 import com.seaside.service.PedidoService;
+import com.seaside.model.ItemPedido;
+import com.seaside.repository.ItemPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
+
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
     // GET /api/pedidos  |  GET /api/pedidos?activos=true
     @GetMapping
@@ -98,5 +103,17 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("error", ex.getMessage()));
         }
+    }
+
+    // GET /api/pedidos/{id}/items
+    @GetMapping("/{id}/items")
+    public ResponseEntity<?> getItems(@PathVariable Integer id) {
+        return pedidoService.findById(id)
+                .<ResponseEntity<?>>map(p -> {
+                    List<ItemPedido> items = itemPedidoRepository.findByPedidoId(id);
+                    return ResponseEntity.ok(items);
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "Pedido no encontrado con id: " + id)));
     }
 }
