@@ -1,8 +1,10 @@
 package com.seaside.service;
 
 import com.seaside.model.Domiciliario;
+import com.seaside.model.ItemPedidoAdicional;
 import com.seaside.model.Pedido;
 import com.seaside.repository.DomiciliarioRepository;
+import com.seaside.repository.ItemPedidoAdicionalRepository;
 import com.seaside.repository.ItemPedidoRepository;
 import com.seaside.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,31 +18,25 @@ import java.util.Optional;
 @Service
 public class PedidoServiceImpl implements PedidoService {
 
-    private static final List<String> ESTADOS_INACTIVOS = Arrays.asList("Entregado", "Cancelado", "ENTREGADO",
-            "CANCELADO");
+    private static final List<String> ESTADOS_INACTIVOS = Arrays.asList(
+            "Entregado", "Cancelado", "ENTREGADO", "CANCELADO");
 
-    @Autowired
-    private PedidoRepository pedidoRepository;
+    @Autowired private PedidoRepository pedidoRepository;
+    @Autowired private DomiciliarioRepository domiciliarioRepository;
+    @Autowired private ItemPedidoRepository itemPedidoRepository;
+    @Autowired private ItemPedidoAdicionalRepository itemPedidoAdicionalRepository;
+    @Autowired private com.seaside.repository.ClienteRepository clienteRepository;
+    @Autowired private com.seaside.repository.ProductoRepository productoRepository;
+    @Autowired private com.seaside.repository.AdicionalesRepository adicionalesRepository;
 
-    @Autowired
-    private DomiciliarioRepository domiciliarioRepository;
-
-    @Autowired
-    private ItemPedidoRepository itemPedidoRepository;
-
-    @Autowired
-    private com.seaside.repository.ClienteRepository clienteRepository;
-
-    @Autowired
-    private com.seaside.repository.ProductoRepository productoRepository;
-
-    @Autowired
-    private com.seaside.repository.AdicionalesRepository adicionalesRepository;
+    // ── Helpers ───────────────────────────────────────────────────────────
 
     private void populateDomiciliarioId(Pedido pedido) {
         domiciliarioRepository.findByPedidoId(pedido.getId())
                 .ifPresent(d -> pedido.setDomiciliarioId(d.getId()));
     }
+
+    // ── Queries ───────────────────────────────────────────────────────────
 
     @Override
     public List<Pedido> findAll() {
@@ -70,6 +66,8 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.save(pedido);
     }
 
+    // ── Mutations ─────────────────────────────────────────────────────────
+
     @Override
     @Transactional
     public void actualizarEstado(Integer id, String estado) {
@@ -88,7 +86,7 @@ public class PedidoServiceImpl implements PedidoService {
         Domiciliario domiciliario = domiciliarioRepository.findById(domiciliarioId)
                 .orElseThrow(() -> new IllegalArgumentException("Domiciliario no encontrado: " + domiciliarioId));
 
-        // Si el pedido ya tenía un domiciliario distinto, liberarlo
+        // Liberar domiciliario anterior si existía
         domiciliarioRepository.findByPedidoId(pedidoId).ifPresent(anterior -> {
             if (!anterior.getId().equals(domiciliarioId)) {
                 anterior.setPedido(null);
@@ -108,39 +106,41 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public void delete(Integer id) {
-        // Liberar domiciliarios asignados antes de eliminar el pedido
+        // Liberar domiciliarios antes de eliminar
         domiciliarioRepository.findAllByPedidoId(id).forEach(d -> {
             d.setPedido(null);
             d.setDisponible(true);
             domiciliarioRepository.save(d);
         });
-
         itemPedidoRepository.deleteByPedidoId(id);
         pedidoRepository.deleteById(id);
     }
+
+    // ── Crear pedido ──────────────────────────────────────────────────────
 
     @Override
     @Transactional
     public Pedido crearPedido(com.seaside.dto.PedidoRequest request) {
 
-        // Buscar cliente
-        com.seaside.model.Cliente cliente = clienteRepository.findById(request.getClienteId())
+        // 1. Validar cliente
+        com.seaside.model.Cliente cliente = clienteRepository
+                .findById(request.getClienteId())
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Cliente no encontrado: " + request.getClienteId()));
 
-        // Calcular total
+        // 2. Calcular total recorriendo items y sus adicionales
         double total = 0.0;
-        for (com.seaside.dto.PedidoRequest.ItemRequest item : request.getItems()) {
-            com.seaside.model.Producto producto = productoRepository.findById(item.getProductoId())
+        for (com.seaside.dto.PedidoRequest.ItemRequest itemReq : request.getItems()) {
+
+            com.seaside.model.Producto producto = productoRepository
+                    .findById(itemReq.getProductoId())
                     .orElseThrow(() -> new IllegalArgumentException(
-                            "Producto no encontrado: " + item.getProductoId()));
+                            "Producto no encontrado: " + itemReq.getProductoId()));
 
-            // subtotal del producto
-            double subtotalProducto = producto.getPrecio() * item.getCantidad();
+            double subtotalProducto = producto.getPrecio() * itemReq.getCantidad();
 
-            // sumar adicionales si los hay
-            if (item.getAdicionales() != null) {
-                for (com.seaside.dto.PedidoRequest.AdicionalRequest ar : item.getAdicionales()) {
+            if (itemReq.getAdicionales() != null) {
+                for (com.seaside.dto.PedidoRequest.AdicionalRequest ar : itemReq.getAdicionales()) {
                     com.seaside.model.Adicionales adicional = adicionalesRepository
                             .findById(ar.getAdicionalId())
                             .orElseThrow(() -> new IllegalArgumentException(
@@ -152,34 +152,50 @@ public class PedidoServiceImpl implements PedidoService {
             total += subtotalProducto;
         }
 
-        // Crear el pedido con estado PENDIENDE
+        // 3. Persistir el pedido cabecera
         java.time.LocalDate hoy = java.time.LocalDate.now();
         com.seaside.model.Pedido pedido = new com.seaside.model.Pedido(
-                hoy,
-                hoy, // fechaEntrega provisional = hoy
-                "Pendiente",
-                total,
-                cliente);
+                hoy, hoy, "Pendiente", total, cliente);
         pedido = pedidoRepository.save(pedido);
 
-        // Crear los items del pedido
-        for (com.seaside.dto.PedidoRequest.ItemRequest item : request.getItems()) {
-            com.seaside.model.Producto producto = productoRepository.findById(item.getProductoId())
+        // 4. Persistir cada ItemPedido y sus ItemPedidoAdicional
+        for (com.seaside.dto.PedidoRequest.ItemRequest itemReq : request.getItems()) {
+
+            com.seaside.model.Producto producto = productoRepository
+                    .findById(itemReq.getProductoId())
                     .orElseThrow();
 
-            double subtotal = producto.getPrecio() * item.getCantidad();
+            // Subtotal del item = precio_producto * cantidad + suma_adicionales
+            double subtotalItem = producto.getPrecio() * itemReq.getCantidad();
 
-            if (item.getAdicionales() != null) {
-                for (com.seaside.dto.PedidoRequest.AdicionalRequest ar : item.getAdicionales()) {
+            if (itemReq.getAdicionales() != null) {
+                for (com.seaside.dto.PedidoRequest.AdicionalRequest ar : itemReq.getAdicionales()) {
                     com.seaside.model.Adicionales adicional = adicionalesRepository
-                            .findById(ar.getAdicionalId()).orElseThrow();
-                    subtotal += adicional.getPrecio() * ar.getCantidad();
+                            .findById(ar.getAdicionalId())
+                            .orElseThrow();
+                    subtotalItem += adicional.getPrecio() * ar.getCantidad();
                 }
             }
 
             com.seaside.model.ItemPedido itemPedido = new com.seaside.model.ItemPedido(
-                    item.getCantidad(), subtotal, pedido, producto);
-            itemPedidoRepository.save(itemPedido);
+                    itemReq.getCantidad(), subtotalItem, pedido, producto);
+            itemPedido = itemPedidoRepository.save(itemPedido);
+
+            // 5. Persistir cada adicional del item
+            if (itemReq.getAdicionales() != null) {
+                for (com.seaside.dto.PedidoRequest.AdicionalRequest ar : itemReq.getAdicionales()) {
+
+                    com.seaside.model.Adicionales adicional = adicionalesRepository
+                            .findById(ar.getAdicionalId())
+                            .orElseThrow();
+
+                    double subtotalAdicional = adicional.getPrecio() * ar.getCantidad();
+
+                    ItemPedidoAdicional ipa = new ItemPedidoAdicional(
+                            ar.getCantidad(), subtotalAdicional, itemPedido, adicional);
+                    itemPedidoAdicionalRepository.save(ipa);
+                }
+            }
         }
 
         return pedido;

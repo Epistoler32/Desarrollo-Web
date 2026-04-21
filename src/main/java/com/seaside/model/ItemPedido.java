@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +33,9 @@ public class ItemPedido {
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
+
+    @OneToMany(mappedBy = "itemPedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedidoAdicional> adicionales = new ArrayList<>();
 
     public ItemPedido(Integer cantidad, double subtotal,
                       Pedido pedido, Producto producto) {
