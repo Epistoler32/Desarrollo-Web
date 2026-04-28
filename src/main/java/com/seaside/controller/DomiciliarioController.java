@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controlador REST para la gestión de domiciliarios.
+ * Expone CRUD completo más endpoints PATCH para cambiar
+ * la disponibilidad y el estado activo del domiciliario.
+ */
 @RestController
 @RequestMapping("/api/domiciliarios")
 public class DomiciliarioController {
@@ -17,7 +22,7 @@ public class DomiciliarioController {
     @Autowired
     private DomiciliarioService domiciliarioService;
 
-    // GET /api/domiciliarios  o  ?disponibles=true
+    // GET /api/domiciliarios o ?disponibles=true
     @GetMapping
     public ResponseEntity<List<Domiciliario>> getAll(
             @RequestParam(name = "disponibles", required = false, defaultValue = "false") boolean disponibles) {
@@ -51,7 +56,7 @@ public class DomiciliarioController {
     // PUT /api/domiciliarios/{id}
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id,
-                                    @RequestBody Domiciliario domiciliario) {
+            @RequestBody Domiciliario domiciliario) {
         return domiciliarioService.findById(id)
                 .<ResponseEntity<?>>map(existing -> {
                     domiciliario.setId(id);

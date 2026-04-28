@@ -10,6 +10,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * Implementación de ClienteService.
+ * Gestiona el registro, autenticación y actualización de clientes,
+ * garantizando que cada cliente nuevo tenga un carrito de compras asociado.
+ */
 @Service
 public class ClienteServiceImpl implements ClienteService {
 

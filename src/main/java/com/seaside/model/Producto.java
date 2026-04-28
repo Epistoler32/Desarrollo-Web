@@ -18,6 +18,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
+/**
+ * Entidad que representa un producto (plato) del menú.
+ * Un producto pertenece a una Categoría y puede tener varios Adicionales
+ * disponibles.
+ * El tiempo de preparación y disponibilidad se usan para el flujo del pedido.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

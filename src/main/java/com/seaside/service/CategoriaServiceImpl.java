@@ -10,13 +10,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementación de CategoriaService.
+ * Devuelve las categorías del menú, con soporte para ordenamiento
+ * por la secuencia establecida en ORDEN_MENU.
+ */
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
     // Orden del menu
     private static final List<String> ORDEN_MENU = List.of(
-            "Entradas", "Platos Fuertes", "Acompañamientos", "Postres", "Bebidas"
-    );
+            "Entradas", "Platos Fuertes", "Acompañamientos", "Postres", "Bebidas");
 
     @Autowired
     private CategoriaRepository categoriaRepository;

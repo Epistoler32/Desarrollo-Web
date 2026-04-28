@@ -1,7 +1,6 @@
 package com.seaside.controller;
 
-import com.seaside.model.Administrador;
-import com.seaside.repository.AdministradorRepository;
+import com.seaside.service.AdministradorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,17 +8,25 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * Controlador REST para autenticación de administradores.
+ * Delega la verificación de credenciales a AdministradorService
+ * siguiendo la arquitectura en capas (no accede al repositorio directamente).
+ */
 @RestController
 @RequestMapping("/api/admin/auth")
 public class AdminAuthController {
 
     @Autowired
-    private AdministradorRepository administradorRepository;
+    private AdministradorService administradorService;
 
-    // POST /api/admin/auth/login
+    /**
+     * Autentica un administrador por correo y contraseña.
+     * Devuelve 401 si las credenciales son incorrectas.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-        String correo    = body.get("correo");
+        String correo = body.get("correo");
         String contrasena = body.get("contrasena");
 
         if (correo == null || contrasena == null) {
@@ -27,8 +34,7 @@ public class AdminAuthController {
                     .body(Map.of("error", "Correo y contraseña son obligatorios"));
         }
 
-        return administradorRepository.findByCorreo(correo)
-                .filter(a -> a.getContrasena().equals(contrasena))
+        return administradorService.autenticar(correo, contrasena)
                 .<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(Map.of("error", "Correo o contraseña incorrectos")));

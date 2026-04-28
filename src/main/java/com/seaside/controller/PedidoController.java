@@ -3,6 +3,8 @@ package com.seaside.controller;
 import com.seaside.dto.ItemPedidoResponse;
 import com.seaside.dto.PedidoRequest;
 import com.seaside.model.ItemPedido;
+import com.seaside.model.Pedido;
+import com.seaside.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +25,18 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-    // GET /api/pedidos | GET /api/pedidos?activos=true
+    // GET /api/pedidos | GET /api/pedidos?activos=true | GET
+    // /api/pedidos?clienteId=X
     @GetMapping
     public ResponseEntity<List<Pedido>> getAll(
-            @RequestParam(name = "activos", required = false, defaultValue = "false") boolean activos) {
-        List<Pedido> result = activos ? pedidoService.findActivos() : pedidoService.findAll();
+            @RequestParam(name = "activos", required = false, defaultValue = "false") boolean activos,
+            @RequestParam(name = "clienteId", required = false) Integer clienteId) {
+        List<Pedido> result;
+        if (clienteId != null) {
+            result = pedidoService.findByClienteId(clienteId);
+        } else {
+            result = activos ? pedidoService.findActivos() : pedidoService.findAll();
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -105,12 +114,16 @@ public class PedidoController {
         }
     }
 
-    // GET /api/pedidos/{id}/items
+    // GET /api/pedidos/{id}/items — retorna items con producto y adicionales
+    // aplanados via DTO
     @GetMapping("/{id}/items")
     public ResponseEntity<?> getItems(@PathVariable Integer id) {
         return pedidoService.findById(id)
                 .<ResponseEntity<?>>map(p -> {
-                    List<ItemPedido> items = pedidoService.getItemsByPedidoId(id);
+                    List<ItemPedidoResponse> items = pedidoService.getItemsByPedidoId(id)
+                            .stream()
+                            .map(ItemPedidoResponse::from)
+                            .collect(Collectors.toList());
                     return ResponseEntity.ok(items);
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)

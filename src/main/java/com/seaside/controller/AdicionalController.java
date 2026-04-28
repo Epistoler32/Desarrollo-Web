@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 import java.util.Map;
 
-
+/**
+ * Controlador REST para la gestión de adicionales.
+ * Expone CRUD completo bajo /api/adicionales.
+ * Toda la lógica (incluida la resolución de Categoria) se delega a
+ * AdicionalService.
+ */
 @RestController
 @RequestMapping("/api/adicionales")
 public class AdicionalController {
@@ -52,7 +57,7 @@ public class AdicionalController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id,
-                                    @RequestBody Adicionales adicional) {
+            @RequestBody Adicionales adicional) {
         Adicionales existing = adicionalService.findById(id);
         if (existing == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

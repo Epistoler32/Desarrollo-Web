@@ -6,6 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Clase principal de la aplicación Seaside.
+ * Arranca el contexto de Spring Boot con auto-configuración y escaneo de
+ * componentes.
+ */
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan

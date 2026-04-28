@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidad que representa a un operador del sistema.
+ * Los operadores gestionan pedidos desde el portal de operador.
+ * Se autentican con usuario y contraseña (no correo).
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Controlador REST para autenticación de clientes.
+ * Expone los endpoints de registro y login bajo /api/auth.
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -17,6 +21,10 @@ public class AuthController {
     @Autowired
     private ClienteService clienteService;
 
+    /**
+     * Registra un nuevo cliente.
+     * Devuelve 409 si el correo ya está en uso.
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> procesarSignup(@RequestBody Cliente cliente) {
         if (clienteService.existeCorreo(cliente.getCorreo())) {
@@ -27,6 +35,10 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
     }
 
+    /**
+     * Autentica un cliente por correo y contraseña.
+     * Devuelve 401 si las credenciales no coinciden.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> procesarLogin(@RequestBody Map<String, String> credentials) {
         String correo = credentials.get("correo");

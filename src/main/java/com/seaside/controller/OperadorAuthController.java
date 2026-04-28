@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * Controlador REST para autenticación de operadores.
+ * Delega la verificación de credenciales a OperadorService.
+ */
 @RestController
 @RequestMapping("/api/operadores/auth")
 public class OperadorAuthController {
@@ -16,7 +20,10 @@ public class OperadorAuthController {
     @Autowired
     private OperadorService operadorService;
 
-    // POST /api/operadores/auth/login
+    /**
+     * Autentica un operador por nombre de usuario y contraseña.
+     * Devuelve 401 si las credenciales son incorrectas.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
         String usuario = body.get("usuario");

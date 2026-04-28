@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementación de OperadorService.
+ * Delega la búsqueda y persistencia al repositorio de operadores.
+ */
 @Service
 public class OperadorServiceImpl implements OperadorService {
 

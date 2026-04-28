@@ -9,6 +9,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entidad que representa el carrito de compras de un cliente.
+ * Está relacionado 1:1 con Cliente y 1:N con CarritoProducto.
+ * La persistencia del estado del carrito en el frontend se hace localmente
+ * (localStorage), pero el carrito en BD sirve como respaldo.
+ */
 @Data
 @NoArgsConstructor
 @Entity

@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementación de DomiciliarioService.
+ * Maneja la persistencia y los cambios de estado de los domiciliarios.
+ */
 @Service
 public class DomiciliarioServiceImpl implements DomiciliarioService {
 

@@ -2,24 +2,49 @@ package com.seaside.dto;
 
 import java.util.List;
 
+/**
+ * DTO (Data Transfer Object) para la creación de un pedido.
+ * Contiene el identificador del cliente, el plato principal elegido,
+ * la fecha de entrega deseada y la lista de ítems con sus adicionales.
+ */
 public class PedidoRequest {
 
     private Integer clienteId;
     private Integer platoPrincipalId;
-    private String fechaEntrega;          // "YYYY-MM-DD"
+    private String fechaEntrega; // "YYYY-MM-DD"
     private List<ItemRequest> items;
 
-    public Integer getClienteId() { return clienteId; }
-    public void setClienteId(Integer clienteId) { this.clienteId = clienteId; }
+    public Integer getClienteId() {
+        return clienteId;
+    }
 
-    public Integer getPlatoPrincipalId() { return platoPrincipalId; }
-    public void setPlatoPrincipalId(Integer platoPrincipalId) { this.platoPrincipalId = platoPrincipalId; }
+    public void setClienteId(Integer clienteId) {
+        this.clienteId = clienteId;
+    }
 
-    public String getFechaEntrega() { return fechaEntrega; }
-    public void setFechaEntrega(String fechaEntrega) { this.fechaEntrega = fechaEntrega; }
+    public Integer getPlatoPrincipalId() {
+        return platoPrincipalId;
+    }
 
-    public List<ItemRequest> getItems() { return items; }
-    public void setItems(List<ItemRequest> items) { this.items = items; }
+    public void setPlatoPrincipalId(Integer platoPrincipalId) {
+        this.platoPrincipalId = platoPrincipalId;
+    }
+
+    public String getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(String fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    public List<ItemRequest> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemRequest> items) {
+        this.items = items;
+    }
 
     // ── Item dentro del pedido ──────────────────────────────
     public static class ItemRequest {
@@ -28,14 +53,29 @@ public class PedidoRequest {
         private Integer cantidad;
         private List<AdicionalRequest> adicionales;
 
-        public Integer getProductoId() { return productoId; }
-        public void setProductoId(Integer productoId) { this.productoId = productoId; }
+        public Integer getProductoId() {
+            return productoId;
+        }
 
-        public Integer getCantidad() { return cantidad; }
-        public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
+        public void setProductoId(Integer productoId) {
+            this.productoId = productoId;
+        }
 
-        public List<AdicionalRequest> getAdicionales() { return adicionales; }
-        public void setAdicionales(List<AdicionalRequest> adicionales) { this.adicionales = adicionales; }
+        public Integer getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(Integer cantidad) {
+            this.cantidad = cantidad;
+        }
+
+        public List<AdicionalRequest> getAdicionales() {
+            return adicionales;
+        }
+
+        public void setAdicionales(List<AdicionalRequest> adicionales) {
+            this.adicionales = adicionales;
+        }
     }
 
     // ── Adicional dentro de un item ─────────────────────────
@@ -44,10 +84,20 @@ public class PedidoRequest {
         private Integer adicionalId;
         private Integer cantidad;
 
-        public Integer getAdicionalId() { return adicionalId; }
-        public void setAdicionalId(Integer adicionalId) { this.adicionalId = adicionalId; }
+        public Integer getAdicionalId() {
+            return adicionalId;
+        }
 
-        public Integer getCantidad() { return cantidad; }
-        public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
+        public void setAdicionalId(Integer adicionalId) {
+            this.adicionalId = adicionalId;
+        }
+
+        public Integer getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(Integer cantidad) {
+            this.cantidad = cantidad;
+        }
     }
 }

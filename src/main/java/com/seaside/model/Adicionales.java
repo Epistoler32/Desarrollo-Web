@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidad que representa un adicional (extra) del menú.
+ * Cada adicional pertenece a una Categoria y puede ser agregado
+ * a los ítems de un pedido con cantidad y precio adicional.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,8 +43,8 @@ public class Adicionales {
     private Categoria categoria;
 
     public Adicionales(String nombre, String descripcion, double precio,
-                       String imagenURL, Integer tiempoPreparacion,
-                       boolean tieneAlergenos, Categoria categoria) {
+            String imagenURL, Integer tiempoPreparacion,
+            boolean tieneAlergenos, Categoria categoria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;

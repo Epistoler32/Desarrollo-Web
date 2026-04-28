@@ -8,6 +8,12 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuración de la consola web H2.
+ * Solo se activa cuando la propiedad {@code spring.h2.console.enabled=true}.
+ * Registra el servlet de H2 en la ruta configurada y permite acceso desde otros
+ * orígenes.
+ */
 @Configuration
 @ConditionalOnProperty(prefix = "spring.h2.console", name = "enabled", havingValue = "true")
 public class H2ConsoleConfig {
@@ -17,8 +23,8 @@ public class H2ConsoleConfig {
             @Value("${spring.h2.console.path:/h2-console}") String h2ConsolePath) {
         String mapping = h2ConsolePath.endsWith("/") ? h2ConsolePath + "*" : h2ConsolePath + "/*";
 
-        ServletRegistrationBean<Servlet> registrationBean =
-                new ServletRegistrationBean<>(new JakartaWebServlet(), mapping);
+        ServletRegistrationBean<Servlet> registrationBean = new ServletRegistrationBean<>(new JakartaWebServlet(),
+                mapping);
         registrationBean.addInitParameter("webAllowOthers", "true");
         registrationBean.addInitParameter("trace", "false");
         return registrationBean;

@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidad que representa a un administrador del sistema.
+ * Los administradores tienen acceso completo al panel de administración.
+ * Se autentican con correo y contraseña.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +39,7 @@ public class Administrador {
     private String direccion;
 
     public Administrador(String nombre, String apellido, String correo,
-                         String contrasena, String telefono, String direccion) {
+            String contrasena, String telefono, String direccion) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;

@@ -12,6 +12,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.List;
 
+/**
+ * Entidad que representa una categoría del menú (ej. Entradas, Bebidas).
+ * Agrupa tanto Productos como Adicionales.
+ * La lista de productos se ignora en la serialización para evitar referencias
+ * circulares.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

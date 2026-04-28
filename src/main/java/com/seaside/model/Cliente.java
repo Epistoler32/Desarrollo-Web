@@ -1,12 +1,18 @@
 package com.seaside.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidad que representa a un cliente registrado en la plataforma.
+ * Cada cliente tiene un carrito de compras asociado de forma automática.
+ * La contraseña solo se recibe (WRITE_ONLY) y nunca se devuelve al frontend.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,13 +42,15 @@ public class Cliente {
     @Column(length = 70, nullable = false)
     private String direccion;
 
-    // Relación uno a uno con Carrito
+    // Solo expone id y ultimaActualizacion del carrito — evita serializar los
+    // productos del carrito
+    @JsonIgnoreProperties({ "carritoProductos", "cliente" })
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "carrito_id")
     private Carrito carrito;
 
     public Cliente(String nombre, String apellido, String correo,
-                   String contrasena, String telefono, String direccion) {
+            String contrasena, String telefono, String direccion) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
@@ -53,8 +61,8 @@ public class Cliente {
 
     // Constructor completo sin id
     public Cliente(String nombre, String apellido, String correo,
-                   String contrasena, String telefono, String direccion,
-                   Carrito carrito) {
+            String contrasena, String telefono, String direccion,
+            Carrito carrito) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
@@ -66,7 +74,7 @@ public class Cliente {
 
     // Constructor con id explícito y sin carrito
     public Cliente(Integer id, String nombre, String apellido, String correo,
-                   String contrasena, String telefono, String direccion) {
+            String contrasena, String telefono, String direccion) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;

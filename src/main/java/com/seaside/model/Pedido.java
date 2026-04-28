@@ -1,6 +1,7 @@
 package com.seaside.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entidad que representa un pedido realizado por un cliente.
+ * Contiene la fecha, estado, total y la lista de ítems.
+ * El id del domiciliario asignado se calcula dinámicamente (@Transient)
+ * para evitar dependencias circulares con la entidad Domiciliario.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,6 +39,9 @@ public class Pedido {
     @Column(nullable = false)
     private double total;
 
+    // Solo expone id, nombre y apellido — evita serializar el cliente completo con
+    // su carrito
+    @JsonIgnoreProperties({ "correo", "telefono", "direccion", "contrasena", "carrito" })
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
@@ -39,7 +49,6 @@ public class Pedido {
     @JsonIgnore
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> items = new ArrayList<>();
-
 
     @Transient
     private Integer domiciliarioId;

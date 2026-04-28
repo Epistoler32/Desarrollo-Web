@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controlador REST para la gestión de operadores (CRUD).
+ * Toda la lógica de negocio se delega a OperadorService.
+ */
 @RestController
 @RequestMapping("/api/operadores")
 public class OperadorController {
@@ -17,7 +21,7 @@ public class OperadorController {
     @Autowired
     private OperadorService operadorService;
 
-    // GET /api/operadores
+    // GET /api/operadores — Lista todos los operadores
     @GetMapping
     public ResponseEntity<List<Operador>> getAll() {
         return ResponseEntity.ok(operadorService.findAll());

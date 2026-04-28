@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * Clave primaria compuesta para la entidad CarritoProducto.
+ * Combina el id del carrito y el id del producto para identificar
+ * de forma única cada línea del carrito.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

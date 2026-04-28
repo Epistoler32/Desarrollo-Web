@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidad que registra qué adicionales se incluyeron en un ítem de pedido.
+ * Guarda la cantidad y el subtotal del adicional en ese contexto específico.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,7 +36,7 @@ public class ItemPedidoAdicional {
     private Adicionales adicional;
 
     public ItemPedidoAdicional(Integer cantidad, double subtotal,
-                                ItemPedido itemPedido, Adicionales adicional) {
+            ItemPedido itemPedido, Adicionales adicional) {
         this.cantidad = cantidad;
         this.subtotal = subtotal;
         this.itemPedido = itemPedido;

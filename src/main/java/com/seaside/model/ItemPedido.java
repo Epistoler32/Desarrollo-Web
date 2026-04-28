@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entidad que representa un ítem dentro de un pedido.
+ * Cada ítem referencia un producto, tiene una cantidad y un subtotal calculado.
+ * Puede tener adicionales asociados a través de ItemPedidoAdicional.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,7 +43,7 @@ public class ItemPedido {
     private List<ItemPedidoAdicional> adicionales = new ArrayList<>();
 
     public ItemPedido(Integer cantidad, double subtotal,
-                      Pedido pedido, Producto producto) {
+            Pedido pedido, Producto producto) {
         this.cantidad = cantidad;
         this.subtotal = subtotal;
         this.pedido = pedido;

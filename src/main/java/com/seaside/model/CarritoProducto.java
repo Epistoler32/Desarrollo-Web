@@ -6,6 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidad de unión entre Carrito y Producto.
+ * Usa clave compuesta (CarritoProductoId) para representar qué
+ * productos y en qué cantidad están en el carrito de un cliente.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +32,7 @@ public class CarritoProducto {
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
-     @Column(nullable = false)
+    @Column(nullable = false)
     private Integer cantidad = 1;
 
     public CarritoProducto(Carrito carrito, Producto producto, Integer cantidad) {

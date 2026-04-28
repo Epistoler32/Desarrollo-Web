@@ -15,19 +15,32 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementación de PedidoService.
+ * Orquesta la creación de pedidos con ítems y adicionales,
+ * la asignación de domiciliarios y la liberación automática
+ * del domiciliario cuando el pedido llega a un estado final.
+ */
 @Service
 public class PedidoServiceImpl implements PedidoService {
 
     private static final List<String> ESTADOS_INACTIVOS = Arrays.asList(
             "Entregado", "Cancelado", "ENTREGADO", "CANCELADO");
 
-    @Autowired private PedidoRepository pedidoRepository;
-    @Autowired private DomiciliarioRepository domiciliarioRepository;
-    @Autowired private ItemPedidoRepository itemPedidoRepository;
-    @Autowired private ItemPedidoAdicionalRepository itemPedidoAdicionalRepository;
-    @Autowired private com.seaside.repository.ClienteRepository clienteRepository;
-    @Autowired private com.seaside.repository.ProductoRepository productoRepository;
-    @Autowired private com.seaside.repository.AdicionalesRepository adicionalesRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
+    @Autowired
+    private DomiciliarioRepository domiciliarioRepository;
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+    @Autowired
+    private ItemPedidoAdicionalRepository itemPedidoAdicionalRepository;
+    @Autowired
+    private com.seaside.repository.ClienteRepository clienteRepository;
+    @Autowired
+    private com.seaside.repository.ProductoRepository productoRepository;
+    @Autowired
+    private com.seaside.repository.AdicionalesRepository adicionalesRepository;
 
     // ── Helpers ───────────────────────────────────────────────────────────
 
@@ -87,6 +100,13 @@ public class PedidoServiceImpl implements PedidoService {
         pedidoRepository.findById(id).ifPresent(p -> {
             p.setEstado(estado);
             pedidoRepository.save(p);
+            // Liberar domiciliario cuando el pedido llega a un estado final
+            if (ESTADOS_INACTIVOS.contains(estado)) {
+                domiciliarioRepository.findByPedidoId(id).ifPresent(d -> {
+                    d.setDisponible(true);
+                    domiciliarioRepository.save(d);
+                });
+            }
         });
     }
 

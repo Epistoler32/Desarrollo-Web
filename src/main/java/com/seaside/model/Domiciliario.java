@@ -1,10 +1,16 @@
 package com.seaside.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidad que representa a un domiciliario.
+ * Un domiciliario puede estar activo (trabaja ese día) o inactivo,
+ * y disponible (sin pedido asignado) o no disponible (entregando un pedido).
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,14 +48,15 @@ public class Domiciliario {
     @Column(nullable = false)
     private boolean disponible;
 
-    // FK al pedido que tiene asignado actualmente
+    // FK al pedido que tiene asignado actualmente — solo expone el id del pedido
+    @JsonIgnoreProperties({ "fechaCreacion", "fechaEntrega", "estado", "total", "cliente", "domiciliarioId", "items" })
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
     public Domiciliario(String nombre, String apellido, String correo,
-                        String contrasena, String telefono, String direccion,
-                        boolean activo, String cedula, boolean disponible) {
+            String contrasena, String telefono, String direccion,
+            boolean activo, String cedula, boolean disponible) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
