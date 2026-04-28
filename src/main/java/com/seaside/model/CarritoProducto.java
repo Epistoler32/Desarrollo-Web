@@ -27,9 +27,13 @@ public class CarritoProducto {
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
-    public CarritoProducto(Carrito carrito, Producto producto) {
+     @Column(nullable = false)
+    private Integer cantidad = 1;
+
+    public CarritoProducto(Carrito carrito, Producto producto, Integer cantidad) {
         this.carrito = carrito;
         this.producto = producto;
+        this.cantidad = cantidad;
         // El id se construye solo cuando ambas entidades ya están persistidas
         if (carrito.getId() != null && producto.getId() != null) {
             this.id = new CarritoProductoId(carrito.getId(), producto.getId());

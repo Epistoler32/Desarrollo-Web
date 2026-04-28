@@ -55,10 +55,23 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
+    public List<Pedido> findByClienteId(Integer clienteId) {
+        List<Pedido> pedidos = pedidoRepository.findByClienteId(clienteId);
+        pedidos.forEach(this::populateDomiciliarioId);
+        return pedidos;
+    }
+
+    @Override
     public Optional<Pedido> findById(Integer id) {
         Optional<Pedido> pedido = pedidoRepository.findById(id);
         pedido.ifPresent(this::populateDomiciliarioId);
         return pedido;
+    }
+
+    /** Retorna los ítems que pertenecen al pedido indicado. */
+    @Override
+    public List<com.seaside.model.ItemPedido> getItemsByPedidoId(Integer pedidoId) {
+        return itemPedidoRepository.findByPedidoId(pedidoId);
     }
 
     @Override
