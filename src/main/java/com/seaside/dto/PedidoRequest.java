@@ -5,10 +5,18 @@ import java.util.List;
 public class PedidoRequest {
 
     private Integer clienteId;
+    private Integer platoPrincipalId;
+    private String fechaEntrega;          // "YYYY-MM-DD"
     private List<ItemRequest> items;
 
     public Integer getClienteId() { return clienteId; }
     public void setClienteId(Integer clienteId) { this.clienteId = clienteId; }
+
+    public Integer getPlatoPrincipalId() { return platoPrincipalId; }
+    public void setPlatoPrincipalId(Integer platoPrincipalId) { this.platoPrincipalId = platoPrincipalId; }
+
+    public String getFechaEntrega() { return fechaEntrega; }
+    public void setFechaEntrega(String fechaEntrega) { this.fechaEntrega = fechaEntrega; }
 
     public List<ItemRequest> getItems() { return items; }
     public void setItems(List<ItemRequest> items) { this.items = items; }

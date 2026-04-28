@@ -45,6 +45,15 @@ public class DomiciliarioServiceImpl implements DomiciliarioService {
     }
 
     @Override
+    @Transactional
+    public void setActivo(Integer id, boolean activo) {
+        domiciliarioRepository.findById(id).ifPresent(d -> {
+            d.setActivo(activo);
+            domiciliarioRepository.save(d);
+        });
+    }
+
+    @Override
     public void delete(Integer id) {
         domiciliarioRepository.deleteById(id);
     }

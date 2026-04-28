@@ -11,5 +11,6 @@ public interface DomiciliarioService {
     Optional<Domiciliario> findById(Integer id);
     Domiciliario save(Domiciliario domiciliario);
     void setDisponibilidad(Integer id, boolean disponible);
+    void setActivo(Integer id, boolean activo);
     void delete(Integer id);
 }

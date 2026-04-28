@@ -1,7 +1,7 @@
 package com.seaside.controller;
 
-import com.seaside.model.Pedido;
-import com.seaside.service.PedidoService;
+import com.seaside.dto.ItemPedidoResponse;
+import com.seaside.dto.PedidoRequest;
 import com.seaside.model.ItemPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Controlador REST para la gestión de pedidos.
