@@ -3,7 +3,6 @@ package com.seaside.controller;
 import com.seaside.model.Pedido;
 import com.seaside.service.PedidoService;
 import com.seaside.model.ItemPedido;
-import com.seaside.repository.ItemPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controlador REST para la gestión de pedidos.
+ * Toda la lógica de negocio se delega a {@link PedidoService}.
+ */
 @RestController
 @RequestMapping("/api/pedidos")
 public class PedidoController {
@@ -19,10 +22,7 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-    @Autowired
-    private ItemPedidoRepository itemPedidoRepository;
-
-    // GET /api/pedidos  |  GET /api/pedidos?activos=true
+    // GET /api/pedidos | GET /api/pedidos?activos=true
     @GetMapping
     public ResponseEntity<List<Pedido>> getAll(
             @RequestParam(name = "activos", required = false, defaultValue = "false") boolean activos) {
@@ -39,7 +39,7 @@ public class PedidoController {
                         .body(Map.of("error", "Pedido no encontrado con id: " + id)));
     }
 
-    // PATCH /api/pedidos/{id}/estado  —  body: { "estado": "EN_CAMINO" }
+    // PATCH /api/pedidos/{id}/estado — body: { "estado": "EN_CAMINO" }
     @PatchMapping("/{id}/estado")
     public ResponseEntity<?> actualizarEstado(
             @PathVariable Integer id,
@@ -59,7 +59,7 @@ public class PedidoController {
                         .body(Map.of("error", "Pedido no encontrado con id: " + id)));
     }
 
-    // PATCH /api/pedidos/{id}/domiciliario  —  body: { "domiciliarioId": 2 }
+    // PATCH /api/pedidos/{id}/domiciliario — body: { "domiciliarioId": 2 }
     @PatchMapping("/{id}/domiciliario")
     public ResponseEntity<?> asignarDomiciliario(
             @PathVariable Integer id,
@@ -91,7 +91,6 @@ public class PedidoController {
                         .body(Map.of("error", "Pedido no encontrado con id: " + id)));
     }
 
-
     // POST /api/pedidos
     // valida usuario/contraseña contra la tabla de operadores existente
     @PostMapping
@@ -110,7 +109,7 @@ public class PedidoController {
     public ResponseEntity<?> getItems(@PathVariable Integer id) {
         return pedidoService.findById(id)
                 .<ResponseEntity<?>>map(p -> {
-                    List<ItemPedido> items = itemPedidoRepository.findByPedidoId(id);
+                    List<ItemPedido> items = pedidoService.getItemsByPedidoId(id);
                     return ResponseEntity.ok(items);
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)

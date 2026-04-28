@@ -1,80 +1,64 @@
 package com.seaside.controller;
 
-import com.seaside.model.*;
-import com.seaside.repository.*;
+import com.seaside.model.CarritoProducto;
+import com.seaside.service.CarritoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Controlador REST para el carrito de compras.
+ * Delega toda la lógica de negocio a {@link CarritoService}.
+ */
 @RestController
 @RequestMapping("/api/carrito")
 public class CarritoController {
 
-    @Autowired private CarritoRepository carritoRepository;
-    @Autowired private CarritoProductoRepository carritoProductoRepository;
-    @Autowired private ProductoRepository productoRepository;
+    @Autowired
+    private CarritoService carritoService;
 
-    //GET items del carrito
+    /** GET /api/carrito/{carritoId}/items — retorna los ítems del carrito */
+    @GetMapping("/{carritoId}/items")
     public ResponseEntity<?> getItems(@PathVariable Integer carritoId) {
-        if (!carritoRepository.existsById(carritoId)) {
+        if (!carritoService.existeCarrito(carritoId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", "Carrito no encontrado: " + carritoId));
         }
-        List<CarritoProducto> items = carritoProductoRepository.findByCarritoId(carritoId);
+        List<CarritoProducto> items = carritoService.getItems(carritoId);
         return ResponseEntity.ok(items);
     }
 
-    // POST agregar / actualizar producto
+    /** POST /api/carrito/{carritoId}/items — agrega o incrementa un producto */
     @PostMapping("/{carritoId}/items")
-    @Transactional
     public ResponseEntity<?> addItem(
             @PathVariable Integer carritoId,
             @RequestBody Map<String, Integer> body) {
 
         Integer productoId = body.get("productoId");
-        Integer cantidad   = body.getOrDefault("cantidad", 1);
+        Integer cantidad = body.getOrDefault("cantidad", 1);
 
         if (productoId == null) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "productoId es obligatorio"));
         }
 
-        Carrito carrito = carritoRepository.findById(carritoId).orElse(null);
-        if (carrito == null) {
+        try {
+            CarritoProducto cp = carritoService.addItem(carritoId, productoId, cantidad);
+            return ResponseEntity.ok(cp);
+        } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Carrito no encontrado: " + carritoId));
+                    .body(Map.of("error", ex.getMessage()));
         }
-
-        Producto producto = productoRepository.findById(productoId).orElse(null);
-        if (producto == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "Producto no encontrado: " + productoId));
-        }
-
-        CarritoProductoId cpId = new CarritoProductoId(carritoId, productoId);
-        CarritoProducto cp = carritoProductoRepository.findById(cpId)
-                .orElse(new CarritoProducto(carrito, producto, 0));
-
-        cp.setCantidad(cp.getCantidad() + cantidad);
-        if (cp.getId() == null) cp.setId(cpId);
-
-        carritoProductoRepository.save(cp);
-        carrito.setUltimaActualizacion(LocalDateTime.now());
-        carritoRepository.save(carrito);
-
-        return ResponseEntity.ok(cp);
     }
 
-    //PATCH cambiar cantidad exacta
+    /**
+     * PATCH /api/carrito/{carritoId}/items/{productoId} — actualiza cantidad exacta
+     */
     @PatchMapping("/{carritoId}/items/{productoId}")
-    @Transactional
     public ResponseEntity<?> updateCantidad(
             @PathVariable Integer carritoId,
             @PathVariable Integer productoId,
@@ -86,54 +70,35 @@ public class CarritoController {
                     .body(Map.of("error", "cantidad debe ser >= 1"));
         }
 
-        CarritoProductoId cpId = new CarritoProductoId(carritoId, productoId);
-        return carritoProductoRepository.findById(cpId)
-                .<ResponseEntity<?>>map(cp -> {
-                    cp.setCantidad(cantidad);
-                    carritoProductoRepository.save(cp);
-                    carritoRepository.findById(carritoId).ifPresent(c -> {
-                        c.setUltimaActualizacion(LocalDateTime.now());
-                        carritoRepository.save(c);
-                    });
-                    return ResponseEntity.ok(cp);
-                })
+        return carritoService.updateCantidad(carritoId, productoId, cantidad)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(Map.of("error", "Ítem no encontrado en el carrito")));
     }
 
-    // DELETE quitar un producto 
+    /**
+     * DELETE /api/carrito/{carritoId}/items/{productoId} — elimina un producto del
+     * carrito
+     */
     @DeleteMapping("/{carritoId}/items/{productoId}")
-    @Transactional
     public ResponseEntity<?> removeItem(
             @PathVariable Integer carritoId,
             @PathVariable Integer productoId) {
 
-        CarritoProductoId cpId = new CarritoProductoId(carritoId, productoId);
-        if (!carritoProductoRepository.existsById(cpId)) {
+        if (!carritoService.removeItem(carritoId, productoId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", "Ítem no encontrado en el carrito"));
         }
-        carritoProductoRepository.deleteById(cpId);
-        carritoRepository.findById(carritoId).ifPresent(c -> {
-            c.setUltimaActualizacion(LocalDateTime.now());
-            carritoRepository.save(c);
-        });
         return ResponseEntity.noContent().build();
     }
 
-    //DELETE vaciar carrito 
+    /** DELETE /api/carrito/{carritoId} — vacía el carrito */
     @DeleteMapping("/{carritoId}")
-    @Transactional
     public ResponseEntity<?> clearCarrito(@PathVariable Integer carritoId) {
-        if (!carritoRepository.existsById(carritoId)) {
+        if (!carritoService.clearCarrito(carritoId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("error", "Carrito no encontrado: " + carritoId));
         }
-        carritoProductoRepository.deleteByCarritoId(carritoId);
-        carritoRepository.findById(carritoId).ifPresent(c -> {
-            c.setUltimaActualizacion(LocalDateTime.now());
-            carritoRepository.save(c);
-        });
         return ResponseEntity.noContent().build();
     }
 }

@@ -33,4 +33,12 @@ public class OperadorServiceImpl implements OperadorService {
     public void delete(Integer id) {
         operadorRepository.deleteById(id);
     }
+
+    /**
+     * Delega la búsqueda por credenciales al repositorio, sin filtrar en memoria.
+     */
+    @Override
+    public Optional<Operador> autenticar(String usuario, String contrasena) {
+        return operadorRepository.findByUsuarioAndContrasena(usuario, contrasena);
+    }
 }
