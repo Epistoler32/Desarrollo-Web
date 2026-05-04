@@ -48,7 +48,7 @@ public class Domiciliario {
     @Column(nullable = false)
     private boolean disponible;
 
-    // FK al pedido que tiene asignado actualmente — solo expone el id del pedido
+    // FK al pedido que tiene asignado actualmente - solo expone el id del pedido
     @JsonIgnoreProperties({ "fechaCreacion", "fechaEntrega", "estado", "total", "cliente", "domiciliarioId", "items" })
     @ManyToOne
     @JoinColumn(name = "pedido_id")

@@ -42,7 +42,7 @@ public class Cliente {
     @Column(length = 70, nullable = false)
     private String direccion;
 
-    // Solo expone id y ultimaActualizacion del carrito — evita serializar los
+    // Solo expone id y ultimaActualizacion del carrito - evita serializar los
     // productos del carrito
     @JsonIgnoreProperties({ "carritoProductos", "cliente" })
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

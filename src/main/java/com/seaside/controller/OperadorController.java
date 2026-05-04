@@ -21,7 +21,7 @@ public class OperadorController {
     @Autowired
     private OperadorService operadorService;
 
-    // GET /api/operadores — Lista todos los operadores
+    // GET /api/operadores - Lista todos los operadores
     @GetMapping
     public ResponseEntity<List<Operador>> getAll() {
         return ResponseEntity.ok(operadorService.findAll());
