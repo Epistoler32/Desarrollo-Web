@@ -3,6 +3,7 @@ package com.seaside;
 import com.seaside.model.*;
 import com.seaside.repository.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +16,14 @@ import java.time.LocalDateTime;
  * Se ejecuta automáticamente al arrancar la aplicación e inserta catálogos
  * de categorías, productos, adicionales, clientes, operadores y domiciliarios
  * de prueba si la base de datos está vacía.
+ *
+ * La anotación @Profile("!test") garantiza que este componente NO se ejecute
+ * cuando la aplicación corre bajo el perfil "test" (pruebas automáticas),
+ * evitando que los datos de prueba interfieran con los datos de las pruebas unitarias.
  */
 @Component
 @Transactional
+@Profile("!test")
 public class DataLoader implements CommandLineRunner {
         @Autowired
         private CategoriaRepository categoriaRepository;
@@ -135,7 +141,7 @@ public class DataLoader implements CommandLineRunner {
                                         "Medallón de res envuelto en tocineta con salsa de pimienta negra.",
                                         72000.0, platosFuertes,
                                         "https://image2url.com/r2/default/images/1772395668152-153077e8-c995-4bd5-aa8b-3d17a0daea9a.png",
-                                        45, false, null)); // Solo res y especias - sin alérgenos comunes
+                                        45, false, null));
 
                         productoRepository.save(new Producto(
                                         "Fettuccine Frutti di Mare",
@@ -410,42 +416,42 @@ public class DataLoader implements CommandLineRunner {
                                         "Coliflor asada con especias, puré de garbanzo y aceite de hierbas.",
                                         32000.0, acompanamientos,
                                         "https://image2url.com/r2/default/images/1772395883811-b0fd79c1-f057-4436-86f6-78477b238e3d.png",
-                                        30, false, null)); // Vegano, sin alérgenos comunes
+                                        30, false, null));
 
                         productoRepository.save(new Producto(
                                         "Patacones con Hogao",
                                         "Plátano frito crujiente con salsa tradicional de tomate y cebolla.",
                                         14000.0, acompanamientos,
                                         "https://image2url.com/r2/default/images/1772554930688-f90626ef-4c0e-4dda-a286-d7d4cc3e9428.png",
-                                        20, false, null)); // Sin alérgenos
+                                        20, false, null));
 
                         productoRepository.save(new Producto(
                                         "Porción de Arroz de Coco",
                                         "El acompañamiento dulce-salado infaltable.",
                                         7000.0, acompanamientos,
                                         "https://image2url.com/r2/default/images/1772554899744-86f570c4-824f-448b-89db-410236fccc68.png",
-                                        10, false, null)); // Sin alérgenos
+                                        10, false, null));
 
                         productoRepository.save(new Producto(
                                         "Yucas Fritas",
                                         "Bastones de yuca con suero costeño.",
                                         12000.0, acompanamientos,
                                         "https://image2url.com/r2/default/images/1772554884170-b5815f5f-5b69-4207-b093-a3da9b875099.png",
-                                        15, true, "Lácteos")); // El suero costeño es lácteo
+                                        15, true, "Lácteos"));
 
                         productoRepository.save(new Producto(
                                         "Ensalada de la Casa",
                                         "Mix de verdes, palmitos, aguacate y vinagreta cítrica.",
                                         16000.0, acompanamientos,
                                         "https://image2url.com/r2/default/images/1772554865453-a516247f-b228-47ef-99c0-3a542245d254.png",
-                                        15, false, null)); // Sin alérgenos
+                                        15, false, null));
 
                         productoRepository.save(new Producto(
                                         "Papas Nativas al Horno",
                                         "Con romero, sal marina y aceite de oliva.",
                                         13000.0, acompanamientos,
                                         "https://image2url.com/r2/default/images/1772554783933-1c2458ed-4eba-440f-b71b-e8d4e683a267.png",
-                                        20, false, null)); // Sin alérgenos
+                                        20, false, null));
 
                         // ── POSTRES ────────────────────────────────────────────────
                         productoRepository.save(new Producto(
@@ -491,7 +497,6 @@ public class DataLoader implements CommandLineRunner {
                                         25, true, "Gluten, Huevo, Lácteos"));
 
                         // ── BEBIDAS ────────────────────────────────────────────────
-                        // Las bebidas naturales generalmente no tienen alérgenos declarados
                         productoRepository.save(new Producto(
                                         "Agua Fresca",
                                         "Bebida refrescante de frutas naturales.",
@@ -504,14 +509,14 @@ public class DataLoader implements CommandLineRunner {
                                         "Mezcla cremosa de limón y leche de coco fresca.",
                                         12000.0, bebidas,
                                         "https://image2url.com/r2/default/images/1772555070111-668d8d82-e227-45b0-b0ca-0eda756db292.png",
-                                        10, false, null)); // Coco no es alérgeno declarado en Colombia
+                                        10, false, null));
 
                         productoRepository.save(new Producto(
                                         "Jugos Naturales",
                                         "Mango, fresa, lulo o guanábana (en agua o leche).",
                                         9000.0, bebidas,
                                         "https://image2url.com/r2/default/images/1772555045620-ed135899-159b-4018-a35f-c72113402558.png",
-                                        10, false, null)); // Versión en agua; el cliente puede pedir sin leche
+                                        10, false, null));
 
                         productoRepository.save(new Producto(
                                         "Soda Saborizada",
@@ -537,139 +542,133 @@ public class DataLoader implements CommandLineRunner {
 
                 // ══════════════════════════════════════════════════════════════
                 // ADICIONALES
-                // Los adicionales también reciben tieneAlergenos correcto
                 // ══════════════════════════════════════════════════════════════
                 if (adicionalesRepository.count() == 0) {
 
-                        // Adicionales para Platos Fuertes
                         adicionalesRepository.save(new Adicionales("Porción extra de camarones",
                                         "100g adicionales de camarones tigre a la plancha.", 18000.0,
                                         "https://image2url.com/r2/default/images/1773776454671-067e0a2c-4cb4-4c94-8956-365886434f1a.png",
-                                        10, true, platosFuertes)); // Marisco
+                                        10, true, platosFuertes));
 
                         adicionalesRepository.save(new Adicionales("Salsa criolla extra",
                                         "Salsa de tomate, cebolla y cilantro preparada al momento.", 4000.0,
                                         "https://image2url.com/r2/default/images/1773776497468-9dadb540-ce31-4161-9f85-5afdcc333c44.png",
-                                        5, false, platosFuertes)); // Sin alérgenos
+                                        5, false, platosFuertes));
 
                         adicionalesRepository.save(new Adicionales("Coco rallado tostado",
                                         "Toque dulce y crujiente para acompañar cualquier plato del mar.", 3000.0,
                                         "https://image2url.com/r2/default/images/1773776520293-f7fa1a5d-e12a-4136-9cc8-d65befcb0d38.png",
-                                        5, false, platosFuertes)); // Sin alérgenos
+                                        5, false, platosFuertes));
 
                         adicionalesRepository.save(new Adicionales("Aguacate en rodajas",
                                         "Medio aguacate fresco cortado en láminas.", 6000.0,
                                         "https://image2url.com/r2/default/images/1773776546015-adaaabbd-5a2a-4ee5-a7dd-d31ea2942079.png",
-                                        5, false, platosFuertes)); // Sin alérgenos
+                                        5, false, platosFuertes));
 
                         adicionalesRepository.save(new Adicionales("Limones extra (x3)",
                                         "Tres limones tahití frescos para marinar a tu gusto.", 2000.0,
                                         "https://image2url.com/r2/default/images/1773776615112-c8684a0e-e7b5-4ce3-9c59-1c80b15e2de5.png",
-                                        2, false, platosFuertes)); // Sin alérgenos
+                                        2, false, platosFuertes));
 
-                        // Adicionales para Entradas
                         adicionalesRepository.save(new Adicionales("Salsa tártara extra",
                                         "Porción adicional de salsa tártara casera.", 3500.0,
                                         "https://image2url.com/r2/default/images/1773776642051-b0c357a6-29e1-4d73-969d-a5cdc32443ab.png",
-                                        3, true, entradas)); // Huevo (mayonesa)
+                                        3, true, entradas));
 
                         adicionalesRepository.save(new Adicionales("Guacamole fresco",
                                         "Aguacate, tomate, cebolla y cilantro triturados al instante.", 7000.0,
                                         "https://image2url.com/r2/default/images/1773776697527-03ca6c4a-4b49-42d3-9b3b-042815c18a75.png",
-                                        5, false, entradas)); // Sin alérgenos
+                                        5, false, entradas));
 
                         adicionalesRepository.save(new Adicionales("Pan artesanal (2 rebanadas)",
                                         "Pan de masa madre tostado con mantequilla de hierbas.", 4500.0,
                                         "https://image2url.com/r2/default/images/1773776720465-30a16240-584a-4d71-a7c3-1247f31a5428.png",
-                                        5, true, entradas)); // Gluten, Lácteos
+                                        5, true, entradas));
 
                         adicionalesRepository.save(new Adicionales("Salsa de ají amarillo",
                                         "Salsa peruana de ají amarillo con un toque de limón.", 3000.0,
                                         "https://image2url.com/r2/default/images/1773776753196-bbbd963c-0ca8-43eb-9068-351313ec2c40.png",
-                                        3, false, entradas)); // Sin alérgenos
+                                        3, false, entradas));
 
                         adicionalesRepository.save(new Adicionales("Queso costeño rallado",
                                         "50g de queso costeño rallado para gratinar.", 4000.0,
                                         "https://i.postimg.cc/R06dWRG4/image.png",
-                                        3, true, entradas)); // Lácteos
+                                        3, true, entradas));
 
-                        // Adicionales para Acompañamientos
                         adicionalesRepository.save(new Adicionales("Porción extra de arroz de coco",
                                         "Ración adicional del arroz insignia de la casa.", 7000.0,
                                         "https://i.postimg.cc/rmHfhHmC/image.png",
-                                        10, false, acompanamientos)); // Sin alérgenos
+                                        10, false, acompanamientos));
 
                         adicionalesRepository.save(new Adicionales("Patacón extra",
                                         "Dos patacones adicionales con hogao.", 5000.0,
                                         "https://i.postimg.cc/gcXpYF3H/image.png",
-                                        10, false, acompanamientos)); // Sin alérgenos
+                                        10, false, acompanamientos));
 
                         adicionalesRepository.save(new Adicionales("Suero costeño",
                                         "Porción de suero costeño para acompañar.", 3500.0,
                                         "https://i.postimg.cc/VLXcCqG4/image.png",
-                                        2, true, acompanamientos)); // Lácteos
+                                        2, true, acompanamientos));
 
                         adicionalesRepository.save(new Adicionales("Ensalada verde pequeña",
                                         "Mix de lechugas, tomate cherry y vinagreta de limón.", 5500.0,
                                         "https://i.postimg.cc/44hDDvTB/image.png",
-                                        5, false, acompanamientos)); // Sin alérgenos
+                                        5, false, acompanamientos));
 
                         adicionalesRepository.save(new Adicionales("Maduro asado",
                                         "Plátano maduro asado con canela y panela.", 4000.0,
                                         "https://i.postimg.cc/BQTd6qbC/image.png",
-                                        12, false, acompanamientos)); // Sin alérgenos
+                                        12, false, acompanamientos));
 
-                        // Adicionales para Postres
                         adicionalesRepository.save(new Adicionales("Bola de helado de vainilla",
                                         "Helado artesanal de vainilla de Madagascar.", 5000.0,
                                         "https://i.postimg.cc/Jh2Fg0YJ/image.png",
-                                        2, true, postres)); // Lácteos, Huevo
+                                        2, true, postres));
 
                         adicionalesRepository.save(new Adicionales("Salsa de chocolate amargo",
                                         "Coulis de chocolate 70% cacao, tibio.", 3000.0,
                                         "https://i.postimg.cc/NGTnJg65/image.png",
-                                        3, true, postres)); // Puede contener trazas de Lácteos
+                                        3, true, postres));
 
                         adicionalesRepository.save(new Adicionales("Fresas frescas (x5)",
                                         "Fresas frescas de temporada en mitades.", 4500.0,
                                         "https://i.postimg.cc/9fr8GVmN/image.png",
-                                        2, false, postres)); // Sin alérgenos
+                                        2, false, postres));
 
                         adicionalesRepository.save(new Adicionales("Crema chantilly",
                                         "Crema batida artesanal, sin azúcar añadida.", 3500.0,
                                         "https://i.postimg.cc/6qNMJvrQ/image.png",
-                                        3, true, postres)); // Lácteos
+                                        3, true, postres));
 
                         adicionalesRepository.save(new Adicionales("Maracuyá en almíbar",
                                         "Reducción de maracuyá con panela y especias.", 4000.0,
                                         "https://i.postimg.cc/RVwNZnw2/image.png",
-                                        5, false, postres)); // Sin alérgenos
+                                        5, false, postres));
 
-                        // Adicionales para Bebidas
                         adicionalesRepository.save(new Adicionales("Leche de coco (250ml)",
                                         "Leche de coco natural para combinar con tu bebida.", 4500.0,
                                         "https://i.postimg.cc/h45Gr11M/image.png",
-                                        2, false, bebidas)); // Sin alérgenos declarados
+                                        2, false, bebidas));
 
                         adicionalesRepository.save(new Adicionales("Sirope de hierbas",
                                         "Sirope artesanal de albahaca, menta y limón.", 3000.0,
                                         "https://i.postimg.cc/Gpx2x0XK/image.png",
-                                        2, false, bebidas)); // Sin alérgenos
+                                        2, false, bebidas));
 
                         adicionalesRepository.save(new Adicionales("Shot de espresso doble",
                                         "Doble extracción de café de especialidad.", 5000.0,
                                         "https://i.postimg.cc/5y06tPq5/image.png",
-                                        3, false, bebidas)); // Sin alérgenos
+                                        3, false, bebidas));
 
                         adicionalesRepository.save(new Adicionales("Hielo extra",
                                         "Vaso adicional de hielo en cubos.", 1500.0,
                                         "https://i.postimg.cc/L5NLCYvV/image.png",
-                                        1, false, bebidas)); // Sin alérgenos
+                                        1, false, bebidas));
 
                         adicionalesRepository.save(new Adicionales("Fruta picada de temporada",
                                         "Porción de mango, papaya o piña según disponibilidad del día.", 4000.0,
                                         "https://i.postimg.cc/xdzGfdTV/image.png",
-                                        5, false, bebidas)); // Sin alérgenos
+                                        5, false, bebidas));
                 }
 
                 // ══════════════════════════════════════════════════════════════
