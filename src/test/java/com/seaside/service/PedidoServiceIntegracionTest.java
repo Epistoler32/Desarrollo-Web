@@ -17,29 +17,20 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Pruebas de INTEGRACIÓN del servicio PedidoService.
- *
- * @SpringBootTest levanta toda la aplicación (sin DataLoader gracias al
- * perfil "test"). Esto verifica que la interacción real entre
- * PedidoService → PedidoRepository → base de datos H2 funciona
- * correctamente de extremo a extremo.
- *
- * @DirtiesContext reinicia el contexto de Spring entre pruebas para que
- * cada prueba comience con una base de datos limpia y sin interferencias.
- *
- * Patrón: Arrange → Act → Assert
- */
+// Pruebas de INTEGRACIÓN del servicio PedidoService.
+// @SpringBootTest levanta toda la aplicación
+// @DirtiesContext reinicia el contexto de Spring entre pruebas
+
 @SpringBootTest
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PedidoServiceIntegracionTest {
 
-    // ── Servicio a probar ────────────────────────────────────────────────
+    // Servicio a probar
     @Autowired
     private PedidoService pedidoService;
 
-    // ── Repositorios auxiliares para preparar el estado inicial ─────────
+    // Repositorios auxiliares para preparar el estado inicial
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -52,17 +43,12 @@ public class PedidoServiceIntegracionTest {
     @Autowired
     private AdicionalesRepository adicionalesRepository;
 
-    // ── Datos de prueba reutilizables ────────────────────────────────────
+    // Datos de prueba reutilizables
     private Cliente cliente1;
     private Cliente cliente2;
     private Producto producto1;
     private Adicionales adicional1;
 
-    /**
-     * Prepara el entorno de prueba antes de cada método @Test.
-     * Persiste los datos mínimos necesarios para ejecutar las pruebas
-     * de integración.
-     */
     @BeforeEach
     void setUp() {
         Categoria categoria = categoriaRepository.save(new Categoria("Platos Fuertes"));
@@ -86,14 +72,9 @@ public class PedidoServiceIntegracionTest {
                 "https://img.com/limon.jpg", 2, false, categoria));
     }
 
-    // ════════════════════════════════════════════════════════════════════
     //  PRUEBAS DE INTEGRACIÓN
-    // ════════════════════════════════════════════════════════════════════
 
-    /**
-     * INT-1: crearPedido con un item válido debe persistir el pedido
-     * y devolver el objeto con ID asignado.
-     */
+    // INT 1: crearPedido con un item válido debe persistir el pedido y devolver el objeto con ID asignado
     @Test
     void pedidoService_crearPedido_pedidoBasicoValido_seGuardaConId() {
         // Arrange
@@ -111,12 +92,10 @@ public class PedidoServiceIntegracionTest {
         assertEquals(80000.0, resultado.getTotal(), 0.01);
     }
 
-    /**
-     * INT-2: crearPedido con adicionales debe sumar correctamente el total.
-     */
+    // INT 2: crearPedido con adicionales debe sumar correctamente el total
     @Test
     void pedidoService_crearPedido_conAdicionales_calculaTotalCorrecto() {
-        // Arrange — 1 producto x2 + 1 adicional x3
+        // Arrange - 1 producto x2 + 1 adicional x3
         PedidoRequest.AdicionalRequest adicionalReq = new PedidoRequest.AdicionalRequest();
         adicionalReq.setAdicionalId(adicional1.getId());
         adicionalReq.setCantidad(3);
@@ -127,14 +106,12 @@ public class PedidoServiceIntegracionTest {
         // Act
         Pedido resultado = pedidoService.crearPedido(request);
 
-        // Assert — 40000*2 + 2000*3 = 80000 + 6000 = 86000
+        // Assert - 40000*2 + 2000*3 = 80000 + 6000 = 86000
         assertNotNull(resultado);
         assertEquals(86000.0, resultado.getTotal(), 0.01);
     }
 
-    /**
-     * INT-3: crearPedido con clienteId inexistente debe lanzar excepción.
-     */
+    // INT 3: crearPedido con clienteId inexistente debe lanzar excepción
     @Test
     void pedidoService_crearPedido_clienteInexistente_lanzaExcepcion() {
         // Arrange
@@ -145,10 +122,7 @@ public class PedidoServiceIntegracionTest {
                 () -> pedidoService.crearPedido(request));
     }
 
-    /**
-     * INT-4: findByClienteId debe retornar únicamente los pedidos
-     * del cliente solicitado.
-     */
+    // INT 4: findByClienteId debe retornar únicamente los pedidos del cliente solicitado
     @Test
     void pedidoService_findByClienteId_retornaSoloPedidosDelCliente() {
         // Arrange
@@ -170,9 +144,7 @@ public class PedidoServiceIntegracionTest {
                 assertEquals(cliente1.getId(), p.getCliente().getId()));
     }
 
-    /**
-     * INT-5: actualizarEstado debe cambiar el estado del pedido en BD.
-     */
+    // INT 5: actualizarEstado debe cambiar el estado del pedido en BD
     @Test
     void pedidoService_actualizarEstado_cambiaEstadoEnBaseDeDatos() {
         // Arrange
@@ -188,9 +160,7 @@ public class PedidoServiceIntegracionTest {
         assertEquals("EN_PREPARACION", encontrado.get().getEstado());
     }
 
-    /**
-     * INT-6: delete debe eliminar el pedido de la base de datos.
-     */
+    //INT 6: delete debe eliminar el pedido de la base de datos
     @Test
     void pedidoService_delete_eliminaPedidoCorrectamente() {
         // Arrange
@@ -206,9 +176,7 @@ public class PedidoServiceIntegracionTest {
         assertTrue(resultado.isEmpty());
     }
 
-    /**
-     * INT-7: findActivos excluye pedidos con estado "Entregado" o "Cancelado".
-     */
+    // INT 7: findActivos excluye pedidos con estado "Entregado" o "Cancelado"
     @Test
     void pedidoService_findActivos_excluyeEstadosFinales() {
         // Arrange
@@ -230,7 +198,7 @@ public class PedidoServiceIntegracionTest {
                 assertNotEquals("Entregado", p.getEstado()));
     }
 
-    // ── Método auxiliar para construir PedidoRequest ──────────────────
+    // Método auxiliar para construir PedidoRequest
     private PedidoRequest buildRequest(Integer clienteId, Integer productoId,
                                        int cantidad,
                                        List<PedidoRequest.AdicionalRequest> adicionales) {

@@ -121,9 +121,7 @@ public class PedidoRepositoryTest {
         assertTrue(resultado.isEmpty());
     }
 
-    /**
-     * CRUD-4: Eliminar un pedido debe hacer que ya no sea encontrable.
-     */
+    // CRUD 4: Eliminar un pedido debe hacer que ya no sea encontrable
     @Test
     void pedidoRepository_delete_pedidoYaNoExiste() {
         // Arrange
@@ -139,9 +137,7 @@ public class PedidoRepositoryTest {
         assertTrue(resultado.isEmpty());
     }
 
-    /**
-     * CRUD-5: Actualizar el estado de un pedido debe persistirse correctamente.
-     */
+    // CRUD-5: Actualizar el estado de un pedido debe persistirse correctamente
     @Test
     void pedidoRepository_update_actualizaEstadoCorrectamente() {
         // Arrange
@@ -157,13 +153,9 @@ public class PedidoRepositoryTest {
         assertEquals("EN_PREPARACION", actualizado.getEstado());
     }
 
-    // ════════════════════════════════════════════════════════════════════
-    //  5 CONSULTAS PERSONALIZADAS
-    // ════════════════════════════════════════════════════════════════════
+    // 5 CONSULTAS PERSONALIZADAS
 
-    /**
-     * QUERY-1: findByClienteId debe retornar solo los pedidos del cliente indicado.
-     */
+    // QUERY 1: findByClienteId debe retornar solo los pedidos del cliente indicado
     @Test
     void pedidoRepository_findByClienteId_retornaUnicamente_pedidosDeEseCliente() {
         // Arrange
@@ -181,9 +173,7 @@ public class PedidoRepositoryTest {
                 assertEquals(cliente1.getId(), p.getCliente().getId()));
     }
 
-    /**
-     * QUERY-2: findByEstado debe retornar solo los pedidos con estado "Pendiente".
-     */
+    // QUERY 2: findByEstado debe retornar solo los pedidos con estado "Pendiente"
     @Test
     void pedidoRepository_findByEstado_retornarSoloPedidosPendientes() {
         // Arrange
@@ -200,9 +190,7 @@ public class PedidoRepositoryTest {
         pendientes.forEach(p -> assertEquals("Pendiente", p.getEstado()));
     }
 
-    /**
-     * QUERY-3: findByClienteId para un cliente sin pedidos debe retornar lista vacía.
-     */
+    // QUERY 3: findByClienteId para un cliente sin pedidos debe retornar lista vacía
     @Test
     void pedidoRepository_findByClienteId_clienteSinPedidos_retornaListaVacia() {
         // Arrange - cliente2 no tiene pedidos guardados

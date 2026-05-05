@@ -17,28 +17,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Pruebas UNITARIAS con Mocks del servicio PedidoService.
- *
- * Se usa Mockito para simular (mockear) los repositorios, de modo que las
- * pruebas solo validan la LÓGICA DEL SERVICIO, sin tocar la base de datos.
- *
- * Ventaja: ejecución muy rápida y pruebas completamente aisladas.
- *
- * Patrón: Arrange (When) → Act → Assert
- *
- *  - @InjectMocks crea la instancia real del servicio a probar.
- *  - @Mock crea objetos falsos para todas las dependencias del servicio.
- *  - when(...).thenReturn(...) define qué debe "devolver" cada mock.
- */
+// Pruebas UNITARIAS con Mocks del servicio PedidoService
+// Se usa Mockito para simular los repositorios
+// @InjectMocks crea la instancia real del servicio a probar
+// @Mock crea objetos falsos para todas las dependencias del servicio
+
 @ExtendWith(MockitoExtension.class)
 public class PedidoServiceMockTest {
 
-    // ── Clase que se prueba (implementación real) ────────────────────────
+    // Clase que se prueba (implementación real)
     @InjectMocks
     private PedidoServiceImpl pedidoService;
 
-    // ── Mocks de repositorios (objetos falsos) ───────────────────────────
+    // Mocks de repositorios (objetos falsos)
     @Mock
     private PedidoRepository pedidoRepository;
 
@@ -60,14 +51,8 @@ public class PedidoServiceMockTest {
     @Mock
     private DomiciliarioRepository domiciliarioRepository;
 
-    // ════════════════════════════════════════════════════════════════════
-    //  MOCK-1: findAll devuelve la lista que simulamos en el mock
-    // ════════════════════════════════════════════════════════════════════
+    //  MOCK 1: findAll devuelve la lista que simulamos en el mock
 
-    /**
-     * Cuando el repositorio devuelve dos pedidos, el servicio debe
-     * retornar exactamente esos dos pedidos.
-     */
     @Test
     void pedidoService_findAll_retornaListaMoqueada() {
         // Arrange
@@ -90,9 +75,7 @@ public class PedidoServiceMockTest {
         verify(pedidoRepository, times(1)).findAll();
     }
 
-    // ════════════════════════════════════════════════════════════════════
-    //  MOCK-2: findById con ID existente retorna el pedido correcto
-    // ════════════════════════════════════════════════════════════════════
+    //  MOCK 2: findById con ID existente retorna el pedido correcto
 
     @Test
     void pedidoService_findById_idExistente_retornaPedido() {
@@ -113,9 +96,7 @@ public class PedidoServiceMockTest {
         assertEquals(55000.0, resultado.get().getTotal());
     }
 
-    // ════════════════════════════════════════════════════════════════════
-    //  MOCK-3: findById con ID inexistente retorna Optional vacío
-    // ════════════════════════════════════════════════════════════════════
+    //  MOCK 3: findById con ID inexistente retorna Optional vacío
 
     @Test
     void pedidoService_findById_idInexistente_retornaVacio() {
@@ -129,14 +110,8 @@ public class PedidoServiceMockTest {
         assertTrue(resultado.isEmpty());
     }
 
-    // ════════════════════════════════════════════════════════════════════
-    //  MOCK-4: findActivos filtra correctamente los estados inactivos
-    // ════════════════════════════════════════════════════════════════════
+    //  MOCK 4: findActivos filtra correctamente los estados inactivos
 
-    /**
-     * El servicio debe excluir pedidos con estado "Entregado" y "Cancelado"
-     * sin necesidad de una consulta real a la base de datos.
-     */
     @Test
     void pedidoService_findActivos_filtraEstadosFinales() {
         // Arrange
@@ -158,9 +133,7 @@ public class PedidoServiceMockTest {
         assertEquals("Pendiente", activos.get(0).getEstado());
     }
 
-    // ════════════════════════════════════════════════════════════════════
-    //  MOCK-5: actualizarEstado cambia el estado sin tocar la BD real
-    // ════════════════════════════════════════════════════════════════════
+    //  MOCK 5: actualizarEstado cambia el estado sin tocar la BD real
 
     @Test
     void pedidoService_actualizarEstado_llamaRepositorioSaveConNuevoEstado() {
@@ -172,24 +145,21 @@ public class PedidoServiceMockTest {
 
         when(pedidoRepository.findById(5)).thenReturn(Optional.of(pedidoFalso));
         when(pedidoRepository.save(any(Pedido.class))).thenReturn(pedidoFalso);
-        when(domiciliarioRepository.findByPedidoId(5)).thenReturn(Optional.empty());
+        lenient().when(domiciliarioRepository.findByPedidoId(5)).thenReturn(Optional.empty());
 
         // Act
         pedidoService.actualizarEstado(5, "EN_PREPARACION");
 
-        // Assert — verificamos que save fue invocado (la BD falsa "procesó" el cambio)
+        // Assert - verificamos que save fue invocado (la BD falsa "procesó" el cambio)
         verify(pedidoRepository, times(1)).save(any(Pedido.class));
         assertEquals("EN_PREPARACION", pedidoFalso.getEstado());
     }
 
-    // ════════════════════════════════════════════════════════════════════
-    //  MOCK-6: crearPedido con clienteId inválido lanza excepción
-    //          (sin tocar la BD real)
-    // ════════════════════════════════════════════════════════════════════
+    //  MOCK 6: crearPedido con clienteId inválido lanza excepción
 
     @Test
     void pedidoService_crearPedido_clienteInexistente_lanzaExcepcion() {
-        // Arrange — el mock devuelve vacío simulando que el cliente no existe
+        // Arrange - el mock devuelve vacío simulando que el cliente no existe
         when(clienteRepository.findById(9999)).thenReturn(Optional.empty());
 
         PedidoRequest request = new PedidoRequest();
@@ -201,9 +171,7 @@ public class PedidoServiceMockTest {
                 () -> pedidoService.crearPedido(request));
     }
 
-    // ════════════════════════════════════════════════════════════════════
-    //  MOCK-7: crearPedido con datos válidos persiste el pedido mockeado
-    // ════════════════════════════════════════════════════════════════════
+    //  MOCK 7: crearPedido con datos válidos persiste el pedido mockeado
 
     @Test
     void pedidoService_crearPedido_datosValidos_retornaPedidoGuardado() {
@@ -241,9 +209,7 @@ public class PedidoServiceMockTest {
         verify(pedidoRepository, times(1)).save(any(Pedido.class));
     }
 
-    // ════════════════════════════════════════════════════════════════════
-    //  MOCK-8: delete llama a deleteById en el repositorio
-    // ════════════════════════════════════════════════════════════════════
+    //  MOCK 8: delete llama a deleteById en el repositorio
 
     @Test
     void pedidoService_delete_invocaRepositorioDeleteById() {
@@ -255,11 +221,11 @@ public class PedidoServiceMockTest {
         // Act
         pedidoService.delete(7);
 
-        // Assert — verificamos que se invocó el método de borrado
+        // Assert - verificamos que se invocó el método de borrado
         verify(pedidoRepository, times(1)).deleteById(7);
     }
 
-    // ── Método auxiliar para crear un cliente falso sin persistir ────────
+    // Método auxiliar para crear un cliente falso sin persistir
     private Cliente buildClienteFalso() {
         Cliente c = new Cliente(
                 "Mock", "Cliente", "mock@test.com",
