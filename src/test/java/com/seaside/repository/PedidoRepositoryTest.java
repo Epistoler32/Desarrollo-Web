@@ -153,88 +153,107 @@ public class PedidoRepositoryTest {
         assertEquals("EN_PREPARACION", actualizado.getEstado());
     }
 
-    // 5 CONSULTAS PERSONALIZADAS
+    // 5 CONSULTAS PERSONALIZADAS CON @Query
 
-    // QUERY 1: findByClienteId debe retornar solo los pedidos del cliente indicado
+    // QUERY 1: findByClienteIdAndTotalMinimo debe retornar solo los pedidos del cliente
+    // indicado cuyo total sea mayor o igual al mínimo. El pedido de 42000 no debe aparecer.
     @Test
-    void pedidoRepository_findByClienteId_retornaUnicamente_pedidosDeEseCliente() {
+    void pedidoRepository_findByClienteIdAndTotalMinimo_filtraCorrectamente() {
         // Arrange
         pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente",  42000.0, cliente1));
-        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Entregado",  35000.0, cliente1));
-        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "EN_CAMINO",  58000.0, cliente2));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Entregado",  75000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente", 100000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente",  60000.0, cliente2));
 
         // Act
-        List<Pedido> pedidosCliente1 = pedidoRepository.findByClienteId(cliente1.getId());
-
-        // Assert
-        assertNotNull(pedidosCliente1);
-        assertEquals(2, pedidosCliente1.size());
-        pedidosCliente1.forEach(p ->
-                assertEquals(cliente1.getId(), p.getCliente().getId()));
-    }
-
-    // QUERY 2: findByEstado debe retornar solo los pedidos con estado "Pendiente"
-    @Test
-    void pedidoRepository_findByEstado_retornarSoloPedidosPendientes() {
-        // Arrange
-        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente",  42000.0, cliente1));
-        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente",  55000.0, cliente2));
-        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Entregado",  35000.0, cliente1));
-
-        // Act
-        List<Pedido> pendientes = pedidoRepository.findByEstado("Pendiente");
-
-        // Assert
-        assertNotNull(pendientes);
-        assertEquals(2, pendientes.size());
-        pendientes.forEach(p -> assertEquals("Pendiente", p.getEstado()));
-    }
-
-    // QUERY 3: findByClienteId para un cliente sin pedidos debe retornar lista vacía
-    @Test
-    void pedidoRepository_findByClienteId_clienteSinPedidos_retornaListaVacia() {
-        // Arrange - cliente2 no tiene pedidos guardados
-
-        // Act
-        List<Pedido> resultado = pedidoRepository.findByClienteId(cliente2.getId());
+        List<Pedido> resultado = pedidoRepository.findByClienteIdAndTotalMinimo(cliente1.getId(), 50000.0);
 
         // Assert
         assertNotNull(resultado);
-        assertTrue(resultado.isEmpty());
+        assertEquals(2, resultado.size());
+        resultado.forEach(p -> {
+            assertEquals(cliente1.getId(), p.getCliente().getId());
+            assertTrue(p.getTotal() >= 50000.0);
+        });
     }
 
-    // QUERY 4 - findByEstado con estado "Entregado" retorna exactamente los entregados
+    // QUERY 2: findByEstadoIn debe retornar pedidos cuyo estado esté dentro de la lista.
+    // Los de estado "Cancelado" no deben aparecer.
     @Test
-    void pedidoRepository_findByEstado_entregado_retornaListaCorrecta() {
+    void pedidoRepository_findByEstadoIn_retornaSoloPedidosConEstadosIndicados() {
         // Arrange
-        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Entregado", 42000.0, cliente1));
-        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Entregado", 35000.0, cliente2));
-        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Cancelado", 60000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente",      42000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "En preparación", 55000.0, cliente2));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Cancelado",      30000.0, cliente1));
 
         // Act
-        List<Pedido> entregados = pedidoRepository.findByEstado("Entregado");
+        List<Pedido> resultado = pedidoRepository.findByEstadoIn(
+                List.of("Pendiente", "En preparación"));
 
         // Assert
-        assertNotNull(entregados);
-        assertEquals(2, entregados.size());
+        assertNotNull(resultado);
+        assertEquals(2, resultado.size());
+        resultado.forEach(p ->
+                assertNotEquals("Cancelado", p.getEstado()));
     }
 
-    //QUERY 5 - Un pedido guardado con findById debe tener los mismos datos (total, estado, cliente) que cuando fue creado.
+    // QUERY 3: countPedidosByClienteId debe contar exactamente los pedidos del cliente indicado
     @Test
-    void pedidoRepository_findById_retornaPedidoConDatosCorrectos() {
+    void pedidoRepository_countPedidosByClienteId_retornaCantidadCorrecta() {
         // Arrange
-        Pedido pedidoOriginal = pedidoRepository.save(new Pedido(
-                LocalDate.now(), LocalDate.now().plusDays(2),
-                "EN_PREPARACION", 99000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente", 42000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Entregado", 35000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente", 58000.0, cliente2));
 
         // Act
-        Optional<Pedido> resultado = pedidoRepository.findById(pedidoOriginal.getId());
+        long conteo = pedidoRepository.countPedidosByClienteId(cliente1.getId());
 
         // Assert
-        assertTrue(resultado.isPresent());
-        Pedido encontrado = resultado.get();
-        assertEquals(99000.0,             encontrado.getTotal());
-        assertEquals("EN_PREPARACION",    encontrado.getEstado());
-        assertEquals(cliente1.getId(),    encontrado.getCliente().getId());
+        assertEquals(2L, conteo);
+    }
+
+    // QUERY 4 - findPedidosConTotalMayorQue retorna solo los pedidos que superen el total
+    // indicado, ordenados de mayor a menor
+    @Test
+    void pedidoRepository_findPedidosConTotalMayorQue_retornaOrdenados() {
+        // Arrange
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente",  30000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Entregado",  80000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente", 120000.0, cliente2));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Cancelado",  50000.0, cliente2));
+
+        // Act
+        List<Pedido> resultado = pedidoRepository.findPedidosConTotalMayorQue(60000.0);
+
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(2, resultado.size());
+        resultado.forEach(p -> assertTrue(p.getTotal() > 60000.0));
+        // Verificar orden descendente
+        assertTrue(resultado.get(0).getTotal() >= resultado.get(1).getTotal());
+    }
+
+    //QUERY 5 - findPedidosActivosByClienteId retorna solo los pedidos activos
+    // (no Entregado ni Cancelado) del cliente indicado
+    @Test
+    void pedidoRepository_findPedidosActivosByClienteId_excluyeEstadosFinales() {
+        // Arrange
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente", 42000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "En camino", 55000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Entregado", 35000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Cancelado", 20000.0, cliente1));
+        pedidoRepository.save(new Pedido(LocalDate.now(), LocalDate.now(), "Pendiente", 60000.0, cliente2));
+
+        // Act
+        List<Pedido> resultado = pedidoRepository.findPedidosActivosByClienteId(cliente1.getId());
+
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(2, resultado.size());
+        resultado.forEach(p -> {
+            assertEquals(cliente1.getId(), p.getCliente().getId());
+            assertNotEquals("Entregado", p.getEstado());
+            assertNotEquals("Cancelado", p.getEstado());
+        });
     }
 }
