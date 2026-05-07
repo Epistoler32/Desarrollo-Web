@@ -1,4 +1,4 @@
-/* ─── RESET / BASE ───────────────────────────────────────── */
+/*  RESET / BASE  */
 html {
   scroll-behavior: smooth;
 }
@@ -10,7 +10,7 @@ body {
   font-family: "Fuzzy Bubbles", cursive;
 }
 
-/* ─── NAVBAR ─────────────────────────────────────────────── */
+/*  NAVBAR  */
 .navigation-bar {
   display: flex;
   justify-content: space-between;
@@ -88,7 +88,7 @@ body {
   color: #ffbc4c !important;
 }
 
-/* ─── HERO ───────────────────────────────────────────────── */
+/*  HERO  */
 .menu-hero {
   position: relative;
   width: 100%;
@@ -144,7 +144,7 @@ body {
   fill: #f8f1e0;
 }
 
-/* ─── CATEGORY NAV (MEDICAT COMENTARIO #2) ──────────────────────────── */
+/*  CATEGORY NAV (MEDICAT COMENTARIO #2)  */
 .category-nav {
   position: sticky;
   top: clamp(70px, 9vw, 130px);
@@ -185,7 +185,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* ─── MAIN / INTRO ───────────────────────────────────────── */
+/*  MAIN / INTRO  */
 .menu-main {
   max-width: 1200px;
   margin: 0 auto;
@@ -206,7 +206,7 @@ body {
   margin: 0;
 }
 
-/* ─── CATEGORÍA ─────────────────────────────────────────── */
+/*  CATEGORÍA  */
 .category-section {
   margin-bottom: 70px;
   /* scroll offset para la sticky nav */
@@ -232,14 +232,14 @@ body {
   margin-top: 4px;
 }
 
-/* ─── GRID DE PRODUCTOS ──────────────────────────────────── */
+/*  GRID DE PRODUCTOS  */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: clamp(20px, 2.5vw, 36px);
 }
 
-/* ─── TARJETA DE PRODUCTO ────────────────────────────────── */
+/*  TARJETA DE PRODUCTO  */
 .product-card {
   background: #ffffff;
   border-radius: 16px;
@@ -401,7 +401,7 @@ a.product-card {
   transform: scale(0.97);
 }
 
-/* ─── FOOTER ─────────────────────────────────────────────── */
+/*  FOOTER  */
 footer {
   background: linear-gradient(to bottom, #F2B705, #D97904);
   padding: 44px 40px 24px;
@@ -471,7 +471,7 @@ footer {
   padding-bottom: 20px;
 }
 
-/* ─── KEYFRAMES ──────────────────────────────────────────── */
+/*  KEYFRAMES  */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(40px); }
   to   { opacity: 1; transform: translateY(0); }

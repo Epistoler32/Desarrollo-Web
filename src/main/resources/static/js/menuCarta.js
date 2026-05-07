@@ -1,6 +1,6 @@
-// ─── menuCarta.js ─────────────────────────────────────────────────────────────
+//  menuCarta.js 
 
-// ─── Reveal on scroll ─────────────────────────────────────────────────────────
+//  Reveal on scroll 
 const revealEls = document.querySelectorAll('.product-card');
 
 const observer = new IntersectionObserver((entries) => {
@@ -16,7 +16,7 @@ const observer = new IntersectionObserver((entries) => {
 
 revealEls.forEach((el) => observer.observe(el));
 
-// ─── FILTROS ───────────────────────────────────────────────────────────────────
+//  FILTROS 
 
 const searchInput   = document.getElementById('filter-search');
 const alergenoBtn   = document.getElementById('filter-alergenos');

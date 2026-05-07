@@ -79,7 +79,7 @@ public class DataLoader implements CommandLineRunner {
                 // ══════════════════════════════════════════════════════════════
                 if (productoRepository.count() == 0) {
 
-                        // ── PLATOS FUERTES ─────────────────────────────────────────
+                        //  PLATOS FUERTES 
                         productoRepository.save(new Producto(
                                         "Ceviche SeaSide",
                                         "Pescado fresco marinado en limón con cebolla morada, cilantro y el toque especial de la casa.",
@@ -360,7 +360,7 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1773715756354-fb72998c-e166-463e-a092-3f3bca7b7295.png",
                                         20, true, "Marisco (bogavante), Lácteos"));
 
-                        // ── ENTRADAS ───────────────────────────────────────────────
+                        //  ENTRADAS 
                         productoRepository.save(new Producto(
                                         "Brochetas de Mariscos a la Parrilla",
                                         "Pinchos de camarón, calamar y pescado marinados en cítricos y especias.",
@@ -410,7 +410,7 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1772554761338-e4b74ec4-2890-4e40-9a43-c7c7c50d05fe.png",
                                         15, true, "Pescado, Lácteos, Gluten"));
 
-                        // ── ACOMPAÑAMIENTOS ────────────────────────────────────────
+                        //  ACOMPAÑAMIENTOS 
                         productoRepository.save(new Producto(
                                         "Steak de Coliflor",
                                         "Coliflor asada con especias, puré de garbanzo y aceite de hierbas.",
@@ -453,7 +453,7 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1772554783933-1c2458ed-4eba-440f-b71b-e8d4e683a267.png",
                                         20, false, null));
 
-                        // ── POSTRES ────────────────────────────────────────────────
+                        //  POSTRES 
                         productoRepository.save(new Producto(
                                         "Flan",
                                         "Postre tradicional de huevo y caramelo.",
@@ -496,7 +496,7 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1772555131225-0bf9c274-a514-44eb-b0ec-2e476cc0e529.png",
                                         25, true, "Gluten, Huevo, Lácteos"));
 
-                        // ── BEBIDAS ────────────────────────────────────────────────
+                        //  BEBIDAS 
                         productoRepository.save(new Producto(
                                         "Agua Fresca",
                                         "Bebida refrescante de frutas naturales.",

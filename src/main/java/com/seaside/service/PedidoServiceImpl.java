@@ -42,14 +42,14 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     private com.seaside.repository.AdicionalesRepository adicionalesRepository;
 
-    // ── Helpers ───────────────────────────────────────────────────────────
+    //  Helpers 
 
     private void populateDomiciliarioId(Pedido pedido) {
         domiciliarioRepository.findByPedidoId(pedido.getId())
                 .ifPresent(d -> pedido.setDomiciliarioId(d.getId()));
     }
 
-    // ── Queries ───────────────────────────────────────────────────────────
+    //  Queries 
 
     @Override
     public List<Pedido> findAll() {
@@ -92,7 +92,7 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.save(pedido);
     }
 
-    // ── Mutations ─────────────────────────────────────────────────────────
+    //  Mutations 
 
     @Override
     @Transactional
@@ -149,7 +149,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedidoRepository.deleteById(id);
     }
 
-    // ── Crear pedido ──────────────────────────────────────────────────────
+    //  Crear pedido 
 
     @Override
     @Transactional

@@ -8,44 +8,32 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Repositorio JPA para la entidad Pedido.
- * Incluye consultas derivadas y consultas @Query con JPQL propio
- * para filtrar por cliente, estado y total mínimo.
- */
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
-    // Consultas derivadas (Spring genera el SQL automáticamente)
-
-    // Devuelve todos los pedidos de un cliente específico
+    // Consulta derivada - Spring Data genera el SQL automáticamente a partir del nombre
     List<Pedido> findByClienteId(Integer clienteId);
 
-    // Devuelve los pedidos que tienen un estado determinado.
-    List<Pedido> findByEstado(String estado);
+    //  Consultas @Query con JPQL propio 
 
-    // Consultas @Query con JPQL propio
-
-    // QUERY A: Busca pedidos de un cliente cuyo total sea mayor o igual al mínimo indicado
-    @Query("SELECT p FROM Pedido p WHERE p.cliente.id = :clienteId AND p.total >= :minTotal")
-    List<Pedido> findByClienteIdAndTotalMinimo(
-            @Param("clienteId") Integer clienteId,
-            @Param("minTotal") double minTotal);
-
-    // QUERY B: Devuelve pedidos cuyo estado se encuentre dentro de una lista de estados proporcionada
+    // QUERY 1: Pedidos cuyo estado se encuentre dentro de una lista de estados
     @Query("SELECT p FROM Pedido p WHERE p.estado IN :estados")
     List<Pedido> findByEstadoIn(@Param("estados") List<String> estados);
 
-    // QUERY C: Cuenta cuántos pedidos tiene un cliente específico
+    // QUERY 2: Cuenta cuántos pedidos tiene un cliente específico
     @Query("SELECT COUNT(p) FROM Pedido p WHERE p.cliente.id = :clienteId")
     long countPedidosByClienteId(@Param("clienteId") Integer clienteId);
 
-    // QUERY D: Devuelve pedidos que superen un total dado, ordenados de mayor a menor precio
+    // QUERY 3: Pedidos que superen un total dado, ordenados de mayor a menor
     @Query("SELECT p FROM Pedido p WHERE p.total > :total ORDER BY p.total DESC")
     List<Pedido> findPedidosConTotalMayorQue(@Param("total") double total);
 
-    // QUERY E: Devuelve pedidos activos de un cliente concreto
+    // QUERY 4: Pedidos activos de un cliente (excluye Entregado y Cancelado)
     @Query("SELECT p FROM Pedido p WHERE p.cliente.id = :clienteId " +
            "AND p.estado NOT IN ('Entregado', 'Cancelado', 'ENTREGADO', 'CANCELADO')")
     List<Pedido> findPedidosActivosByClienteId(@Param("clienteId") Integer clienteId);
+
+    // QUERY 5: Pedidos de un cliente ordenados de mayor a menor total
+    @Query("SELECT p FROM Pedido p WHERE p.cliente.id = :clienteId ORDER BY p.total DESC")
+    List<Pedido> findPedidosByClienteIdOrderByTotalDesc(@Param("clienteId") Integer clienteId);
 }

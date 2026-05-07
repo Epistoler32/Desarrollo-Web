@@ -12,7 +12,7 @@
     <link rel="stylesheet" th:href="@{/styles/menu_carta.css}" />
     <link rel="stylesheet" th:href="@{/styles/product_detail.css}" />
     <style>
-      /* ─── SECCIÓN ADICIONALES ─────────────────────────────── */
+      /*  SECCIÓN ADICIONALES  */
       .adicionales-section {
         max-width: 800px;
         margin: 0 auto 80px;
@@ -128,7 +128,7 @@
         padding: 12px 0;
       }
 
-      /* ─── CARRITO NAVBAR ──────────────────────────────────── */
+      /*  CARRITO NAVBAR  */
       .nav-cart {
         display: flex;
         align-items: center;
@@ -178,7 +178,7 @@
   </head>
   <body>
 
-    <!-- ─── NAVBAR ────────────────────── -->
+    <!--  NAVBAR  -->
     <header class="navigation-bar" id="navbar">
       <figure class="logo">
         <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
@@ -223,7 +223,7 @@
       </div>
     </div>
 
-    <!-- ─── DETALLE ──────────────────────────────────────── -->
+    <!--  DETALLE  -->
     <main class="detail-main" th:if="${product != null}">
       <article class="product-card" style="max-width:800px; margin:120px auto 40px">
         <div class="card-image-wrapper">
@@ -276,7 +276,7 @@
       </article>
     </main>
 
-    <!-- ─── ADICIONALES ──────────────────────────────────── -->
+    <!--  ADICIONALES  -->
     <section
       class="adicionales-section"
       th:if="${product != null}"
@@ -329,7 +329,7 @@
       <p>Producto no encontrado.</p>
     </main>
 
-    <!-- ─── FOOTER ─────────────────────────────────────── -->
+    <!--  FOOTER  -->
     <footer>
       <section id="visit-us">
         <h4 class="general-title">Visitanos</h4>

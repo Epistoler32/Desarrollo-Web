@@ -46,7 +46,7 @@ public class PedidoRequest {
         this.items = items;
     }
 
-    // ── Item dentro del pedido ──────────────────────────────
+    //  Item dentro del pedido 
     public static class ItemRequest {
 
         private Integer productoId;
@@ -78,7 +78,7 @@ public class PedidoRequest {
         }
     }
 
-    // ── Adicional dentro de un item ─────────────────────────
+    //  Adicional dentro de un item 
     public static class AdicionalRequest {
 
         private Integer adicionalId;
