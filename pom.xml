@@ -65,6 +65,22 @@
     	    <artifactId>spring-boot-starter-test</artifactId>
     	    <scope>test</scope>
     	</dependency>
+
+    	<!-- Selenium WebDriver -->
+    	<dependency>
+    	    <groupId>org.seleniumhq.selenium</groupId>
+    	    <artifactId>selenium-java</artifactId>
+    	    <version>4.20.0</version>
+    	    <scope>test</scope>
+    	</dependency>
+
+    	<!-- WebDriverManager: auto-downloads the browser driver binary -->
+    	<dependency>
+    	    <groupId>io.github.bonigarcia</groupId>
+    	    <artifactId>webdrivermanager</artifactId>
+    	    <version>5.8.0</version>
+    	    <scope>test</scope>
+    	</dependency>
 	</dependencies>
 
 	<build>
@@ -84,10 +100,42 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/e2e/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<!-- Run only with: mvn test -Pe2e  (requires both Spring Boot and Angular servers running) -->
+		<profile>
+			<id>e2e</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration combine.self="override">
+							<excludes>
+								<exclude>nothing</exclude>
+							</excludes>
+							<includes>
+								<include>**/e2e/**/*Test.java</include>
+							</includes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
