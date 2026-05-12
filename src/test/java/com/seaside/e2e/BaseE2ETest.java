@@ -1,9 +1,8 @@
 package com.seaside.e2e;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,6 +21,7 @@ import java.util.ArrayList;
  *
  * Run with: mvn test -Pe2e
  */
+@org.junit.jupiter.api.TestInstance(org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS)
 public abstract class BaseE2ETest {
 
     protected static final String BASE_URL = System.getProperty("app.url", "http://localhost:4200");
@@ -32,12 +32,9 @@ public abstract class BaseE2ETest {
     protected WebDriverWait wait;
 
     @BeforeAll
-    static void setupDriverBinary() {
+    void setupBrowser() {
         WebDriverManager.chromedriver().setup();
-    }
 
-    @BeforeEach
-    void startBrowser() {
         ChromeOptions options = new ChromeOptions();
         // options.addArguments("--headless=new"); // commented out to watch tests live
         options.addArguments("--no-sandbox");
@@ -49,10 +46,11 @@ public abstract class BaseE2ETest {
         wait = new WebDriverWait(driver, WAIT_TIMEOUT);
     }
 
-    @AfterEach
+    @AfterAll
     void closeBrowser() {
         if (driver != null) {
             driver.quit();
+            driver = null;
         }
     }
 

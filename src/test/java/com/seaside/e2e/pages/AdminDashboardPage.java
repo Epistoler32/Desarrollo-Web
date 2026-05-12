@@ -1,7 +1,9 @@
 package com.seaside.e2e.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -30,7 +32,8 @@ public class AdminDashboardPage {
 
     /** Clicks the "Gestión de Menú" card to navigate to /productos. */
     public void clickGestionMenu() {
-        wait.until(ExpectedConditions.elementToBeClickable(gestionMenuCard)).click();
+        WebElement el = wait.until(ExpectedConditions.elementToBeClickable(gestionMenuCard));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el);
     }
 
     public String currentUrl() {
