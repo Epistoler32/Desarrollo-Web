@@ -1,5 +1,6 @@
 package com.seaside.controller;
 
+import com.seaside.dto.DomiciliarioDTO;
 import com.seaside.model.Domiciliario;
 import com.seaside.service.DomiciliarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-/**
- * Controlador REST para la gestión de domiciliarios.
- * Expone CRUD completo más endpoints PATCH para cambiar
- * la disponibilidad y el estado activo del domiciliario.
- */
+/*
+Controlador REST para la gestión de domiciliarios.
+
+AGREGADO
+- GET endpoints retornan DomiciliarioDTO (sin contraseña, sin detalles de pedido anidado).
+*/
 @RestController
 @RequestMapping("/api/domiciliarios")
 public class DomiciliarioController {
@@ -24,19 +27,23 @@ public class DomiciliarioController {
 
     // GET /api/domiciliarios o ?disponibles=true
     @GetMapping
-    public ResponseEntity<List<Domiciliario>> getAll(
+    public ResponseEntity<List<DomiciliarioDTO>> getAll(
             @RequestParam(name = "disponibles", required = false, defaultValue = "false") boolean disponibles) {
         List<Domiciliario> result = disponibles
                 ? domiciliarioService.findDisponibles()
                 : domiciliarioService.findAll();
-        return ResponseEntity.ok(result);
+        // Mapear a DTO para no exponer contraseña ni relaciones innecesarias
+        List<DomiciliarioDTO> dtos = result.stream()
+                .map(DomiciliarioDTO::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     // GET /api/domiciliarios/{id}
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
         return domiciliarioService.findById(id)
-                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .<ResponseEntity<?>>map(d -> ResponseEntity.ok(DomiciliarioDTO.from(d)))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(Map.of("error", "Domiciliario no encontrado: " + id)));
     }
@@ -46,7 +53,7 @@ public class DomiciliarioController {
     public ResponseEntity<?> create(@RequestBody Domiciliario domiciliario) {
         try {
             Domiciliario saved = domiciliarioService.save(domiciliario);
-            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+            return ResponseEntity.status(HttpStatus.CREATED).body(DomiciliarioDTO.from(saved));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("error", e.getMessage()));
@@ -60,7 +67,7 @@ public class DomiciliarioController {
         return domiciliarioService.findById(id)
                 .<ResponseEntity<?>>map(existing -> {
                     domiciliario.setId(id);
-                    return ResponseEntity.ok(domiciliarioService.save(domiciliario));
+                    return ResponseEntity.ok(DomiciliarioDTO.from(domiciliarioService.save(domiciliario)));
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(Map.of("error", "Domiciliario no encontrado: " + id)));

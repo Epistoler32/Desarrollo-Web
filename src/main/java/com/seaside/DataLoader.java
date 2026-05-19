@@ -10,6 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.seaside.repository.UserRepository;
+import com.seaside.repository.RoleRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Cargador de datos iniciales para la base de datos.
@@ -19,7 +24,8 @@ import java.time.LocalDateTime;
  *
  * La anotación @Profile("!test") garantiza que este componente NO se ejecute
  * cuando la aplicación corre bajo el perfil "test" (pruebas automáticas),
- * evitando que los datos de prueba interfieran con los datos de las pruebas unitarias.
+ * evitando que los datos de prueba interfieran con los datos de las pruebas
+ * unitarias.
  */
 @Component
 @Transactional
@@ -44,8 +50,66 @@ public class DataLoader implements CommandLineRunner {
         @Autowired
         private OperadorRepository operadorRepository;
 
+        @Autowired
+        private UserRepository userRepository;
+        @Autowired
+        private RoleRepository roleRepository;
+        @Autowired
+        private PasswordEncoder passwordEncoder;
+
+        private UserEntity clienteToUser(Cliente c, Role rol) {
+                UserEntity u = new UserEntity(
+                                c.getCorreo(),
+                                passwordEncoder.encode(c.getContrasena() != null ? c.getContrasena() : "cliente123"));
+                u.setRoles(List.of(rol));
+                return userRepository.save(u);
+        }
+
+        /** Crea y guarda un UserEntity para un Administrador. */
+        private UserEntity adminToUser(Administrador a, Role rol) {
+                UserEntity u = new UserEntity(
+                                a.getCorreo(),
+                                passwordEncoder.encode(a.getContrasena()));
+                u.setRoles(List.of(rol));
+                return userRepository.save(u);
+        }
+
+        /**
+         * Crea y guarda un UserEntity para un Operador (username = usuario, no correo).
+         */
+        private UserEntity operadorToUser(Operador o, Role rol) {
+                UserEntity u = new UserEntity(
+                                o.getUsuario(),
+                                passwordEncoder.encode(o.getContrasena()));
+                u.setRoles(List.of(rol));
+                return userRepository.save(u);
+        }
+
+        /** Crea y guarda un UserEntity para un Domiciliario. */
+        private UserEntity domiciliarioToUser(Domiciliario d, Role rol) {
+                UserEntity u = new UserEntity(
+                        d.getCorreo(),
+                        passwordEncoder.encode(d.getContrasena() != null ? d.getContrasena() : "domi123")
+                );
+                u.setRoles(List.of(rol));
+                return userRepository.save(u);
+        }
+
         @Override
         public void run(String... args) throws Exception {
+
+                Role rolCliente, rolAdmin, rolOperador, rolDomiciliario;
+                if (roleRepository.count() == 0) {
+                        rolCliente = roleRepository.save(new Role("CLIENTE"));
+                        rolAdmin = roleRepository.save(new Role("ADMINISTRADOR"));
+                        rolOperador = roleRepository.save(new Role("OPERADOR"));
+                        rolDomiciliario = roleRepository.save(new Role("DOMICILIARIO"));
+                } else {
+                        rolCliente = roleRepository.findByNombre("CLIENTE").orElseThrow();
+                        rolAdmin = roleRepository.findByNombre("ADMINISTRADOR").orElseThrow();
+                        rolOperador = roleRepository.findByNombre("OPERADOR").orElseThrow();
+                        rolDomiciliario = roleRepository.findByNombre("DOMICILIARIO").orElseThrow();
+                }
 
                 // ══════════════════════════════════════════════════════════════
                 // CATEGORÍAS
@@ -79,7 +143,7 @@ public class DataLoader implements CommandLineRunner {
                 // ══════════════════════════════════════════════════════════════
                 if (productoRepository.count() == 0) {
 
-                        //  PLATOS FUERTES 
+                        // PLATOS FUERTES
                         productoRepository.save(new Producto(
                                         "Ceviche SeaSide",
                                         "Pescado fresco marinado en limón con cebolla morada, cilantro y el toque especial de la casa.",
@@ -360,7 +424,7 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1773715756354-fb72998c-e166-463e-a092-3f3bca7b7295.png",
                                         20, true, "Marisco (bogavante), Lácteos"));
 
-                        //  ENTRADAS 
+                        // ENTRADAS
                         productoRepository.save(new Producto(
                                         "Brochetas de Mariscos a la Parrilla",
                                         "Pinchos de camarón, calamar y pescado marinados en cítricos y especias.",
@@ -410,7 +474,7 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1772554761338-e4b74ec4-2890-4e40-9a43-c7c7c50d05fe.png",
                                         15, true, "Pescado, Lácteos, Gluten"));
 
-                        //  ACOMPAÑAMIENTOS 
+                        // ACOMPAÑAMIENTOS
                         productoRepository.save(new Producto(
                                         "Steak de Coliflor",
                                         "Coliflor asada con especias, puré de garbanzo y aceite de hierbas.",
@@ -453,7 +517,7 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1772554783933-1c2458ed-4eba-440f-b71b-e8d4e683a267.png",
                                         20, false, null));
 
-                        //  POSTRES 
+                        // POSTRES
                         productoRepository.save(new Producto(
                                         "Flan",
                                         "Postre tradicional de huevo y caramelo.",
@@ -496,7 +560,7 @@ public class DataLoader implements CommandLineRunner {
                                         "https://image2url.com/r2/default/images/1772555131225-0bf9c274-a514-44eb-b0ec-2e476cc0e529.png",
                                         25, true, "Gluten, Huevo, Lácteos"));
 
-                        //  BEBIDAS 
+                        // BEBIDAS
                         productoRepository.save(new Producto(
                                         "Agua Fresca",
                                         "Bebida refrescante de frutas naturales.",
@@ -674,116 +738,134 @@ public class DataLoader implements CommandLineRunner {
                 // ══════════════════════════════════════════════════════════════
                 // ADMINISTRADORES
                 // ══════════════════════════════════════════════════════════════
+
                 if (administradorRepository.count() == 0) {
-                        administradorRepository.save(new Administrador(
-                                        "Carlos", "Mendoza", "carlos.admin@seaside.com",
-                                        "admin123", "3001112233", "Carrera 15 #93-48, Bogotá"));
-                        administradorRepository.save(new Administrador(
-                                        "Valentina", "Torres", "valentina.admin@seaside.com",
-                                        "admin123", "3002223344", "Calle 72 #10-34, Bogotá"));
-                        administradorRepository.save(new Administrador(
-                                        "Sebastián", "Ríos", "sebastian.admin@seaside.com",
-                                        "admin123", "3003334455", "Carrera 7 #45-12, Bogotá"));
-                        administradorRepository.save(new Administrador(
-                                        "Juliana", "Ospina", "juliana.admin@seaside.com",
-                                        "admin123", "3004445566", "Calle 100 #19-30, Bogotá"));
-                        administradorRepository.save(new Administrador(
-                                        "Andrés", "Pardo", "andres.admin@seaside.com",
-                                        "admin123", "3005556677", "Carrera 50 #80-22, Bogotá"));
+                        String[] adminData = {
+                                        "Carlos,Mendoza,carlos.admin@seaside.com,admin123,3001112233,Carrera 15 #93-48",
+                                        "Valentina,Torres,valentina.admin@seaside.com,admin123,3002223344,Calle 72 #10-34",
+                                        "Sebastián,Ríos,sebastian.admin@seaside.com,admin123,3003334455,Carrera 7 #45-12",
+                                        "Juliana,Ospina,juliana.admin@seaside.com,admin123,3004445566,Calle 100 #19-30",
+                                        "Andrés,Pardo,andres.admin@seaside.com,admin123,3005556677,Carrera 50 #80-22"
+                        };
+                        for (String data : adminData) {
+                                String[] p = data.split(",");
+                                Administrador a = new Administrador(p[0], p[1], p[2], p[3], p[4], p[5]);
+                                UserEntity u = adminToUser(a, rolAdmin);
+                                a.setUser(u);
+                                administradorRepository.save(a);
+                        }
                 }
 
                 // ══════════════════════════════════════════════════════════════
                 // OPERADORES
                 // ══════════════════════════════════════════════════════════════
+
                 if (operadorRepository.count() == 0) {
-                        operadorRepository.save(new Operador(null, "Daniel Rojas", "drojas", "OpDani2026"));
-                        operadorRepository.save(new Operador(null, "Paula Cardenas", "pcardenas", "OpPaula2026"));
-                        operadorRepository.save(new Operador(null, "Miguel Pineda", "mpineda", "OpMiguel2026"));
-                        operadorRepository.save(new Operador(null, "Tatiana Acosta", "tacosta", "OpTati2026"));
-                        operadorRepository.save(new Operador(null, "Santiago Velez", "svelez", "OpSanti2026"));
-                        operadorRepository.save(new Operador(null, "Natalia Becerra", "nbecerra", "OpNata2026"));
-                        operadorRepository.save(new Operador(null, "Felipe Quintero", "fquintero", "OpFeli2026"));
-                        operadorRepository.save(new Operador(null, "Carolina Mejia", "cmejia", "OpCaro2026"));
-                        operadorRepository.save(new Operador(null, "Julian Salas", "jsalas", "OpJuli2026"));
-                        operadorRepository.save(new Operador(null, "Camila Duarte", "cduarte", "OpCami2026"));
-                        operadorRepository.save(new Operador(null, "Esteban Muñoz", "emunoz", "OpEste2026"));
-                        operadorRepository.save(new Operador(null, "Laura Avila", "lavila", "OpLau2026"));
-                        operadorRepository.save(new Operador(null, "Andres Fajardo", "afajardo", "OpAndres2026"));
-                        operadorRepository.save(new Operador(null, "Valeria Cifuentes", "vcifuentes", "OpVale2026"));
-                        operadorRepository.save(new Operador(null, "Nicolas Bernal", "nbernal", "OpNico2026"));
-                        operadorRepository.save(new Operador(null, "Diana Moncada", "dmoncada", "OpDiana2026"));
-                        operadorRepository.save(new Operador(null, "Javier Ocampo", "jocampo", "OpJavi2026"));
-                        operadorRepository.save(new Operador(null, "Manuela Pinzon", "mpinzon", "OpManu2026"));
-                        operadorRepository.save(new Operador(null, "Ricardo Tamayo", "rtamayo", "OpRica2026"));
-                        operadorRepository.save(new Operador(null, "Sara Guerrero", "sguerrero", "OpSara2026"));
+                        String[][] ops = {
+                                        { "Daniel Rojas", "drojas", "OpDani2026" },
+                                        { "Paula Cardenas", "pcardenas", "OpPaula2026" },
+                                        { "Miguel Pineda", "mpineda", "OpMiguel2026" },
+                                        { "Tatiana Acosta", "tacosta", "OpTati2026" },
+                                        { "Santiago Velez", "svelez", "OpSanti2026" },
+                                        { "Natalia Becerra", "nbecerra", "OpNata2026" },
+                                        { "Felipe Quintero", "fquintero", "OpFeli2026" },
+                                        { "Carolina Mejia", "cmejia", "OpCaro2026" },
+                                        { "Julian Salas", "jsalas", "OpJuli2026" },
+                                        { "Camila Duarte", "cduarte", "OpCami2026" },
+                                        { "Esteban Muñoz", "emunoz", "OpEste2026" },
+                                        { "Laura Avila", "lavila", "OpLau2026" },
+                                        { "Andres Fajardo", "afajardo", "OpAndres2026" },
+                                        { "Valeria Cifuentes", "vcifuentes", "OpVale2026" },
+                                        { "Nicolas Bernal", "nbernal", "OpNico2026" },
+                                        { "Diana Moncada", "dmoncada", "OpDiana2026" },
+                                        { "Javier Ocampo", "jocampo", "OpJavi2026" },
+                                        { "Manuela Pinzon", "mpinzon", "OpManu2026" },
+                                        { "Ricardo Tamayo", "rtamayo", "OpRica2026" },
+                                        { "Sara Guerrero", "sguerrero", "OpSara2026" }
+
+                        };
+                        for (String[] op : ops) {
+                                Operador o = new Operador();
+                                o.setNombre(op[0]);
+                                o.setUsuario(op[1]);
+                                o.setContrasena(op[2]);
+                                UserEntity u = operadorToUser(o, rolOperador);
+                                o.setUser(u);
+                                operadorRepository.save(o);
+                        }
                 }
 
                 // ══════════════════════════════════════════════════════════════
                 // CLIENTES (con carrito asociado)
                 // ══════════════════════════════════════════════════════════════
+
                 if (clienteRepository.count() == 0) {
-                        clienteRepository.save(new Cliente("Laura", "Gomez",
-                                        "laura.gomez@email.com", "1234", "3001234567", "Cra 15 #93-20",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Carlos", "Ramirez",
-                                        "carlos.ramirez@email.com", "1234", "3002345678", "Calle 80 #45-12",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Ana", "Martinez",
-                                        "ana.martinez@email.com", "1234", "3003456789", "Cra 7 #45-33",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Juan", "Torres",
-                                        "juan.torres@email.com", "1234", "3004567890", "Calle 26 #68-45",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Maria", "Lopez",
-                                        "maria.lopez@email.com", "1234", "3005678901", "Cra 50 #12-80",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Andres", "Castro",
-                                        "andres.castro@email.com", "1234", "3006789012", "Calle 100 #19-30",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Sofia", "Herrera",
-                                        "sofia.herrera@email.com", "1234", "3007890123", "Cra 11 #72-15",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Diego", "Vargas",
-                                        "diego.vargas@email.com", "1234", "3008901234", "Calle 53 #27-60",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Valentina", "Rojas",
-                                        "valentina.rojas@email.com", "1234", "3009012345", "Cra 9 #134-22",
-                                        new Carrito(LocalDateTime.now())));
-                        clienteRepository.save(new Cliente("Mateo", "Castano",
-                                        "mateo.castano@email.com", "1234", "3000123456", "Calle 170 #15-44",
-                                        new Carrito(LocalDateTime.now())));
+                        String[][] clientes = {
+                                        { "Laura", "Gomez", "laura.gomez@email.com", "1234", "3001234567",
+                                                        "Cra 15 #93-20" },
+                                        { "Carlos", "Ramirez", "carlos.ramirez@email.com", "1234", "3002345678",
+                                                        "Calle 80 #45-12" },
+                                        { "Ana", "Martinez", "ana.martinez@email.com", "1234", "3003456789",
+                                                        "Cra 7 #45-33" },
+                                        { "Juan", "Torres", "juan.torres@email.com", "1234", "3004567890",
+                                                        "Calle 26 #68-45" },
+                                        { "Maria", "Lopez", "maria.lopez@email.com", "1234", "3005678901",
+                                                        "Cra 50 #12-80" },
+                                        { "Andres", "Castro", "andres.castro@email.com", "1234", "3006789012",
+                                                        "Calle 100 #19-30" },
+                                        { "Sofia", "Herrera", "sofia.herrera@email.com", "1234", "3007890123",
+                                                        "Cra 11 #72-15" },
+                                        { "Diego", "Vargas", "diego.vargas@email.com", "1234", "3008901234",
+                                                        "Calle 53 #27-60" },
+                                        { "Valentina", "Rojas", "valentina.rojas@email.com", "1234", "3009012345",
+                                                        "Cra 9 #134-22" },
+                                        { "Mateo", "Castano", "mateo.castano@email.com", "1234", "3000123456",
+                                                        "Calle 170 #15-44" },
+
+                        };
+                        for (String[] c : clientes) {
+                                Cliente cli = new Cliente(c[0], c[1], c[2], c[3], c[4], c[5],
+                                                new Carrito(LocalDateTime.now()));
+                                UserEntity u = clienteToUser(cli, rolCliente);
+                                cli.setUser(u);
+                                clienteRepository.save(cli);
+                        }
                 }
 
                 // ══════════════════════════════════════════════════════════════
                 // DOMICILIARIOS
                 // ══════════════════════════════════════════════════════════════
+
                 if (domiciliarioRepository.count() == 0) {
-                        domiciliarioRepository.save(new Domiciliario(
-                                        "Jorge", "Peña", "jorge.domi@seaside.com",
-                                        "domi123", "3101112233", "Calle 13 #22-44, Bogotá",
-                                        true, "1020304050", true));
-                        domiciliarioRepository.save(new Domiciliario(
-                                        "Luisa", "Cárdenas", "luisa.domi@seaside.com",
-                                        "domi123", "3102223344", "Cra 30 #5-12, Bogotá",
-                                        true, "1030405060", true));
-                        domiciliarioRepository.save(new Domiciliario(
-                                        "Fernando", "Arias", "fernando.domi@seaside.com",
-                                        "domi123", "3103334455", "Calle 45 #77-9, Bogotá",
-                                        true, "1040506070", false));
-                        domiciliarioRepository.save(new Domiciliario(
-                                        "Camila", "Ruiz", "camila.domi@seaside.com",
-                                        "domi123", "3104445566", "Cra 60 #120-3, Bogotá",
-                                        true, "1050607080", true));
-                        domiciliarioRepository.save(new Domiciliario(
-                                        "Ricardo", "Molina", "ricardo.domi@seaside.com",
-                                        "domi123", "3105556677", "Calle 90 #14-55, Bogotá",
-                                        false, "1060708090", false));
+                        Object[][] domis = {
+                                        { "Jorge", "Peña", "jorge.domi@seaside.com", "domi123", "3101112233",
+                                                        "Calle 13 #22-44", true, "1020304050", true },
+                                        { "Luisa", "Cárdenas", "luisa.domi@seaside.com", "domi123", "3102223344",
+                                                        "Cra 30 #5-12", true, "1030405060", true },
+                                        { "Fernando", "Arias", "fernando.domi@seaside.com", "domi123", "3103334455",
+                                                        "Calle 45 #77-9", true, "1040506070", false },
+                                        { "Camila", "Ruiz", "camila.domi@seaside.com", "domi123", "3104445566",
+                                                        "Cra 60 #120-3, Bogotá", true, "1050607080", true },
+                                        { "Ricardo", "Molina", "ricardo.domi@seaside.com", "domi123", "3105556677",
+                                                        "Calle 90 #14-55, Bogotá", false, "1060708090", false },
+                        };
+                        for (Object[] d : domis) {
+                                Domiciliario dom = new Domiciliario(
+                                                (String) d[0], (String) d[1], (String) d[2], (String) d[3],
+                                                (String) d[4], (String) d[5], (boolean) d[6], (String) d[7],
+                                                (boolean) d[8]);
+                                UserEntity u = domiciliarioToUser(dom, rolDomiciliario);
+                                dom.setUser(u);
+                                domiciliarioRepository.save(dom);
+                        }
                 }
 
                 // ══════════════════════════════════════════════════════════════
                 // PEDIDOS e ITEMS DE PEDIDO
                 // ══════════════════════════════════════════════════════════════
-                if (pedidoRepository.count() == 0) {
+
+                if (pedidoRepository.count() == 0 && clienteRepository.count() > 0
+                                && productoRepository.count() > 0) {
                         Cliente laura = clienteRepository.findByCorreo("laura.gomez@email.com").orElseThrow();
                         Cliente carlos = clienteRepository.findByCorreo("carlos.ramirez@email.com").orElseThrow();
                         Cliente ana = clienteRepository.findByCorreo("ana.martinez@email.com").orElseThrow();
@@ -794,6 +876,7 @@ public class DataLoader implements CommandLineRunner {
                         Cliente diego = clienteRepository.findByCorreo("diego.vargas@email.com").orElseThrow();
                         Cliente valentina = clienteRepository.findByCorreo("valentina.rojas@email.com").orElseThrow();
                         Cliente mateo = clienteRepository.findByCorreo("mateo.castano@email.com").orElseThrow();
+
 
                         Producto ceviche = productoRepository.findAll().get(0);
                         Producto arroz = productoRepository.findAll().get(1);
@@ -806,97 +889,84 @@ public class DataLoader implements CommandLineRunner {
                         Producto filet = productoRepository.findAll().get(8);
                         Producto fettuccine = productoRepository.findAll().get(9);
 
+
+
                         Pedido p1 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 1), LocalDate.of(2026, 3, 1),
-                                        "Entregado", 100000.0, laura));
-                        itemPedidoRepository.save(new ItemPedido(2, 84000.0, p1, ceviche));
-                        itemPedidoRepository.save(new ItemPedido(1, 16000.0, p1, arroz));
+                                        "Entregado", 100000.0,
+                                        laura));itemPedidoRepository.save(new ItemPedido(2,84000.0,p1,ceviche));itemPedidoRepository.save(new ItemPedido(1,16000.0,p1,arroz));
 
                         Pedido p2 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 2), LocalDate.of(2026, 3, 2),
-                                        "En preparación", 85000.0, carlos));
-                        itemPedidoRepository.save(new ItemPedido(1, 85000.0, p2, langosta));
+                                        "En preparación", 85000.0,
+                                        carlos));itemPedidoRepository.save(new ItemPedido(1,85000.0,p2,langosta));
 
                         Pedido p3 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 3), LocalDate.of(2026, 3, 4),
-                                        "Pendiente", 133000.0, ana));
-                        itemPedidoRepository.save(new ItemPedido(1, 64000.0, p3, atun));
-                        itemPedidoRepository.save(new ItemPedido(1, 69000.0, p3, pulpo));
+                                        "Pendiente", 133000.0,
+                                        ana));itemPedidoRepository.save(new ItemPedido(1,64000.0,p3,atun));itemPedidoRepository.save(new ItemPedido(1,69000.0,p3,pulpo));
 
                         Pedido p4 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 4), LocalDate.of(2026, 3, 4),
-                                        "Cancelado", 42000.0, juan));
-                        itemPedidoRepository.save(new ItemPedido(1, 42000.0, p4, ceviche));
+                                        "Cancelado", 42000.0, juan));itemPedidoRepository.save(new ItemPedido(1,42000.0,p4,ceviche));
 
                         Pedido p5 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 5), LocalDate.of(2026, 3, 5),
-                                        "En camino", 58000.0, maria));
-                        itemPedidoRepository.save(new ItemPedido(1, 58000.0, p5, arroz));
+                                        "En camino", 58000.0, maria));itemPedidoRepository.save(new ItemPedido(1,58000.0,p5,arroz));
 
                         Pedido p6 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 6), LocalDate.of(2026, 3, 6),
-                                        "Entregado", 110000.0, andres));
-                        itemPedidoRepository.save(new ItemPedido(2, 110000.0, p6, salmon));
+                                        "Entregado", 110000.0, andres));itemPedidoRepository.save(new ItemPedido(2,110000.0,p6,salmon));
 
                         Pedido p7 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 7), LocalDate.of(2026, 3, 8),
-                                        "Pendiente", 97000.0, sofia));
-                        itemPedidoRepository.save(new ItemPedido(1, 48000.0, p7, encocado));
-                        itemPedidoRepository.save(new ItemPedido(1, 49000.0, p7, fettuccine));
+                                        "Pendiente", 97000.0,
+                                        sofia));itemPedidoRepository.save(new ItemPedido(1,48000.0,p7,encocado));itemPedidoRepository.save(new ItemPedido(1,49000.0,p7,fettuccine));
 
                         Pedido p8 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 8), LocalDate.of(2026, 3, 8),
-                                        "En preparación", 62000.0, diego));
-                        itemPedidoRepository.save(new ItemPedido(1, 62000.0, p8, cazuela));
+                                        "En preparación", 62000.0,
+                                        diego));itemPedidoRepository.save(new ItemPedido(1,62000.0,p8,cazuela));
 
                         Pedido p9 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 9),
-                                        LocalDate.of(2026, 3, 10), "En camino", 127000.0, valentina));
-                        itemPedidoRepository.save(new ItemPedido(1, 85000.0, p9, langosta));
-                        itemPedidoRepository.save(new ItemPedido(1, 42000.0, p9, ceviche));
+                                        LocalDate.of(2026, 3, 10), "En camino", 127000.0,
+                                        valentina));itemPedidoRepository.save(new ItemPedido(1,85000.0,p9,langosta));itemPedidoRepository.save(new ItemPedido(1,42000.0,p9,ceviche));
 
                         Pedido p10 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 10),
-                                        LocalDate.of(2026, 3, 10), "Entregado", 72000.0, mateo));
-                        itemPedidoRepository.save(new ItemPedido(1, 72000.0, p10, filet));
+                                        LocalDate.of(2026, 3, 10), "Entregado", 72000.0,
+                                        mateo));itemPedidoRepository.save(new ItemPedido(1,72000.0,p10,filet));
 
                         Pedido p11 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 11),
-                                        LocalDate.of(2026, 3, 11), "Entregado", 106000.0, laura));
-                        itemPedidoRepository.save(new ItemPedido(1, 42000.0, p11, ceviche));
-                        itemPedidoRepository.save(new ItemPedido(1, 64000.0, p11, atun));
+                                        LocalDate.of(2026, 3, 11), "Entregado", 106000.0,
+                                        laura));itemPedidoRepository.save(new ItemPedido(1,42000.0,p11,ceviche));itemPedidoRepository.save(new ItemPedido(1,64000.0,p11,atun));
 
                         Pedido p12 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 12),
-                                        LocalDate.of(2026, 3, 13), "Pendiente", 124000.0, carlos));
-                        itemPedidoRepository.save(new ItemPedido(2, 116000.0, p12, arroz));
-                        itemPedidoRepository.save(new ItemPedido(1, 8000.0, p12, arroz));
+                                        LocalDate.of(2026, 3, 13), "Pendiente", 124000.0,
+                                        carlos));itemPedidoRepository.save(new ItemPedido(2,116000.0,p12,arroz));itemPedidoRepository.save(new ItemPedido(1,8000.0,p12,arroz));
 
                         Pedido p13 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 13),
-                                        LocalDate.of(2026, 3, 13), "En preparación", 102000.0, ana));
-                        itemPedidoRepository.save(new ItemPedido(1, 53000.0, p13, encocado));
-                        itemPedidoRepository.save(new ItemPedido(1, 49000.0, p13, fettuccine));
+                                        LocalDate.of(2026, 3, 13), "En preparación", 102000.0,
+                                        ana));itemPedidoRepository.save(new ItemPedido(1,53000.0,p13,encocado));itemPedidoRepository.save(new ItemPedido(1,49000.0,p13,fettuccine));
 
                         Pedido p14 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 14),
-                                        LocalDate.of(2026, 3, 14), "Cancelado", 69000.0, juan));
-                        itemPedidoRepository.save(new ItemPedido(1, 69000.0, p14, pulpo));
+                                        LocalDate.of(2026, 3, 14), "Cancelado", 69000.0,
+                                        juan));itemPedidoRepository.save(new ItemPedido(1,69000.0,p14,pulpo));
 
                         Pedido p15 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 15),
-                                        LocalDate.of(2026, 3, 16), "En camino", 147000.0, maria));
-                        itemPedidoRepository.save(new ItemPedido(1, 85000.0, p15, langosta));
-                        itemPedidoRepository.save(new ItemPedido(1, 62000.0, p15, cazuela));
+                                        LocalDate.of(2026, 3, 16), "En camino", 147000.0,
+                                        maria));itemPedidoRepository.save(new ItemPedido(1,85000.0,p15,langosta));itemPedidoRepository.save(new ItemPedido(1,62000.0,p15,cazuela));
 
                         Pedido p16 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 16),
-                                        LocalDate.of(2026, 3, 16), "Entregado", 144000.0, andres));
-                        itemPedidoRepository.save(new ItemPedido(2, 144000.0, p16, filet));
+                                        LocalDate.of(2026, 3, 16), "Entregado", 144000.0,
+                                        andres));itemPedidoRepository.save(new ItemPedido(2,144000.0,p16,filet));
 
                         Pedido p17 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 17),
-                                        LocalDate.of(2026, 3, 18), "Pendiente", 113000.0, sofia));
-                        itemPedidoRepository.save(new ItemPedido(1, 55000.0, p17, salmon));
-                        itemPedidoRepository.save(new ItemPedido(1, 58000.0, p17, arroz));
+                                        LocalDate.of(2026, 3, 18), "Pendiente", 113000.0,
+                                        sofia));itemPedidoRepository.save(new ItemPedido(1,55000.0,p17,salmon));itemPedidoRepository.save(new ItemPedido(1,58000.0,p17,arroz));
 
                         Pedido p18 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 18),
-                                        LocalDate.of(2026, 3, 18), "En preparación", 98000.0, diego));
-                        itemPedidoRepository.save(new ItemPedido(1, 64000.0, p18, atun));
-                        itemPedidoRepository.save(new ItemPedido(2, 34000.0, p18, arroz));
+                                        LocalDate.of(2026, 3, 18), "En preparación", 98000.0,
+                                        diego));itemPedidoRepository.save(new ItemPedido(1,64000.0,p18,atun));itemPedidoRepository.save(new ItemPedido(2,34000.0,p18,arroz));
 
                         Pedido p19 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 19),
-                                        LocalDate.of(2026, 3, 19), "En camino", 118000.0, valentina));
-                        itemPedidoRepository.save(new ItemPedido(1, 49000.0, p19, fettuccine));
-                        itemPedidoRepository.save(new ItemPedido(1, 69000.0, p19, pulpo));
+                                        LocalDate.of(2026, 3, 19), "En camino", 118000.0,
+                                        valentina));itemPedidoRepository.save(new ItemPedido(1,49000.0,p19,fettuccine));itemPedidoRepository.save(new ItemPedido(1,69000.0,p19,pulpo));
 
                         Pedido p20 = pedidoRepository.save(new Pedido(LocalDate.of(2026, 3, 20),
-                                        LocalDate.of(2026, 3, 20), "Entregado", 104000.0, mateo));
-                        itemPedidoRepository.save(new ItemPedido(1, 42000.0, p20, ceviche));
-                        itemPedidoRepository.save(new ItemPedido(1, 62000.0, p20, cazuela));
+                                        LocalDate.of(2026, 3, 20), "Entregado", 104000.0,
+                                        mateo));itemPedidoRepository.save(new ItemPedido(1,42000.0,p20,ceviche));itemPedidoRepository.save(new ItemPedido(1,62000.0,p20,cazuela));
                 }
         }
 }

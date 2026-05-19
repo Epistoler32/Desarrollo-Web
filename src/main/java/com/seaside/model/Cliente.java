@@ -2,17 +2,18 @@ package com.seaside.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Entidad que representa a un cliente registrado en la plataforma.
- * Cada cliente tiene un carrito de compras asociado de forma automática.
- * La contraseña solo se recibe (WRITE_ONLY) y nunca se devuelve al frontend.
- */
+/*
+Entidad que representa a un cliente registrado en la plataforma.
+Cada cliente tiene un carrito de compras y una UserEntity asociada para el manejo de autenticación y roles.
+
+- Relación OneToOne con UserEntity.
+- La contraseña se marca @Transient para no duplicarla en esta tabla
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,8 +33,9 @@ public class Cliente {
     @Column(length = 70, nullable = false, unique = true)
     private String correo;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(length = 50, nullable = false)
+    // la contraseña real encriptada se guarda en UserEntity
+
+    @Transient
     private String contrasena;
 
     @Column(length = 20, nullable = false, unique = true)
@@ -42,13 +44,21 @@ public class Cliente {
     @Column(length = 70, nullable = false)
     private String direccion;
 
-    // Solo expone id y ultimaActualizacion del carrito - evita serializar los
-    // productos del carrito
     @JsonIgnoreProperties({ "carritoProductos", "cliente" })
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "carrito_id")
     private Carrito carrito;
 
+    /*
+    Relación 1:1 con la tabla unificada de usuarios.
+    Se usa CascadeType.ALL para que al guardar el cliente se guarde también el UserEntity asociado.
+    */
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    // Constructor sin id ni carrito
     public Cliente(String nombre, String apellido, String correo,
             String contrasena, String telefono, String direccion) {
         this.nombre = nombre;
