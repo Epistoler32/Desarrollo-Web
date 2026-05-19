@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementación de OperadorService.
- * Delega la búsqueda y persistencia al repositorio de operadores.
+ * Implementación de OperadorService
+ * Delega la búsqueda y persistencia al repositorio de operadores
  */
 @Service
 public class OperadorServiceImpl implements OperadorService {
@@ -38,11 +38,10 @@ public class OperadorServiceImpl implements OperadorService {
         operadorRepository.deleteById(id);
     }
 
-    /**
-     * Delega la búsqueda por credenciales al repositorio, sin filtrar en memoria.
-     */
+    // Delega la búsqueda por credenciales al repositorio, sin filtrar en memoria
     @Override
     public Optional<Operador> autenticar(String usuario, String contrasena) {
-        return operadorRepository.findByUsuarioAndContrasena(usuario, contrasena);
+        // La validación de contraseña ya la hizo Spring Security en el controlador
+        return operadorRepository.findByUsuario(usuario);
     }
 }

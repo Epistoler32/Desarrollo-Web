@@ -1,4 +1,4 @@
-// ── AdicionalesRepository.java ────────────────────────────────────────────────
+//  AdicionalesRepository.java 
 package com.seaside.repository;
 
 import com.seaside.model.Adicionales;

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.3</version>
+		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.seaside</groupId>
@@ -65,6 +65,49 @@
     	    <artifactId>spring-boot-starter-test</artifactId>
     	    <scope>test</scope>
     	</dependency>
+
+    	<!-- Selenium WebDriver -->
+    	<dependency>
+    	    <groupId>org.seleniumhq.selenium</groupId>
+    	    <artifactId>selenium-java</artifactId>
+    	    <scope>test</scope>
+    	</dependency>
+
+    	<!-- WebDriverManager: auto-downloads the browser driver binary -->
+    	<dependency>
+    	    <groupId>io.github.bonigarcia</groupId>
+    	    <artifactId>webdrivermanager</artifactId>
+    	    <version>5.8.0</version>
+    	    <scope>test</scope>
+    	</dependency>
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- JWT (JSON Web Tokens) - jjwt library -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
@@ -78,8 +121,18 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>1.18.38</version>
 						</path>
 					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/e2e/**</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -88,5 +141,28 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<!-- Run only with: mvn test -Pe2e  (requires both Spring Boot and Angular servers running) -->
+		<profile>
+			<id>e2e</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration combine.self="override">
+							<excludes>
+								<exclude>nothing</exclude>
+							</excludes>
+							<includes>
+								<include>**/e2e/**/*Test.java</include>
+							</includes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

@@ -2,6 +2,7 @@ package com.seaside.repository;
 
 import com.seaside.model.Operador;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -9,7 +10,7 @@ import java.util.Optional;
  * Repositorio JPA para la entidad Operador.
  * Proporciona búsqueda por credenciales para el login de operadores.
  */
+@Repository
 public interface OperadorRepository extends JpaRepository<Operador, Integer> {
-    /** Busca un operador por usuario y contraseña (para autenticación). */
-    Optional<Operador> findByUsuarioAndContrasena(String usuario, String contrasena);
+    Optional<Operador> findByUsuario(String usuario);
 }

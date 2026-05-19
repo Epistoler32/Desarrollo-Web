@@ -1,4 +1,4 @@
-// ─── navbar.js ────────────────────────────────────────────────────────────────
+//  navbar.js 
 // Efecto de scroll compartido para todas las páginas públicas.
 
 const navbar = document.getElementById('navbar');

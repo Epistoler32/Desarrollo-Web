@@ -19,7 +19,7 @@ public class ItemPedidoResponse {
     public ProductoInfo producto;
     public List<AdicionalInfo> adicionales;
 
-    // ── Inner DTOs ────────────────────────────────────────────────────────
+    //  Inner DTOs 
 
     public static class ProductoInfo {
         public Integer id;
@@ -56,7 +56,7 @@ public class ItemPedidoResponse {
         }
     }
 
-    // ── Factory ───────────────────────────────────────────────────────────
+    //  Factory 
 
     public static ItemPedidoResponse from(ItemPedido item) {
         ItemPedidoResponse r = new ItemPedidoResponse();

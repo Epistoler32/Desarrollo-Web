@@ -21,7 +21,7 @@ public class CarritoController {
     @Autowired
     private CarritoService carritoService;
 
-    /** GET /api/carrito/{carritoId}/items — retorna los ítems del carrito */
+    /** GET /api/carrito/{carritoId}/items - retorna los ítems del carrito */
     @GetMapping("/{carritoId}/items")
     public ResponseEntity<?> getItems(@PathVariable Integer carritoId) {
         if (!carritoService.existeCarrito(carritoId)) {
@@ -32,7 +32,7 @@ public class CarritoController {
         return ResponseEntity.ok(items);
     }
 
-    /** POST /api/carrito/{carritoId}/items — agrega o incrementa un producto */
+    /** POST /api/carrito/{carritoId}/items - agrega o incrementa un producto */
     @PostMapping("/{carritoId}/items")
     public ResponseEntity<?> addItem(
             @PathVariable Integer carritoId,
@@ -56,7 +56,7 @@ public class CarritoController {
     }
 
     /**
-     * PATCH /api/carrito/{carritoId}/items/{productoId} — actualiza cantidad exacta
+     * PATCH /api/carrito/{carritoId}/items/{productoId} - actualiza cantidad exacta
      */
     @PatchMapping("/{carritoId}/items/{productoId}")
     public ResponseEntity<?> updateCantidad(
@@ -77,7 +77,7 @@ public class CarritoController {
     }
 
     /**
-     * DELETE /api/carrito/{carritoId}/items/{productoId} — elimina un producto del
+     * DELETE /api/carrito/{carritoId}/items/{productoId} - elimina un producto del
      * carrito
      */
     @DeleteMapping("/{carritoId}/items/{productoId}")
@@ -92,7 +92,7 @@ public class CarritoController {
         return ResponseEntity.noContent().build();
     }
 
-    /** DELETE /api/carrito/{carritoId} — vacía el carrito */
+    /** DELETE /api/carrito/{carritoId} - vacía el carrito */
     @DeleteMapping("/{carritoId}")
     public ResponseEntity<?> clearCarrito(@PathVariable Integer carritoId) {
         if (!carritoService.clearCarrito(carritoId)) {

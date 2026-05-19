@@ -1,7 +1,7 @@
-// ─── landing.js ───────────────────────────────────────────────────────────────
+//  landing.js 
 // Lógica exclusiva de la landing page.
 
-// ─── Reveal on scroll para galería y comentarios ──────────────────────────────
+//  Reveal on scroll para galería y comentarios 
 const revealEls = document.querySelectorAll('.gallery-figure, .comment-box');
 
 const observer = new IntersectionObserver(
@@ -23,7 +23,7 @@ const observer = new IntersectionObserver(
 
 revealEls.forEach((el) => observer.observe(el));
 
-// ─── Smooth scroll para anclas internas ───────────────────────────────────────
+//  Smooth scroll para anclas internas 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener('click', (e) => {
     const target = document.querySelector(link.getAttribute('href'));

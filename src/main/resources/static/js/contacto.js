@@ -1,7 +1,7 @@
-// ─── contacto.js ──────────────────────────────────────────────────────────────
+//  contacto.js 
 // Lógica exclusiva de la página de contacto.
 
-// ─── Reveal on scroll ─────────────────────────────────────────────────────────
+//  Reveal on scroll 
 const revealEls = document.querySelectorAll('.reveal');
 
 const observer = new IntersectionObserver((entries) => {
@@ -17,7 +17,7 @@ const observer = new IntersectionObserver((entries) => {
 
 revealEls.forEach(el => observer.observe(el));
 
-// ─── Botón submit (feedback visual) ───────────────────────────────────────────
+//  Botón submit (feedback visual) 
 const form = document.querySelector('form');
 if (form) {
   form.addEventListener('submit', function (e) {

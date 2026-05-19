@@ -11,7 +11,7 @@
     />
     <link rel="stylesheet" th:href="@{/styles/menu_carta.css}" />
     <style>
-      /* ─── FILTROS ──────────────────────────────────────────── */
+      /*  FILTROS  */
       .filter-bar {
         display: flex;
         align-items: center;
@@ -70,7 +70,7 @@
       }
       .filter-btn.active svg { color: #F2B705; }
 
-      /* ─── BADGE ALÉRGENO CON TOOLTIP ──────────────────────── */
+      /*  BADGE ALÉRGENO CON TOOLTIP  */
       .badge-allergen-wrap { position: relative; display: inline-flex; }
       .badge-allergen-wrap:hover .alergeno-tooltip { opacity:1; pointer-events:auto; }
       .alergeno-tooltip {
@@ -98,7 +98,7 @@
         border-top-color: #400101;
       }
 
-      /* ─── CARRITO EN NAVBAR ───────────────────────────────── */
+      /*  CARRITO EN NAVBAR  */
       .nav-cart {
         display: flex;
         align-items: center;
@@ -121,7 +121,7 @@
   </head>
   <body>
 
-    <!-- ─── NAVBAR ─────────────────────── -->
+    <!--  NAVBAR  -->
     <header class="navigation-bar" id="navbar">
       <figure class="logo">
         <img th:src="@{/resources/IMGS/seasideLogo.png}" alt="Logo SeaSide" />
@@ -158,7 +158,7 @@
       </nav>
     </header>
 
-    <!-- ─── HERO ───────────────────────────────────────────── -->
+    <!--  HERO  -->
     <div class="menu-hero">
       <div class="menu-hero-overlay"></div>
       <div class="menu-hero-content">
@@ -171,7 +171,7 @@
       </div>
     </div>
 
-    <!-- ─── CATEGORY NAV ──────────────────────────────────── -->
+    <!--  CATEGORY NAV  -->
     <nav class="category-nav" aria-label="Navegación por categorías">
       <div class="category-nav-inner">
         <a
@@ -184,7 +184,7 @@
       </div>
     </nav>
 
-    <!-- ─── BARRA DE FILTROS ──────────────────────────────── -->
+    <!--  BARRA DE FILTROS  -->
     <div class="filter-bar">
       <div class="filter-search-wrap">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -209,7 +209,7 @@
       </button>
     </div>
 
-    <!-- ─── MAIN ──────────────────────────────────────────── -->
+    <!--  MAIN  -->
     <main class="menu-main">
       <div class="menu-intro">
         <p class="menu-intro-text">
@@ -220,7 +220,7 @@
         </p>
       </div>
 
-      <!-- ─── CATEGORÍAS DINÁMICAS ──────────────────────── -->
+      <!--  CATEGORÍAS DINÁMICAS  -->
       <section
         class="category-section"
         th:each="categoria : ${categorias}"
@@ -293,7 +293,7 @@
       </section>
     </main>
 
-    <!-- ─── FOOTER ──────────────────────────────────────── -->
+    <!--  FOOTER  -->
     <footer>
       <section id="visit-us">
         <h4 class="general-title">Visitanos</h4>

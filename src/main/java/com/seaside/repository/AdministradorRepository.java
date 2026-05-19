@@ -1,4 +1,4 @@
-// ── AdministradorRepository.java ─────────────────────────────────────────────
+//  AdministradorRepository.java 
 package com.seaside.repository;
 
 import com.seaside.model.Administrador;

@@ -1,14 +1,17 @@
 package com.seaside.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Entidad que representa a un operador del sistema.
- * Los operadores gestionan pedidos desde el portal de operador.
- * Se autentican con usuario y contraseña (no correo).
+/*
+Entidad que representa a un operador del sistema (se identifican con "usuario")
+
+- contrasena marcada @Transient: la contraseña encriptada vive en UserEntity.
+- Relación OneToOne con UserEntity para login unificado.
+- El campo "usuario" se usa como username en UserEntity.
  */
 @Data
 @AllArgsConstructor
@@ -26,6 +29,12 @@ public class Operador {
     @Column(length = 50, nullable = false, unique = true)
     private String usuario;
 
-    @Column(length = 50, nullable = false)
+    /** @Transient: la contraseña encriptada se guarda en UserEntity. */
+    @Transient
     private String contrasena;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }
