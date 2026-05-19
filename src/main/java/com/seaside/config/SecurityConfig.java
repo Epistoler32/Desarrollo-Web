@@ -54,6 +54,7 @@ public class SecurityConfig {
             // 3. Reglas de autorización por endpoint
             .authorizeHttpRequests(auth -> auth
                 // Consola H2 - acceso público en desarrollo
+                .requestMatchers("/h2/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
 
                 // ENDPOINTS PÚBLICOS
