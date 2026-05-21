@@ -1,18 +1,29 @@
 package com.seaside.controller;
 
-import com.seaside.dto.ItemPedidoResponse;
-import com.seaside.dto.PedidoRequest;
-import com.seaside.model.ItemPedido;
-import com.seaside.model.Pedido;
-import com.seaside.service.PedidoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.seaside.dto.ItemPedidoResponse;
+import com.seaside.dto.PedidoRequest;
+import com.seaside.model.Cliente;
+import com.seaside.model.Pedido;
+import com.seaside.service.ClienteService;
+import com.seaside.service.PedidoService;
 
 /**
  * Controlador REST para la gestión de pedidos.
@@ -33,6 +44,31 @@ public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
+
+    @Autowired
+    private ClienteService clienteService;
+
+    // ════════════════════════════════════════════════════════════════════
+    //  GET /api/pedidos/mis-pedidos  (solo para el cliente autenticado)
+    // ════════════════════════════════════════════════════════════════════
+
+    /**
+     * Retorna los pedidos del cliente autenticado vía JWT.
+     * No requiere clienteId en el request; se extrae del token.
+     */
+    @GetMapping("/mis-pedidos")
+    public ResponseEntity<?> getMisPedidos(Authentication auth) {
+        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getName())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "No autenticado."));
+        }
+        Cliente cliente = clienteService.buscarPorCorreo(auth.getName()).orElse(null);
+        if (cliente == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Cliente no encontrado."));
+        }
+        return ResponseEntity.ok(pedidoService.findByClienteId(cliente.getId()));
+    }
 
     // ════════════════════════════════════════════════════════════════════
     //  GET /api/pedidos
@@ -157,7 +193,13 @@ public class PedidoController {
      * Retorna 400 BAD REQUEST si los datos son inválidos.
      */
     @PostMapping
-    public ResponseEntity<?> crearPedido(@RequestBody PedidoRequest request) {
+    public ResponseEntity<?> crearPedido(@RequestBody PedidoRequest request, Authentication auth) {
+        // Si el llamador es un cliente autenticado, inyectar su id desde el JWT
+        // (nunca confiar en el clienteId del body para clientes)
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
+            clienteService.buscarPorCorreo(auth.getName())
+                    .ifPresent(c -> request.setClienteId(c.getId()));
+        }
         try {
             Pedido pedido = pedidoService.crearPedido(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
