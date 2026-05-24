@@ -11,7 +11,6 @@ PATRÓN DTO: separar la entidad de persistencia del objeto que se envía al clie
 
 public class ClienteDTO {
 
-    public Integer id;
     public String nombre;
     public String apellido;
     public String correo;
@@ -22,7 +21,6 @@ public class ClienteDTO {
     // Factory method convierte un Cliente en ClienteDTO
     public static ClienteDTO from(Cliente c) {
         ClienteDTO dto = new ClienteDTO();
-        dto.id        = c.getId();
         dto.nombre    = c.getNombre();
         dto.apellido  = c.getApellido();
         dto.correo    = c.getCorreo();
