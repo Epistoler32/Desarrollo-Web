@@ -85,6 +85,12 @@ public class SecurityConfig {
                 // Carrito: solo el propio CLIENTE
                 .requestMatchers("/api/carrito/**").hasAuthority("CLIENTE")
 
+                //permitir el endpoin 
+                .requestMatchers("/api/notificaciones/**")
+                    .hasAnyAuthority("OPERADOR", "ADMINISTRADOR")
+
+
+
                 // Cualquier otra petición requiere estar autenticado
                 .anyRequest().authenticated()
             )

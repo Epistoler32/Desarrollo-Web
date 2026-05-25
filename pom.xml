@@ -106,7 +106,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
-
+		<!-- TWILIO -->
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>10.1.0</version>
+		</dependency>
 
 	</dependencies>
 

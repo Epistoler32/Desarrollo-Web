@@ -39,9 +39,10 @@ public class Pedido {
     @Column(nullable = false)
     private double total;
 
-    // Solo expone id, nombre y apellido - evita serializar el cliente completo con
-    // su carrito
-    @JsonIgnoreProperties({ "correo", "telefono", "direccion", "contrasena", "carrito" })
+    // Solo expone id, nombre y apellido - evita serializar el cliente completo con su carrito
+    
+    // @JsonIgnoreProperties({ "correo", "telefono", "direccion", "contrasena", "carrito" })
+    @JsonIgnoreProperties({ "correo", "direccion", "contrasena", "carrito" })
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
