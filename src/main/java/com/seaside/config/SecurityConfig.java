@@ -85,6 +85,10 @@ public class SecurityConfig {
                 // Carrito: solo el propio CLIENTE
                 .requestMatchers("/api/carrito/**").hasAuthority("CLIENTE")
 
+                // mercado pago - endpoints de pago accesibles para clientes autenticados
+                .requestMatchers("/api/pagos/webhook").permitAll() // webhook público para recibir notificaciones de MercadoPago
+                .requestMatchers("/api/pagos/**").hasAuthority("CLIENTE")
+
                 // Cualquier otra petición requiere estar autenticado
                 .anyRequest().authenticated()
             )
