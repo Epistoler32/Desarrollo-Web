@@ -15,47 +15,35 @@ import java.util.List;
 
 @Service
 public class PagoService {
-    
-    @Value("${mercadopago.access_token}")
-   private String accessToken;
 
-    /*
-     Crea una preferencia de pago en MercadoPago para el pedido dado.
-     Retorna las URLs de checkout (sandbox para pruebas).
-     */
+    @Value("${mercadopago.access_token}")
+    private String accessToken;
 
     public PagoResponseDTO crearPreferencia(Pedido pedido) throws MPException, MPApiException {
 
         MercadoPagoConfig.setAccessToken(accessToken);
-
         System.out.println("Token usado: " + accessToken);
 
-        //item pedido
         PreferenceItemRequest item = PreferenceItemRequest.builder()
                 .id(String.valueOf(pedido.getId()))
-                .title("Pedido SesaSide #" + pedido.getId())
+                .title("Pedido SeaSide #" + pedido.getId())
                 .quantity(1)
                 .unitPrice(BigDecimal.valueOf(pedido.getTotal()).setScale(2, java.math.RoundingMode.HALF_UP))
                 .currencyId("COP")
                 .build();
 
-        //URLs retorno tras el pago
-        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                .success("http://localhost:4200/mis-pedidos?pago=exitoso")
-                .failure("http://localhost:4200/mis-pedidos?pago=fallido")
-                .pending("http://localhost:4200/mis-pedidos?pago=pendiente")
-                .build();
-
-        //Contruir preferencia
+        // NO usar backUrls con localhost — MP entra en loop de redirección.
+        // En su lugar guardamos el pedidoId en localStorage antes de salir,
+        // y al volver el usuario va a /perfil/pedidos a ver el estado.
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .items(List.of(item))
-                .backUrls(backUrls)
-                .externalReference(String.valueOf(pedido.getId())) // referencia para identificar el pedido
+                .externalReference(String.valueOf(pedido.getId()))
                 .build();
 
         try {
             PreferenceClient client = new PreferenceClient();
             Preference preference = client.create(preferenceRequest);
+
             return new PagoResponseDTO(
                     preference.getInitPoint(),
                     preference.getSandboxInitPoint(),
@@ -70,6 +58,5 @@ public class PagoService {
             }
             throw e;
         }
-    
     }
 }
