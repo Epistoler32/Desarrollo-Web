@@ -1,7 +1,5 @@
 package com.seaside.config;
 
-import com.seaside.security.AuthEntryPoint;
-import com.seaside.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.seaside.security.AuthEntryPoint;
+import com.seaside.security.JwtAuthenticationFilter;
 
 // Configuración principal de Spring Security
 
@@ -74,6 +75,8 @@ public class SecurityConfig {
                 // Solo ADMINISTRADOR puede gestionar productos, categorías, domiciliarios y operadores
                 .requestMatchers("/api/products/**").hasAuthority("ADMINISTRADOR")
                 .requestMatchers("/api/adicionales/**").hasAuthority("ADMINISTRADOR")
+                // OPERADOR puede leer domiciliarios (para asignar en gestión de pedidos)
+                .requestMatchers(HttpMethod.GET, "/api/domiciliarios/**").hasAnyAuthority("OPERADOR", "ADMINISTRADOR")
                 .requestMatchers("/api/domiciliarios/**").hasAuthority("ADMINISTRADOR")
                 .requestMatchers("/api/operadores/**").hasAuthority("ADMINISTRADOR")
                 .requestMatchers("/api/clients/**").hasAuthority("ADMINISTRADOR")

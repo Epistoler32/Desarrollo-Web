@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.seaside.dto.DomiciliarioDTO;
 import com.seaside.dto.ItemPedidoResponse;
 import com.seaside.dto.PedidoRequest;
 import com.seaside.model.Cliente;
 import com.seaside.model.Pedido;
 import com.seaside.service.ClienteService;
+import com.seaside.service.DomiciliarioService;
 import com.seaside.service.PedidoService;
 
 /**
@@ -47,6 +49,9 @@ public class PedidoController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private DomiciliarioService domiciliarioService;
 
     // ════════════════════════════════════════════════════════════════════
     //  GET /api/pedidos/mis-pedidos  (solo para el cliente autenticado)
@@ -207,6 +212,31 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("error", ex.getMessage()));
         }
+    }
+
+    // ════════════════════════════════════════════════════════════════════
+    //  GET /api/pedidos/{id}/domiciliario
+    // ════════════════════════════════════════════════════════════════════
+
+    /**
+     * Retorna el domiciliario asignado a un pedido.
+     * Accesible para CLIENTE, OPERADOR y ADMINISTRADOR (cubierto por la regla /api/pedidos/**).
+     */
+    @GetMapping("/{id}/domiciliario")
+    public ResponseEntity<?> getDomiciliario(@PathVariable Integer id) {
+        return pedidoService.findById(id)
+                .<ResponseEntity<?>>map(p -> {
+                    if (p.getDomiciliarioId() == null) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(Map.of("error", "Sin domiciliario asignado"));
+                    }
+                    return domiciliarioService.findById(p.getDomiciliarioId())
+                            .<ResponseEntity<?>>map(d -> ResponseEntity.ok(DomiciliarioDTO.from(d)))
+                            .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                    .body(Map.of("error", "Domiciliario no encontrado")));
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "Pedido no encontrado con id: " + id)));
     }
 
     // ════════════════════════════════════════════════════════════════════
